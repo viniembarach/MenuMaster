@@ -1,2 +1,9 @@
+br\upf\menumaster\Entity\Usuario.class
 br\upf\menumaster\JakartaRestConfiguration.class
+br\upf\menumaster\Entity\Bebidas.class
+br\upf\menumaster\Entity\Hamburguers.class
+br\upf\menumaster\Entity\Lanches.class
+br\upf\menumaster\Entity\Contas.class
+br\upf\menumaster\Entity\Pedidos.class
+br\upf\menumaster\Entity\Mesas.class
 br\upf\menumaster\resources\JakartaEE10Resource.class
