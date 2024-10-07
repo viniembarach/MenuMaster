@@ -57,6 +57,13 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 11)
     @Column(name = "cpf")
     private String cpf;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 250)
+    @Column(name = "email")
+    private String email;
+    
     @OneToMany(mappedBy = "usuariomesa")
     private Collection<Mesas> mesasCollection;
     @OneToMany(mappedBy = "usuariopedido")
@@ -69,11 +76,12 @@ public class Usuario implements Serializable {
         this.idusuario = idusuario;
     }
 
-    public Usuario(Integer idusuario, String nomeusuario, String senha, String cpf) {
+    public Usuario(Integer idusuario, String nomeusuario, String senha, String cpf, String email) {
         this.idusuario = idusuario;
         this.nomeusuario = nomeusuario;
         this.senha = senha;
         this.cpf = cpf;
+        this.email = email;
     }
 
     public Integer getIdusuario() {
@@ -106,6 +114,14 @@ public class Usuario implements Serializable {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @XmlTransient
