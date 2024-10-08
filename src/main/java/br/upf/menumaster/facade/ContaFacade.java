@@ -20,7 +20,7 @@ import java.util.List;
 @Stateless
 public class ContaFacade extends AbstractFacade<Contas>{
        
-    @PersistenceContext(unitName = "MenuMasterPU")
+    @PersistenceContext(unitName = "DB_MenuMaster")
     private EntityManager em;
 
     @Override

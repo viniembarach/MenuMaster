@@ -21,7 +21,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario>{
     /**
      * Definindo a unidade de persistencia
      */
-    @PersistenceContext(unitName = "MenuMasterPU")
+    @PersistenceContext(unitName = "DB_MenuMaster")
     private EntityManager em;
 
     @Override

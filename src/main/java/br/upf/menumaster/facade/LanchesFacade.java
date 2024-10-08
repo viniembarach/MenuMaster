@@ -19,7 +19,7 @@ import java.util.List;
 @Stateless
 public class LanchesFacade extends AbstractFacade<Lanches>{
         
-    @PersistenceContext(unitName = "MenuMasterPU")
+    @PersistenceContext(unitName = "DB_MenuMaster")
     private EntityManager em;
 
     @Override

@@ -18,7 +18,7 @@ import java.io.Serializable;
 @SessionScoped
 public class LoginController implements Serializable{
        @EJB
-    private br.upf.projetojfprimefaces.facade.UsuarioFacade ejbFacade;
+    private br.upf.menumaster.facade.UsuarioFacade ejbFacade;
 
     public LoginController() {
     }
@@ -51,7 +51,7 @@ public class LoginController implements Serializable{
         if ((usuarioDB != null && usuarioDB.getIdusuario()!= null)) {
             //caso as credenciais foram válidas, então direciona para página index
             session.setAttribute("usuarioLogada", usuarioDB);
-            return "/admin/usuario.xhtml?faces-redirect=true";
+            return "index.xhtml?faces-redirect=true";
         } else {
             //senão, exibe uma mensagem de falha...
             FacesMessage fm = new FacesMessage(

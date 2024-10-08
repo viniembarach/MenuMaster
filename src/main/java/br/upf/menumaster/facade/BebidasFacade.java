@@ -18,7 +18,7 @@ import java.util.List;
 @Stateless
 public class BebidasFacade extends AbstractFacade<Bebidas>{
     
-    @PersistenceContext(unitName = "MenuMasterPU")
+    @PersistenceContext(unitName = "DB_MenuMaster")
     private EntityManager em;
 
     @Override
