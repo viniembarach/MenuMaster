@@ -16,3 +16,4 @@ br\upf\menumaster\facade\BebidasFacade.class
 br\upf\menumaster\facade\AbstractFacade.class
 br\upf\menumaster\Entity\Mesas.class
 br\upf\menumaster\resources\JakartaEE10Resource.class
+br\upf\menumaster\FiltroAdministrativo.class

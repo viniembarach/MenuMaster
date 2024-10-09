@@ -50,8 +50,8 @@ public class LoginController implements Serializable{
         Usuario usuarioDB = ejbFacade.buscarPorEmail(usuario.getEmail(), usuario.getSenha());
         if ((usuarioDB != null && usuarioDB.getIdusuario()!= null)) {
             //caso as credenciais foram válidas, então direciona para página index
-            session.setAttribute("usuarioLogada", usuarioDB);
-            return "index.xhtml?faces-redirect=true";
+            session.setAttribute("usuarioLogado", usuarioDB);
+            return "/admin/mesas.xhtml?faces-redirect=true";
         } else {
             //senão, exibe uma mensagem de falha...
             FacesMessage fm = new FacesMessage(
