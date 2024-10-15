@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package br.upf.menumaster.Entity;
-
+ 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +33,8 @@ import java.util.Collection;
     @NamedQuery(name = "Usuario.findByIdusuario", query = "SELECT u FROM Usuario u WHERE u.idusuario = :idusuario"),
     @NamedQuery(name = "Usuario.findByNomeusuario", query = "SELECT u FROM Usuario u WHERE u.nomeusuario = :nomeusuario"),
     @NamedQuery(name = "Usuario.findBySenha", query = "SELECT u FROM Usuario u WHERE u.senha = :senha"),
+    @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
+    @NamedQuery(name = "Usuario.findByTipoUsuario", query = "SELECT u FROM Usuario u WHERE u.tipousuario = :tipousuario"),
     @NamedQuery(name = "Usuario.findByCpf", query = "SELECT u FROM Usuario u WHERE u.cpf = :cpf")})
 public class Usuario implements Serializable {
 
@@ -54,7 +56,7 @@ public class Usuario implements Serializable {
     private String senha;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 11)
+    @Size(min = 1, max = 14)
     @Column(name = "cpf")
     private String cpf;
     
@@ -63,6 +65,12 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 250)
     @Column(name = "email")
     private String email;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 3, max = 30)
+    @Column(name = "tipousuario")
+    private String tipousuario;
     
     @OneToMany(mappedBy = "usuariomesa")
     private Collection<Mesas> mesasCollection;
@@ -123,6 +131,14 @@ public class Usuario implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    public String getTipousuario() {
+        return tipousuario;
+    }
+
+    public void setTipousuario(String tipousuario) {
+        this.tipousuario = tipousuario;
+    }
 
     @XmlTransient
     public Collection<Mesas> getMesasCollection() {
@@ -166,5 +182,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "br.upf.menumaster.Entity.Usuario[ idusuario=" + idusuario + " ]";
     }
-    
+
 }
