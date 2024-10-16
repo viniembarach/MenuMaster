@@ -14,50 +14,50 @@
             <h:panelGroup id="pngList">
                 <p:fieldset toggleable="true">
                     <p:dataTable id="datalist" value="#{usuarioController.usuarioList}" var="item" selectionMode="single"
-                                 selection="#{usuarioController.selected}" widgetVar="datalistClienteWidgetVar"
-                                 rowKey="#{usuario.idusuario}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Usuario cadastrado...">
+                                 selection="#{usuarioController.selected}" widgetVar="datalistUsuarioWidgetVar"
+                                 rowKey="#{item.idusuario}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Usuario cadastrado...">
                         <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
                         <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
 
-                        <p:column width="4%" sortBy="#{usuario.idusuario}" filterBy="#{usuario.idusuario}">
+                        <p:column width="4%" sortBy="#{item.idusuario}" filterBy="#{item.idusuario}">
                             <f:facet name="header">
                                 <h:outputText value="ID"/>
                             </f:facet>
-                            <h:outputText value="#{usuario.idusuario}"/>
+                            <h:outputText value="#{item.idusuario}"/>
                         </p:column>
 
-                        <p:column width="10%" sortBy="#{usuario.nomeusuario}" filterBy="#{usuario.nomeusuario}">
+                        <p:column width="10%" sortBy="#{item.nomeusuario}" filterBy="#{item.nomeusuario}">
                             <f:facet name="header">
                                 <h:outputText value="Nome"/>
                             </f:facet>
-                            <h:outputText value="#{usuario.nomeusuario}"/>
+                            <h:outputText value="#{item.nomeusuario}"/>
                         </p:column>
 
-                        <p:column width="6%" sortBy="#{usuario.cpf}" filterBy="#{usuario.cpf}">
+                        <p:column width="6%" sortBy="#{item.cpf}" filterBy="#{item.cpf}">
                             <f:facet name="header">
                                 <h:outputText value="CPF"/>
                             </f:facet>
-                            <h:outputText value="#{usuario.cpf}"/>
+                            <h:outputText value="#{item.cpf}"/>
                         </p:column>
-                        
-                        <p:column width="10%" sortBy="#{usuario.email}" filterBy="#{usuario.email}">
+
+                        <p:column width="10%" sortBy="#{item.email}" filterBy="#{item.email}">
                             <f:facet name="header">
                                 <h:outputText value="Email"/>
                             </f:facet>
-                            <h:outputText value="#{usuario.email}"/>
+                            <h:outputText value="#{item.email}"/>
                         </p:column>
-                        
-                        <p:column width="10%" sortBy="#{usuario.tipousuario}" filterBy="#{usuario.tipousuario}">
+
+                        <p:column width="10%" sortBy="#{item.tipousuario}" filterBy="#{item.tipousuario}">
                             <f:facet name="header">
                                 <h:outputText value="Tipo Usuario"/>
                             </f:facet>
-                            <h:outputText value="#{usuario.tipousuario}"/>
+                            <h:outputText value="#{item.tipousuario}"/>
                         </p:column>
 
                         <f:facet name="footer">
                             <p:commandButton id="btnCreate" value="Incluir Usuario" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
                             <p:commandButton id="btnEdit" value="Editar Usuario" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" disabled="#{empty usuarioController.selected}"/>
-                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Usuario" actionListener="#{clienteController.deletar()}" update="frmList" disabled="#{empty usuarioController.selected}">
+                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Usuario" actionListener="#{usuarioController.deletar()}" update="frmList" disabled="#{empty usuarioController.selected}">
                                 <p:confirm header="Confirmar Exclusão" message="Você confirma a exclusão do registro?" icon="ui-icon-alert"/>
                             </p:commandButton>
                             <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes do Usuario" update="formView" oncomplete="PF('dlgView').show()" disabled="#{empty usuarioController.selected}"/>
@@ -83,17 +83,17 @@
                     <p:inputMask id="iptCpf" size="15" label="Cpf" required="true" requiredMessage="O atributo CPF é obrigatório"
                                  value="#{usuarioController.usuario.cpf}" mask="999.999.999-99" maxlength="14"/>
 
-                    <p:inputText id="iptEmail" size="40" label="Nome" required="true" 
+                    <p:inputText id="iptEmail" size="40" label="Email" required="true" 
                                  requiredMessage="O atributo email é obrigatório" validatorMessage="Campo email é inválido"
                                  value="#{usuarioController.usuario.email}" maxlength="50" >
                         <f:validateRegex pattern="[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})"  />
                     </p:inputText>
-                    
+
                     <p:outputLabel id="oplSenha" value="Senha:" for="iptSenha"/>
                     <p:inputText id="iptSenha" size="40" label="Senha" required="true" 
                                  requiredMessage="O atributo senha é obrigatório"
                                  value="#{usuarioController.usuario.senha}" />
-                    
+
                     <p:outputLabel id="oplTipousuario" value="Tipo de Usuario: " for="somTipousuario"/>
                     <p:selectOneMenu id="somTipousuario" value="#{usuarioController.usuario.tipousuario}">
                         <f:selectItem itemLabel="Selecione o tipo do Usuario" itemValue=""/>
@@ -102,47 +102,69 @@
                         <f:selectItem itemLabel="Garçom" itemValue="Garcom"/>
                         <f:selectItem itemLabel="Administrador" itemValue="Adm"/>
                     </p:selectOneMenu>
-                    
+
                 </h:panelGrid>
                 <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{usuarioController.adicionar()}" onclick="dlgCreate.hide()"/>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Editar Cliente" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
+        <p:dialog header="Editar Usuario" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="FormEdit">
                 <p:growl id="growl" showDetail="true"/>
                 <h:panelGrid id="pngEdicao" columns="2">
-                    
-                    
-                    
+
+                    <p:outputLabel id="oplNome" value="Nome:" for="iptNome"/>
+                    <p:inputText id="iptNome" size="40" label="Nome" required="true" requiredMessage="O atributo nome é obrigatório" value="#{usuarioController.usuario.nomeusuario}" maxlength="50"/>
+
+                    <p:outputLabel id="oplCpf" value="CPF:" for="iptCpf"/>
+                    <p:inputMask id="iptCpf" size="15" label="Cpf" required="true" requiredMessage="O atributo CPF é obrigatório"
+                                 value="#{usuarioController.usuario.cpf}" mask="999.999.999-99" maxlength="14"/>
+
+                    <p:inputText id="iptEmail" size="40" label="Nome" required="true" 
+                                 requiredMessage="O atributo email é obrigatório" validatorMessage="Campo email é inválido"
+                                 value="#{usuarioController.usuario.email}" maxlength="50" >
+                        <f:validateRegex pattern="[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})"  />
+                    </p:inputText>
+
+                    <p:outputLabel id="oplSenha" value="Senha:" for="iptSenha"/>
+                    <p:inputText id="iptSenha" size="40" label="Senha" required="true" 
+                                 requiredMessage="O atributo senha é obrigatório"
+                                 value="#{usuarioController.usuario.senha}" />
+
+                    <p:outputLabel id="oplTipousuario" value="Tipo de Usuario: " for="somTipousuario"/>
+                    <p:selectOneMenu id="somTipousuario" value="#{usuarioController.usuario.tipousuario}">
+                        <f:selectItem itemLabel="Selecione o tipo do Usuario" itemValue=""/>
+                        <f:selectItem itemLabel="Cozinha" itemValue="Cozinha"/>
+                        <f:selectItem itemLabel="Caixa" itemValue="Caixa"/>
+                        <f:selectItem itemLabel="Garçom" itemValue="Garcom"/>
+                        <f:selectItem itemLabel="Administrador" itemValue="Adm"/>
+                    </p:selectOneMenu>
+
                 </h:panelGrid>
-                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" action="#{clienteController.editar()}" icon="pi pi-save"/>
+                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" action="#{usuarioController.editar()}" icon="pi pi-save"/>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Visualizar Detalhes do Cliente" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
+        <p:dialog header="Visualizar Detalhes do Usuario" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
             <h:form id="formView">
                 <h:panelGrid id="pngView" columns="2">
                     <p:outputLabel value="ID:"/>
-                    <p:outputLabel value="#{clienteController.selected.idCliente}"/>
+                    <p:outputLabel value="#{usuarioController.selected.idusuario}"/>
 
                     <p:outputLabel value="Nome:"/>
-                    <p:outputLabel value="#{clienteController.selected.nome}"/>
+                    <p:outputLabel value="#{usuarioController.selected.nomeusuario}"/>
 
-                    <p:outputLabel value="CPF/CNPJ:"/>
-                    <p:outputLabel value="#{clienteController.selected.cpfcnpj}"/>
+                    <p:outputLabel value="CPF:"/>
+                    <p:outputLabel value="#{usuarioController.selected.cpf}"/>
 
-                    <p:outputLabel value="Telefone:"/>
-                    <p:outputLabel value="#{clienteController.selected.telefone}"/>
+                    <p:outputLabel value="Email:"/>
+                    <p:outputLabel value="#{usuarioController.selected.email}"/>
+                    
+                    <p:outputLabel value="Senha:"/>
+                    <p:outputLabel value="#{usuarioController.selected.senha}"/>
 
-                    <p:outputLabel value="Endereço:"/>
-                    <p:outputLabel value="#{clienteController.selected.endereco}"/>
-
-                    <p:outputLabel value="Estado:"/>
-                    <p:outputLabel value="#{clienteController.selected.estado}"/>
-
-                    <p:outputLabel value="Cidade:"/>
-                    <p:outputLabel value="#{clienteController.selected.cidade}"/>
+                    <p:outputLabel value="Tipo de Usuario:"/>
+                    <p:outputLabel value="#{usuarioController.selected.tipousuario}"/>
                 </h:panelGrid>
 
             </h:form>
