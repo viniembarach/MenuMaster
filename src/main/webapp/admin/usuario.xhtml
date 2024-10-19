@@ -75,7 +75,7 @@
         <p:dialog header="Novo Usuario" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="CreateForm">
                 <p:growl id="growl" showDetail="true"/>
-                <h:panelGrid id="pngCadastro" columns="2">
+                <h:panelGrid id="pngCadastro" columns="2" cellpadding="5" cellspacing="5" style="width: 100%;">
                     <p:outputLabel id="oplNome" value="Nome:" for="iptNome"/>
                     <p:inputText id="iptNome" size="40" label="Nome" required="true" requiredMessage="O atributo nome é obrigatório" value="#{usuarioController.usuario.nomeusuario}" maxlength="50"/>
 
@@ -83,10 +83,11 @@
                     <p:inputMask id="iptCpf" size="15" label="Cpf" required="true" requiredMessage="O atributo CPF é obrigatório"
                                  value="#{usuarioController.usuario.cpf}" mask="999.999.999-99" maxlength="14"/>
 
+                    <p:outputLabel id="oplEmail" value="Email:" for="iptEmail"/>
                     <p:inputText id="iptEmail" size="40" label="Email" required="true" 
                                  requiredMessage="O atributo email é obrigatório" validatorMessage="Campo email é inválido"
-                                 value="#{usuarioController.usuario.email}" maxlength="50" >
-                        <f:validateRegex pattern="[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})"  />
+                                 value="#{usuarioController.usuario.email}" maxlength="50">
+                        <f:validateRegex pattern="[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})"/>
                     </p:inputText>
 
                     <p:outputLabel id="oplSenha" value="Senha:" for="iptSenha"/>
@@ -104,9 +105,10 @@
                     </p:selectOneMenu>
 
                 </h:panelGrid>
-                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{usuarioController.adicionar()}" onclick="dlgCreate.hide()"/>
+                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{usuarioController.adicionar()}" onclick="PF('dlgCreate').hide()"/>
             </h:form>
         </p:dialog>
+
 
         <p:dialog header="Editar Usuario" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="FormEdit">
@@ -159,7 +161,7 @@
 
                     <p:outputLabel value="Email:"/>
                     <p:outputLabel value="#{usuarioController.selected.email}"/>
-                    
+
                     <p:outputLabel value="Senha:"/>
                     <p:outputLabel value="#{usuarioController.selected.senha}"/>
 
