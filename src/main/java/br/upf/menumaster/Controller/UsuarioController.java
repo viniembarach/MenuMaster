@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import br.upf.menumaster.Entity.Usuario;
+
 /**
  *
  * @author oroca
@@ -28,12 +29,16 @@ public class UsuarioController implements Serializable {
     private List<Usuario> usuarioList = new ArrayList<>();
     private Usuario selected;
 
-    public List<Usuario> UsuarioAll() {
-        return ejbFacade.buscarTodos();
+    public List<Usuario> getUsuarioList() {
+        if (usuarioList == null || usuarioList.isEmpty()) {
+            usuarioList = ejbFacade.buscarTodos();
+            System.out.println("Lista de usuários carregada: " + usuarioList.size());
+        }
+        return usuarioList;
     }
 
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
+    public List<Usuario> UsuarioAll() {
+        return ejbFacade.buscarTodos();
     }
 
     public void setUsuarioList(List<Usuario> usuarioList) {
@@ -161,18 +166,21 @@ public class UsuarioController implements Serializable {
     }
 
     public void adicionar() {
-        persist(PersistAction.CREATE,
-                "Registro incluído com sucesso!");
+        persist(PersistAction.CREATE, "Registro incluído com sucesso!");
+        // Atualizar a lista de usuários após adicionar
+        usuarioList = ejbFacade.buscarTodos();
     }
 
     public void editar() {
-        persist(PersistAction.UPDATE,
-                "Registro alterado com sucesso!");
+        persist(PersistAction.UPDATE, "Registro alterado com sucesso!");
+        // Atualizar a lista de usuários após editar
+        usuarioList = ejbFacade.buscarTodos();
     }
 
     public void deletar() {
-        persist(PersistAction.DELETE,
-                "Registro excluído com sucesso!");
+        persist(PersistAction.DELETE, "Registro excluído com sucesso!");
+        // Atualizar a lista de usuários após deletar
+        usuarioList = ejbFacade.buscarTodos();
     }
 
 }

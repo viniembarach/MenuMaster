@@ -35,14 +35,14 @@
 
                         <p:column width="6%" sortBy="#{item.qntbebida}" filterBy="#{item.qntbebida}">
                             <f:facet name="header">
-                                <h:outputText value="Quantidade Bebida:"/>
+                                <h:outputText value="Quantidade Bebida"/>
                             </f:facet>
                             <h:outputText value="#{item.qntbebida}"/>
                         </p:column>
 
                         <p:column width="6%" sortBy="#{item.valorbebida}" filterBy="#{item.valorbebida}">
                             <f:facet name="header">
-                                <h:outputText value="Valor Bebida:"/>
+                                <h:outputText value="Valor Bebida"/>
                             </f:facet>
                             <h:outputText value="#{item.valorbebida}"/>
                         </p:column>
@@ -50,13 +50,14 @@
                         <f:facet name="footer">
                             <p:commandButton id="btnCreate" value="Incluir Bebida" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
                             <p:commandButton id="btnEdit" value="Editar Bebida" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" disabled="#{empty bebidasController.selected}"/>
-                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Pessoa" actionListener="#{bebidasController.deletar()}" update="frmList" disabled="#{empty bebidasController.selected}">
+                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Bebida" actionListener="#{bebidasController.deletar()}" update="frmList" disabled="#{empty bebidasController.selected}">
                                 <p:confirm header="Confirmar Exclusão" message="Você confirma a exclusão do registro?" icon="ui-icon-alert"/>
                             </p:commandButton>
                             <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes da Bebida" update="formView" oncomplete="PF('dlgView').show()" disabled="#{empty bebidasController.selected}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:fieldset>
+
                 <!-- confirmar exclusão -->
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
@@ -65,6 +66,7 @@
             </h:panelGroup>
         </h:form>
 
+        <!-- Dialog de Criação -->
         <p:dialog header="Nova Bebida" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="CreateForm">
                 <p:growl id="growl" showDetail="true"/>
@@ -82,30 +84,32 @@
                                  value="#{bebidasController.bebidas.valorbebida}" maxlength="15"/>
 
                 </h:panelGrid>
-                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{bebidasController.adicionar()}" onclick="dlgCreate.hide()"/>
+                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{bebidasController.adicionar()}" onclick="PF('dlgCreate').hide()"/>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Editar Bebidas" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
+        <!-- Dialog de Edição -->
+        <p:dialog header="Editar Bebida" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="FormEdit">
                 <p:growl id="growl" showDetail="true"/>
                 <h:panelGrid id="pngEdicao" columns="2">
                     <p:outputLabel id="oplNomeBebida" value="Nome Bebida:" for="iptNomeBebida"/>
-                    <p:inputText id="iptNomeBebida" size="40" label="nomebebida" required="te" requiredMessage="O atributo nome é obrigatório" 
+                    <p:inputText id="iptNomeBebida" size="40" label="nomebebida" required="true" requiredMessage="O atributo nome é obrigatório" 
                                  value="#{bebidasController.selected.nomebebida}" maxlength="50"/>
                     
                     <p:outputLabel id="oplQntBebida" value="Quantidade Bebida:" for="iptQntBebida"/>
                     <p:inputMask id="iptQntBebida" size="15" label="qntbebida" required="true" requiredMessage="O atributo Quantidade é obrigatório"
                                  value="#{bebidasController.selected.qntbebida}" maxlength="15"/>
 
-                    <p:outputLabel id="oplValorBebida" value="Valor Bebidas" for="iptValorBebidas"/>
+                    <p:outputLabel id="oplValorBebida" value="Valor Bebida:" for="iptValorBebida"/>
                     <p:inputMask id="iptValorBebida" size="15" label="valorbebida" required="true" requiredMessage="O atributo Valor é obrigatório"
                                  value="#{bebidasController.selected.valorbebida}" maxlength="15"/>
                 </h:panelGrid>
-                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" action="#{clienteController.editar()}" icon="pi pi-save"/>
+                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="PF('dlgEdit').hide()" action="#{bebidasController.editar()}" icon="pi pi-save"/>
             </h:form>
         </p:dialog>
 
+        <!-- Dialog de Visualização -->
         <p:dialog header="Visualizar Detalhes da Bebida" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
             <h:form id="formView">
                 <h:panelGrid id="pngView" columns="2">
@@ -120,9 +124,7 @@
 
                     <p:outputLabel value="Valor Bebida"/>
                     <p:outputLabel value="#{bebidasController.selected.valorbebida}"/>
-
                 </h:panelGrid>
-
             </h:form>
         </p:dialog>
     </ui:define>

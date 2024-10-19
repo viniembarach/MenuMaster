@@ -33,14 +33,20 @@ public class BebidasController implements Serializable {
     private List<Bebidas> bebidasList = new ArrayList<>();
     private Bebidas selected;
 
+    public List<Bebidas> getBebidasList() {
+        if (bebidasList == null || bebidasList.isEmpty()) {
+            bebidasList = ejbFacade.buscarTodos();
+        }
+        return bebidasList;
+    }
+
     public List<Bebidas> bebidasAll() {
         return ejbFacade.buscarTodos();
     }
 
-    public List<Bebidas> getBebidasList() {
-        return bebidasList;
-    }
-
+    //public List<Bebidas> getBebidasList() {;
+    //   return bebidasList;
+    //}
     public void setBebidasList(List<Bebidas> bebidasList) {
         this.bebidasList = bebidasList;
     }
@@ -166,18 +172,18 @@ public class BebidasController implements Serializable {
     }
 
     public void adicionar() {
-        persist(PersistAction.CREATE,
-                "Registro incluído com sucesso!");
+        persist(PersistAction.CREATE, "Registro incluído com sucesso!");
+        bebidasList = ejbFacade.buscarTodos(); // Atualiza a lista
     }
 
     public void editar() {
-        persist(PersistAction.UPDATE,
-                "Registro alterado com sucesso!");
+        persist(PersistAction.UPDATE, "Registro alterado com sucesso!");
+        bebidasList = ejbFacade.buscarTodos(); // Atualiza a lista
     }
 
     public void deletar() {
-        persist(PersistAction.DELETE,
-                "Registro excluído com sucesso!");
+        persist(PersistAction.DELETE, "Registro excluído com sucesso!");
+        bebidasList = ejbFacade.buscarTodos(); // Atualiza a lista
     }
 
 }

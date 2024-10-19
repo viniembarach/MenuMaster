@@ -42,7 +42,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario>{
         entityList = new ArrayList<>();
         try {
             //utilizando JPQL para construir a query 
-            Query query = getEntityManager().createQuery("SELECT a FROM Usuario a order by a.nome");
+            Query query = getEntityManager().createQuery("SELECT a FROM Usuario a order by a.nomeusuario");
             //verifica se existe algum resultado para não gerar excessão
             if (!query.getResultList().isEmpty()) {
                 entityList = (List<Usuario>) query.getResultList();
