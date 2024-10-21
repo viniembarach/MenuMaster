@@ -30,6 +30,7 @@ br\upf\menumaster\facade\UsuarioFacade.class
 br\upf\menumaster\Controller\MesasController$PersistAction.class
 br\upf\menumaster\Controller\LoginController.class
 br\upf\menumaster\Controller\BebidasController$PersistAction.class
+FileUploadController.class
 br\upf\menumaster\Controller\HamburguersController$PersistAction.class
 br\upf\menumaster\facade\PedidosFacade.class
 br\upf\menumaster\Controller\HamburguersController.class

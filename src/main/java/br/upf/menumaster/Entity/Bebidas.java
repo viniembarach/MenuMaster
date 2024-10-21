@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -34,6 +35,7 @@ import java.util.Collection;
     @NamedQuery(name = "Bebidas.findByNomebebida", query = "SELECT b FROM Bebidas b WHERE b.nomebebida = :nomebebida"),
     @NamedQuery(name = "Bebidas.findByQntbebida", query = "SELECT b FROM Bebidas b WHERE b.qntbebida = :qntbebida"),
     @NamedQuery(name = "Bebidas.findByValorbebida", query = "SELECT b FROM Bebidas b WHERE b.valorbebida = :valorbebida"),
+    @NamedQuery(name = "Bebidas.findByImagem", query = "SELECT b FROM Bebidas b WHERE b.imagem = :imagem"),
     @NamedQuery(name = "Bebidas.findByDisponivelbebida", query = "SELECT b FROM Bebidas b WHERE b.disponivelbebida = :disponivelbebida")})
 public class Bebidas implements Serializable {
 
@@ -60,6 +62,13 @@ public class Bebidas implements Serializable {
     @NotNull
     @Column(name = "disponivelbebida")
     private boolean disponivelbebida;
+
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "imagem")
+    private byte[] imagem;
+
     @OneToMany(mappedBy = "bebidapedido")
     private Collection<Pedidos> pedidosCollection;
 
@@ -118,6 +127,14 @@ public class Bebidas implements Serializable {
         this.disponivelbebida = disponivelbebida;
     }
 
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
+
     @XmlTransient
     public Collection<Pedidos> getPedidosCollection() {
         return pedidosCollection;
@@ -151,5 +168,5 @@ public class Bebidas implements Serializable {
     public String toString() {
         return "br.upf.menumaster.Entity.Bebidas[ idbebida=" + idbebida + " ]";
     }
-    
+
 }

@@ -82,6 +82,9 @@
                     <p:outputLabel id="oplValorBebida" value="Valor Bebida:" for="iptValorBebida"/>
                     <p:inputMask id="iptValorBebida" size="15" label="valorbebida" required="true" requiredMessage="O atributo valor é obrigatório"
                                  value="#{bebidasController.bebidas.valorbebida}" maxlength="15"/>
+                    
+                    <p:fileUpload fileUploadListener="#{fileUploadController.upload}" mode="advanced" dragDropSupport="false" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                    <p:growl id="messages" showDetail="true"/>
 
                 </h:panelGrid>
                 <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{bebidasController.adicionar()}" onclick="PF('dlgCreate').hide()"/>

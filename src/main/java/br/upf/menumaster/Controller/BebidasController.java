@@ -17,6 +17,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import br.upf.menumaster.Entity.Bebidas;
+import java.io.IOException;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.util.IOUtils;
 
 /**
  *
@@ -32,6 +36,7 @@ public class BebidasController implements Serializable {
     private Bebidas bebidas = new Bebidas();
     private List<Bebidas> bebidasList = new ArrayList<>();
     private Bebidas selected;
+    private Bebidas current;
 
     public List<Bebidas> getBebidasList() {
         if (bebidasList == null || bebidasList.isEmpty()) {
@@ -69,6 +74,37 @@ public class BebidasController implements Serializable {
 
     public Bebidas getBebidas(java.lang.Integer id) {
         return ejbFacade.find(id);
+    }
+
+    private DefaultStreamedContent imagem;
+
+    public void setImagem(DefaultStreamedContent imagem) {
+        this.imagem = imagem;
+    }
+
+    public DefaultStreamedContent getImagem() {
+        return imagem;
+    }
+
+    public void prepararImagem(FileUploadEvent bebida) {
+        try {
+            // Atualiza o componente com a imagem carregada
+            setImagem(DefaultStreamedContent.builder()
+                    .stream(() -> {
+                        try {
+                            return bebida.getFile().getInputStream(); // Recupera o InputStream do arquivo
+                        } catch (IOException e) {
+                            e.printStackTrace(); // Tratamento do erro
+                            return null; // Retorna null em caso de erro
+                        }
+                    })
+                    .build());
+
+            // Converte o InputStream para um array de bytes e seta no campo `imagem`
+            current.setImagem(IOUtils.toByteArray(bebida.getFile().getInputStream()));
+        } catch (IOException ex) {
+            ex.printStackTrace(); // Tratamento do erro de IO
+        }
     }
 
     @FacesConverter(forClass = Bebidas.class)
