@@ -79,14 +79,18 @@
                     <p:inputMask id="iptQntBebida" size="15" label="qntbebida" required="true" requiredMessage="O atributo quantidade é obrigatório"
                                  value="#{bebidasController.bebidas.qntbebida}" maxlength="15"/>
 
-                    <p:outputLabel id="oplValorBebida" value="Valor Bebida:" for="iptValorBebida"/>
-                    <p:inputMask id="iptValorBebida" size="15" label="valorbebida" required="true" requiredMessage="O atributo valor é obrigatório"
-                                 value="#{bebidasController.bebidas.valorbebida}" maxlength="15"/>
-                    
+                    <p:outputLabel id="oplValorBebida" value="Valor Bebida:" for="iptValorBebida" style="display: inline-block; width: 150px;"/>
+                    <p:inputMask id="iptValorBebida" size="15" label="valorbebida" required="true" 
+                                 requiredMessage="O atributo valor é obrigatório"
+                                 value="#{bebidasController.bebidas.valorbebida}" 
+                                 maxlength="15"
+                                 mask="R$ 999.999,99"
+                                 style="display: inline-block; width: 150px;"/>
+
                     <p:fileUpload fileUploadListener="#{fileUploadController.upload}" mode="advanced" dragDropSupport="false" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
                     <p:growl id="messages" showDetail="true"/>
 
-                </h:panelGrid>
+                </h:panelGrid>  
                 <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{bebidasController.adicionar()}" onclick="PF('dlgCreate').hide()"/>
             </h:form>
         </p:dialog>
@@ -99,7 +103,7 @@
                     <p:outputLabel id="oplNomeBebida" value="Nome Bebida:" for="iptNomeBebida"/>
                     <p:inputText id="iptNomeBebida" size="40" label="nomebebida" required="true" requiredMessage="O atributo nome é obrigatório" 
                                  value="#{bebidasController.selected.nomebebida}" maxlength="50"/>
-                    
+
                     <p:outputLabel id="oplQntBebida" value="Quantidade Bebida:" for="iptQntBebida"/>
                     <p:inputMask id="iptQntBebida" size="15" label="qntbebida" required="true" requiredMessage="O atributo Quantidade é obrigatório"
                                  value="#{bebidasController.selected.qntbebida}" maxlength="15"/>
