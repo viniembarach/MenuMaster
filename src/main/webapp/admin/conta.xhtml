@@ -14,8 +14,8 @@
             <h:panelGroup id="pngList">
                 <p:fieldset toggleable="true">
                     <p:dataTable id="datalist" value="#{contasController.contasList}" var="item" selectionMode="single"
-                                 selection="#{contasController.selected}" widgetVar="datalistClienteWidgetVar"
-                                 rowKey="#{item.idconta}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Cliente cadastrado...">
+                                 selection="#{contasController.selected}" widgetVar="datalistContaWidgetVar"
+                                 rowKey="#{item.idconta}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Contas cadastrado...">
                         <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
                         <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
 

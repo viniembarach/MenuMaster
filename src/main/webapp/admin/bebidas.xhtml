@@ -14,7 +14,7 @@
             <h:panelGroup id="pngList">
                 <p:fieldset toggleable="true">
                     <p:dataTable id="datalist" value="#{bebidasController.bebidasList}" var="item" selectionMode="single"
-                                 selection="#{bebidasController.selected}" widgetVar="datalistClienteWidgetVar"
+                                 selection="#{bebidasController.selected}" widgetVar="datalistBebidasWidgetVar"
                                  rowKey="#{item.idbebida}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhuma Bebida Cadastrada...">
                         <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
                         <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
@@ -49,11 +49,14 @@
 
                         <f:facet name="footer">
                             <p:commandButton id="btnCreate" value="Incluir Bebida" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
-                            <p:commandButton id="btnEdit" value="Editar Bebida" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" disabled="#{empty bebidasController.selected}"/>
-                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Bebida" actionListener="#{bebidasController.deletar()}" update="frmList" disabled="#{empty bebidasController.selected}">
+                            <p:commandButton id="btnEdit" value="Editar Bebida" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" 
+                                             disabled="#{empty bebidasController.selected}"/>
+                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Bebida" actionListener="#{bebidasController.deletar()}" update="frmList" 
+                                             disabled="#{empty bebidasController.selected}">
                                 <p:confirm header="Confirmar Exclusão" message="Você confirma a exclusão do registro?" icon="ui-icon-alert"/>
                             </p:commandButton>
-                            <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes da Bebida" update="formView" oncomplete="PF('dlgView').show()" disabled="#{empty bebidasController.selected}"/>
+                            <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes da Bebida" update="formView" oncomplete="PF('dlgView').show()" 
+                                             disabled="#{empty bebidasController.selected}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:fieldset>
@@ -112,7 +115,8 @@
                     <p:inputMask id="iptValorBebida" size="15" label="valorbebida" required="true" requiredMessage="O atributo Valor é obrigatório"
                                  value="#{bebidasController.selected.valorbebida}" maxlength="15"/>
                 </h:panelGrid>
-                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="PF('dlgEdit').hide()" action="#{bebidasController.editar()}" icon="pi pi-save"/>
+                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="PF('dlgEdit').hide()" 
+                                 action="#{bebidasController.editar()}" icon="pi pi-save"/>
             </h:form>
         </p:dialog>
 
