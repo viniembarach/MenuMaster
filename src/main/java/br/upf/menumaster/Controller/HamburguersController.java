@@ -38,6 +38,9 @@ public class HamburguersController implements Serializable {
     }
 
     public List<Hamburguers> getHamburguersList() {
+        if(hamburguersList == null || hamburguersList.isEmpty()){
+            hamburguersList = ejbFacade.buscarTodos();
+        }
         return hamburguersList;
     }
 

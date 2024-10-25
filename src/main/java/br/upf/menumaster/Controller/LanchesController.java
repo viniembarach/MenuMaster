@@ -38,9 +38,12 @@ public class LanchesController implements Serializable {
     }
 
     public List<Lanches> getLanchesList() {
+        if (lanchesList == null || lanchesList.isEmpty()) {
+            lanchesList = ejbFacade.buscarTodos();
+        }
         return lanchesList;
     }
-
+    
     public void setLanchesList(List<Lanches> lanchesList) {
         this.lanchesList = lanchesList;
     }
