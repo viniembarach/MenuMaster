@@ -93,7 +93,6 @@
         </p:dialog>
 
         <!-- Dialog de Edição -->
-        <!-- Dialog de Edição -->
         <p:dialog header="Editar Bebida" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="FormEdit">
                 <p:growl id="growl" showDetail="true"/>
@@ -116,9 +115,6 @@
                 
                 <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="PF('dlgEdit').hide()" 
                                  action="#{bebidasController.editar()}" icon="pi pi-save"/>
-
-                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" 
-                                 onclick="PF('dlgEdit').hide()" action="#{bebidasController.editar()}" icon="pi pi-save"/>
             </h:form>
         </p:dialog>
 

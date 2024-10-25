@@ -35,14 +35,14 @@
 
                         <p:column width="6%" sortBy="#{item.valorlanche}" filterBy="#{item.valorlanche}">
                             <f:facet name="header">
-                                <h:outputText value="ValorLanche"/>
+                                <h:outputText value="Valor Lanche"/>
                             </f:facet>
                             <h:outputText value="#{item.valorlanche}"/>
                         </p:column>
 
                         <p:column width="6%" sortBy="#{item.disponivellanche}" filterBy="#{item.disponivellanche}">
                             <f:facet name="header">
-                                <h:outputText value="DisponivelLanche"/>
+                                <h:outputText value="Disponivel"/>
                             </f:facet>
                             <h:outputText value="#{item.disponivellanche}"/>
                         </p:column>
@@ -76,13 +76,14 @@
                     <p:inputText id="iptNomeLanche" size="40" label="NomeLanche" required="true" requiredMessage="O atributo Nome é obrigatório" 
                                  value="#{lanchesController.lanches.nomelanche}" maxlength="50"/>
 
-                    <p:outputLabel id="oplValorLanche" value="Valor Lanche:" for="iptValorLanche"/>
-                    <p:inputMask id="iptValorLanche" size="15" label="Cpfcnpj" required="true" requiredMessage="O atributo Valor é obrigatório"
-                                 value="#{lanchesController.lanches.valorlanche}" maxlength="15"/>
 
                     <p:outputLabel id="oplDisponivelLanche" value="Disponivel Lanche:" for="iptDisponivelLanche"/>
                     <p:selectBooleanCheckbox id="iptDisponivelLanche"  label="DisponivelLanche" required="true" requiredMessage="O atributo Disponivel é obrigatório"
-                                 value="#{lanchesController.lanches.disponivellanche}" />
+                                             value="#{lanchesController.lanches.disponivellanche}" />
+
+                    <p:outputLabel id="oplValorLanche" value="Valor:" for="iptValorLanche"/>
+                    <p:inputNumber id="iptValorLanche" value="#{lanchesController.lanches.valorlanche}" symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+
 
                 </h:panelGrid>
                 <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{lanchesController.adicionar()}" onclick="dlgCreate.hide()"/>
@@ -97,13 +98,12 @@
                     <p:inputText id="iptNome" size="40" label="NomeLanche" required="true" requiredMessage="O atributo Nome é obrigatório" 
                                  value="#{lanchesController.selected.nomelanche}" maxlength="50"/>
 
-                    <p:outputLabel id="oplValorLanche" value="Valor Lanche" for="iptValorLanche"/>
-                    <p:inputMask id="iptValorLanche" size="15" label="ValorLanche" required="true" requiredMessage="O atributo Valor é obrigatório"
-                                 value="#{lanchesController.selected.valorlanche}" maxlength="15"/>
-
                     <p:outputLabel id="oplDisponivelLanche" value="Disponivel Lanche" for="iptDisponivelLanche"/>
                     <p:selectBooleanCheckbox id="iptDisponivelLanche" label="DisponivelLanche" required="true" requiredMessage="O atributo Disponivel é obrigatório"
-                                 value="#{lanchesController.selected.disponivellanche}"/>
+                                             value="#{lanchesController.selected.disponivellanche}"/>
+
+                    <p:outputLabel id="oplValorLanche" value="Valor:" for="iptValorLanche"/>
+                    <p:inputNumber id="iptValorLanche" value="#{lanchesController.selected.valorlanche}" symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
 
                 </h:panelGrid>
                 <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" action="#{lanchesController.editar()}" icon="pi pi-save"/>
