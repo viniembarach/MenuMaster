@@ -54,12 +54,19 @@
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="btnCreate" value="Incluir Ingrediente" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
-                            <p:commandButton id="btnEdit" value="Editar Ingrediente" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" 
+
+                            <p:commandButton id="btnEdit" icon="pi pi-user-edit"  value="Editar Ingrediente" 
+                                             update="FormEdit" oncomplete="PF('dlgEdit').show()" 
                                              disabled="#{empty hamburguersController.selected}"/>
-                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Ingrediente" actionListener="#{hamburguersController.deletar()}" update="frmList" 
+
+                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Ingrediente" 
+                                             actionListener="#{hamburguersController.deletar()}" update="frmList" 
                                              disabled="#{empty hamburguersController.selected}">
+                                
                                 <p:confirm header="Confirmar Exclusão" message="Você confirma a exclusão do registro?" icon="ui-icon-alert"/>
                             </p:commandButton>
+                            
+                            
                             <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes do Cliente" update="formView" oncomplete="PF('dlgView').show()" 
                                              disabled="#{empty hamburguersController.selected}"/>
                         </f:facet>

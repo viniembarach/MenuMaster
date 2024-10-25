@@ -179,8 +179,9 @@ public class LanchesController implements Serializable {
     }
 
     public void deletar() {
-        persist(PersistAction.DELETE,
-                "Registro excluído com sucesso!");
-    }
+        persist(PersistAction.DELETE, "Registro excluído com sucesso!");
+        // Atualizar a lista de usuários após deletar
+        lanchesList = ejbFacade.buscarTodos();
+}
 
 }

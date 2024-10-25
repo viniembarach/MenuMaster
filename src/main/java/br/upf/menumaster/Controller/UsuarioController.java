@@ -32,7 +32,6 @@ public class UsuarioController implements Serializable {
     public List<Usuario> getUsuarioList() {
         if (usuarioList == null || usuarioList.isEmpty()) {
             usuarioList = ejbFacade.buscarTodos();
-            System.out.println("Lista de usuários carregada: " + usuarioList.size());
         }
         return usuarioList;
     }

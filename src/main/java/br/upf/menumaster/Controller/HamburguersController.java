@@ -179,8 +179,8 @@ public class HamburguersController implements Serializable {
     }
 
     public void deletar() {
-        persist(PersistAction.DELETE,
-                "Registro excluído com sucesso!");
-    }
-
+        persist(PersistAction.DELETE, "Registro excluído com sucesso!");
+        // Atualizar a lista de usuários após deletar
+        hamburguersList = ejbFacade.buscarTodos();
+}
 }
