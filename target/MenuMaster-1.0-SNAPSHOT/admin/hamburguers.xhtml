@@ -13,68 +13,55 @@
         <h:form id="frmList">
             <h:panelGroup id="pngList">
                 <p:fieldset toggleable="true">
-                    <p:dataTable id="datalist" value="#{clienteController.clienteList}" var="item" selectionMode="single"
-                                 selection="#{clienteController.selected}" widgetVar="datalistClienteWidgetVar"
-                                 rowKey="#{item.idCliente}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Cliente cadastrado...">
+                    <p:dataTable id="datalist" value="#{hamburguersController.hamburguersList}" var="item" selectionMode="single"
+                                 selection="#{hamburguersController.selected}" widgetVar="datalistClienteWidgetVar"
+                                 rowKey="#{item.idingrediente}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum ingrediente cadastrado...">
                         <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
                         <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
 
-                        <p:column width="4%" sortBy="#{item.idCliente}" filterBy="#{item.idCliente}">
+                        <p:column width="4%" sortBy="#{item.idingrediente}" filterBy="#{item.idingrediente}">
                             <f:facet name="header">
                                 <h:outputText value="ID"/>
                             </f:facet>
-                            <h:outputText value="#{item.idCliente}"/>
+                            <h:outputText value="#{item.idingrediente}"/>
                         </p:column>
 
-                        <p:column width="10%" sortBy="#{item.nome}" filterBy="#{item.nome}">
+                        <p:column width="10%" sortBy="#{item.nomeingrediente}" filterBy="#{item.nomeingrediente}">
                             <f:facet name="header">
                                 <h:outputText value="Nome"/>
                             </f:facet>
-                            <h:outputText value="#{item.nome}"/>
+                            <h:outputText value="#{item.nomeingrediente}"/>
                         </p:column>
 
-                        <p:column width="6%" sortBy="#{item.cpfcnpj}" filterBy="#{item.cpfcnpj}">
+                        <p:column width="6%" sortBy="#{item.tipoingrediente}" filterBy="#{item.tipoingrediente}">
                             <f:facet name="header">
-                                <h:outputText value="CPF/CNPJ"/>
+                                <h:outputText value="Tipo Ingrediente"/>
                             </f:facet>
-                            <h:outputText value="#{item.cpfcnpj}"/>
+                            <h:outputText value="#{item.tipoingrediente}"/>
                         </p:column>
 
-                        <p:column width="6%" sortBy="#{item.telefone}" filterBy="#{item.telefone}">
+                        <p:column width="6%" sortBy="#{item.valoringrediente}" filterBy="#{item.valoringrediente}">
                             <f:facet name="header">
-                                <h:outputText value="Telefone"/>
+                                <h:outputText value="Valor"/>
                             </f:facet>
-                            <h:outputText value="#{item.telefone}"/>
+                            <h:outputText value="#{item.valoringrediente}"/>
                         </p:column>
-
-                        <p:column width="10%" sortBy="#{item.endereco}" filterBy="#{item.endereco}">
+                        <p:column width="6%" sortBy="#{item.disponivelingrediente}" filterBy="#{item.disponivelingrediente}">
                             <f:facet name="header">
-                                <h:outputText value="Endereço"/>
+                                <h:outputText value="Disponivel"/>
                             </f:facet>
-                            <h:outputText value="#{item.endereco}"/>
+                            <h:outputText value="#{item.disponivelingrediente}"/>
                         </p:column>
-
-                        <p:column width="8%" sortBy="#{item.cidade}" filterBy="#{item.cidade}">
-                            <f:facet name="header">
-                                <h:outputText value="Cidade"/>
-                            </f:facet>
-                            <h:outputText value="#{item.cidade}"/>
-                        </p:column>
-
-                        <p:column width="8%" sortBy="#{item.estado}" filterBy="#{item.estado}">
-                            <f:facet name="header">
-                                <h:outputText value="Estado"/>
-                            </f:facet>
-                            <h:outputText value="#{item.estado}"/>
-                        </p:column>
-
                         <f:facet name="footer">
-                            <p:commandButton id="btnCreate" value="Incluir Cliente" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
-                            <p:commandButton id="btnEdit" value="Editar Cliente" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" disabled="#{empty clienteController.selected}"/>
-                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Pessoa" actionListener="#{clienteController.deletar()}" update="frmList" disabled="#{empty clienteController.selected}">
+                            <p:commandButton id="btnCreate" value="Incluir Ingrediente" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
+                            <p:commandButton id="btnEdit" value="Editar Ingrediente" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" 
+                                             disabled="#{empty hamburguersController.selected}"/>
+                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Ingrediente" actionListener="#{hamburguersController.deletar()}" update="frmList" 
+                                             disabled="#{empty hamburguersController.selected}">
                                 <p:confirm header="Confirmar Exclusão" message="Você confirma a exclusão do registro?" icon="ui-icon-alert"/>
                             </p:commandButton>
-                            <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes do Cliente" update="formView" oncomplete="PF('dlgView').show()" disabled="#{empty clienteController.selected}"/>
+                            <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes do Cliente" update="formView" oncomplete="PF('dlgView').show()" 
+                                             disabled="#{empty hamburguersController.selected}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:fieldset>
@@ -86,143 +73,74 @@
             </h:panelGroup>
         </h:form>
 
-        <p:dialog header="Novo Cliente" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
+        <p:dialog header="Novo Ingrediente" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="CreateForm">
                 <p:growl id="growl" showDetail="true"/>
                 <h:panelGrid id="pngCadastro" columns="2">
-                    <p:outputLabel id="oplNome" value="Nome:" for="iptNome"/>
-                    <p:inputText id="iptNome" size="40" label="Nome" required="true" requiredMessage="O atributo nome é obrigatório" value="#{clienteController.cliente.nome}" maxlength="50"/>
+                    <p:outputLabel id="oplNomeIngrediente" value="Nome:" for="iptNomeIngrediente"/>
+                    <p:inputText id="iptNomeIngrediente" size="40" label="Nome" required="true" requiredMessage="O atributo nome é obrigatório" 
+                                 value="#{hamburguersController.hamburguers.nomeingrediente}" maxlength="50"/>
 
-                    <p:outputLabel id="oplCpfcnpj" value="CPF:" for="iptCpfcnpj"/>
-                    <p:inputMask id="iptCpfcnpj" size="15" label="Cpfcnpj" required="true" requiredMessage="O atributo CPF é obrigatório"
-                                 value="#{clienteController.cliente.cpfcnpj}" mask="999.999.999-99" maxlength="15"/>
+                    <p:outputLabel id="oplTipoIngrediente" value="Tipo Ingrediente" for="iptTipoIngrediente"/>
+                    <p:inputMask id="iptTipoIngrediente" size="15" label="tipoingrediente" required="true" requiredMessage="O atributo Tipo é obrigatório"
+                                 value="#{hamburguersController.hamburguers.tipoingrediente}" maxlength="15"/>
 
-                    <p:outputLabel id="oplTelefone" value="Telefone:" for="iptTelefone"/>
-                    <p:inputMask id="iptTelefone" size="15" label="Telefone" required="true" requiredMessage="O atributo Telefone é obrigatório"
-                                 value="#{clienteController.cliente.telefone}" mask="(99) 99999-9999" maxlength="15"/>
+                    <p:outputLabel id="oplValorIngrediente" value="Valor:" for="iptValorIngrediente"/>
+                    <p:inputMask id="iptValorIngrediente" size="15" label="valoringrediente" required="true" requiredMessage="O atributo Valor é obrigatório"
+                                 value="#{hamburguersController.hamburguers.valoringrediente}" maxlength="15"/>
 
-                    <p:outputLabel id="oplEndereco" value="Endereço:" for="iptEndereco"/>
-                    <p:inputText id="iptEndereco" size="40" label="Endereco" required="true" requiredMessage="O atributo Endereço é obrigatório" value="#{clienteController.cliente.endereco}" maxlength="200"/>
 
-                    <p:outputLabel id="oplEstado" value="Estado: " for="somEstado"/>
-                    <p:selectOneMenu id="somEstado" value="#{clienteController.cliente.estado}">
-                        <f:selectItem itemLabel="Selecione um estado" itemValue=""/>
-                        <f:selectItem itemLabel="Acre" itemValue="Acre"/>
-                        <f:selectItem itemLabel="Alagoas" itemValue="Alagoas"/>
-                        <f:selectItem itemLabel="Amapá" itemValue="Amapá"/>
-                        <f:selectItem itemLabel="Amazonas" itemValue="Amazonas"/>
-                        <f:selectItem itemLabel="Bahia" itemValue="Bahia"/>
-                        <f:selectItem itemLabel="Ceará" itemValue="Ceará"/>
-                        <f:selectItem itemLabel="Distrito Federal" itemValue="Distrito Federal"/>
-                        <f:selectItem itemLabel="Espírito Santo" itemValue="Espírito Santo"/>
-                        <f:selectItem itemLabel="Goiás" itemValue="Goiás"/>
-                        <f:selectItem itemLabel="Maranhão" itemValue="Maranhão"/>
-                        <f:selectItem itemLabel="Mato Grosso" itemValue="Mato Grosso"/>
-                        <f:selectItem itemLabel="Mato Grosso do Sul" itemValue="Mato Grosso do Sul"/>
-                        <f:selectItem itemLabel="Minas Gerais" itemValue="Minas Gerais"/>
-                        <f:selectItem itemLabel="Pará" itemValue="Pará"/>
-                        <f:selectItem itemLabel="Paraíba" itemValue="Paraíba"/>
-                        <f:selectItem itemLabel="Paraná" itemValue="Paraná"/>
-                        <f:selectItem itemLabel="Pernambuco" itemValue="Pernambuco"/>
-                        <f:selectItem itemLabel="Piauí" itemValue="Piauí"/>
-                        <f:selectItem itemLabel="Rio de Janeiro" itemValue="Rio de Janeiro"/>
-                        <f:selectItem itemLabel="Rio Grande do Norte" itemValue="Rio Grande do Norte"/>
-                        <f:selectItem itemLabel="Rio Grande do Sul" itemValue="Rio Grande do Sul"/>
-                        <f:selectItem itemLabel="Rondônia" itemValue="Rondônia"/>
-                        <f:selectItem itemLabel="Roraima" itemValue="Roraima"/>
-                        <f:selectItem itemLabel="Santa Catarina" itemValue="Santa Catarina"/>
-                        <f:selectItem itemLabel="São Paulo" itemValue="São Paulo"/>
-                        <f:selectItem itemLabel="Sergipe" itemValue="Sergipe"/>
-                        <f:selectItem itemLabel="Tocantins" itemValue="Tocantins"/>
-                    </p:selectOneMenu>
+                    <p:outputLabel id="oplDisponivel" value="Disponível:" for="iptDisponivel"/>
+                    <p:selectBooleanCheckbox id="iptDisponivel" value="#{hamburguersController.hamburguers.disponivelingrediente}"/>
 
-                    <p:outputLabel id="oplCidade" value="Cidade:" for="iptCidade"/>
-                    <p:inputText id="iptCidade" size="40" label="Cidade" required="true" requiredMessage="O atributo Cidade é obrigatório" value="#{clienteController.cliente.cidade}" maxlength="50"/>
                 </h:panelGrid>
-                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{clienteController.adicionar()}" onclick="dlgCreate.hide()"/>
+                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{hamburguersController.adicionar()}" onclick="dlgCreate.hide()"/>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Editar Cliente" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
+        <p:dialog header="Editar Ingredientes" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="FormEdit">
                 <p:growl id="growl" showDetail="true"/>
                 <h:panelGrid id="pngEdicao" columns="2">
-                    <p:outputLabel id="oplNome" value="Nome:" for="iptNome"/>
-                    <p:inputText id="iptNome" size="40" label="Nome" required="true" requiredMessage="O atributo nome é obrigatório" value="#{clienteController.selected.nome}" maxlength="50"/>
+                    <p:outputLabel id="oplNomeIngrediente" value="Nome:" for="iptNomeIngrediente"/>
+                    <p:inputText id="iptNomeIngrediente" size="40" label="nomeingrediente" required="true" requiredMessage="O atributo nome é obrigatório"
+                                 value="#{hamburguersController.selected.nomeingrediente}" maxlength="50"/>
 
-                    <p:outputLabel id="oplCpfcnpj" value="CPF:" for="iptCpfcnpj"/>
-                    <p:inputMask id="iptCpfcnpj" size="15" label="Cpfcnpj" required="true" requiredMessage="O atributo CPF é obrigatório"
-                                 value="#{clienteController.selected.cpfcnpj}" mask="999.999.999-99" maxlength="15"/>
-                    
-                    <p:outputLabel id="oplTelefone" value="Telefone:" for="iptTelefone"/>
-                    <p:inputMask id="iptTelefone" size="15" label="Telefone" required="true" requiredMessage="O atributo Telefone é obrigatório"
-                                 value="#{clienteController.selected.telefone}" mask="(99) 99999-9999" maxlength="15"/>
+                    <p:outputLabel id="oplTipoIngrediente" value="Tipo Ingrediente:" for="iptTipoIngrediente"/>
+                    <p:inputMask id="iptTipoIngrediente" size="15" label="tipoingrediente" required="true" requiredMessage="O atributo Tipo é obrigatório"
+                                 value="#{hamburguersController.selected.tipoingrediente}" maxlength="15"/>
 
-                    <p:outputLabel id="oplEndereco" value="Endereço:" for="iptEndereco"/>
-                    <p:inputText id="iptEndereco" size="40" label="Endereco" required="true" requiredMessage="O atributo Endereço é obrigatório" value="#{clienteController.selected.endereco}" maxlength="200"/>
+                    <p:outputLabel id="oplValorIngrediente" value="Valor:" for="iptValorIngrediente"/>
+                    <p:inputMask id="iptValorIngrediente" size="15" label="valoringrediente" required="true" requiredMessage="O atributo Valor é obrigatório"
+                                 value="#{hamburguersController.selected.valoringrediente}" maxlength="15"/>
 
-                    <p:outputLabel id="oplEstado" value="Estado: " for="somEstado"/>
-                    <p:selectOneMenu id="somEstado" value="#{clienteController.selected.estado}">
-                        <f:selectItem itemLabel="Selecione um estado" itemValue=""/>
-                        <f:selectItem itemLabel="Acre" itemValue="Acre"/>
-                        <f:selectItem itemLabel="Alagoas" itemValue="Alagoas"/>
-                        <f:selectItem itemLabel="Amapá" itemValue="Amapá"/>
-                        <f:selectItem itemLabel="Amazonas" itemValue="Amazonas"/>
-                        <f:selectItem itemLabel="Bahia" itemValue="Bahia"/>
-                        <f:selectItem itemLabel="Ceará" itemValue="Ceará"/>
-                        <f:selectItem itemLabel="Distrito Federal" itemValue="Distrito Federal"/>
-                        <f:selectItem itemLabel="Espírito Santo" itemValue="Espírito Santo"/>
-                        <f:selectItem itemLabel="Goiás" itemValue="Goiás"/>
-                        <f:selectItem itemLabel="Maranhão" itemValue="Maranhão"/>
-                        <f:selectItem itemLabel="Mato Grosso" itemValue="Mato Grosso"/>
-                        <f:selectItem itemLabel="Mato Grosso do Sul" itemValue="Mato Grosso do Sul"/>
-                        <f:selectItem itemLabel="Minas Gerais" itemValue="Minas Gerais"/>
-                        <f:selectItem itemLabel="Pará" itemValue="Pará"/>
-                        <f:selectItem itemLabel="Paraíba" itemValue="Paraíba"/>
-                        <f:selectItem itemLabel="Paraná" itemValue="Paraná"/>
-                        <f:selectItem itemLabel="Pernambuco" itemValue="Pernambuco"/>
-                        <f:selectItem itemLabel="Piauí" itemValue="Piauí"/>
-                        <f:selectItem itemLabel="Rio de Janeiro" itemValue="Rio de Janeiro"/>
-                        <f:selectItem itemLabel="Rio Grande do Norte" itemValue="Rio Grande do Norte"/>
-                        <f:selectItem itemLabel="Rio Grande do Sul" itemValue="Rio Grande do Sul"/>
-                        <f:selectItem itemLabel="Rondônia" itemValue="Rondônia"/>
-                        <f:selectItem itemLabel="Roraima" itemValue="Roraima"/>
-                        <f:selectItem itemLabel="Santa Catarina" itemValue="Santa Catarina"/>
-                        <f:selectItem itemLabel="São Paulo" itemValue="São Paulo"/>
-                        <f:selectItem itemLabel="Sergipe" itemValue="Sergipe"/>
-                        <f:selectItem itemLabel="Tocantins" itemValue="Tocantins"/>
-                    </p:selectOneMenu>
+                    <p:outputLabel id="oplDisponivel" value="Disponível:" for="iptDisponivel"/>
+                    <p:selectBooleanCheckbox id="iptDisponivel" value="#{hamburguersController.selected.disponivelingrediente}"/>
 
-                    <p:outputLabel id="oplCidade" value="Cidade:" for="iptCidade"/>
-                    <p:inputText id="iptCidade" size="40" label="Cidade" required="true" requiredMessage="O atributo Cidade é obrigatório" value="#{clienteController.selected.cidade}" maxlength="50"/>
                 </h:panelGrid>
-                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" action="#{clienteController.editar()}" icon="pi pi-save"/>
+                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" 
+                                 action="#{hamburguersController.editar()}" icon="pi pi-save"/>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Visualizar Detalhes do Cliente" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
+        <p:dialog header="Visualizar Detalhes do Ingrediente" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
             <h:form id="formView">
                 <h:panelGrid id="pngView" columns="2">
                     <p:outputLabel value="ID:"/>
-                    <p:outputLabel value="#{clienteController.selected.idCliente}"/>
+                    <p:outputLabel value="#{hamburguersController.selected.idingrediente}"/>
 
                     <p:outputLabel value="Nome:"/>
-                    <p:outputLabel value="#{clienteController.selected.nome}"/>
+                    <p:outputLabel value="#{hamburguersController.selected.nomeingrediente}"/>
 
-                    <p:outputLabel value="CPF/CNPJ:"/>
-                    <p:outputLabel value="#{clienteController.selected.cpfcnpj}"/>
+                    <p:outputLabel value="Tipo Ingrediente:"/>
+                    <p:outputLabel value="#{hamburguersController.selected.tipoingrediente}"/>
 
-                    <p:outputLabel value="Telefone:"/>
-                    <p:outputLabel value="#{clienteController.selected.telefone}"/>
+                    <p:outputLabel value="Valor"/>
+                    <p:outputLabel value="#{hamburguersController.selected.valoringrediente}"/>
 
-                    <p:outputLabel value="Endereço:"/>
-                    <p:outputLabel value="#{clienteController.selected.endereco}"/>
+                    <p:outputLabel value="Disponivel:"/>
+                    <p:outputLabel value="#{hamburguersController.selected.disponivelingrediente}"/>
 
-                    <p:outputLabel value="Estado:"/>
-                    <p:outputLabel value="#{clienteController.selected.estado}"/>
-
-                    <p:outputLabel value="Cidade:"/>
-                    <p:outputLabel value="#{clienteController.selected.cidade}"/>
                 </h:panelGrid>
 
             </h:form>
