@@ -111,41 +111,49 @@
 
 
         <p:dialog header="Editar Usuario" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
-            <h:form id="FormEdit">
-                <p:growl id="growl" showDetail="true"/>
-                <h:panelGrid id="pngEdicao" columns="2">
+    <h:form id="FormEdit">
+        <p:growl id="growl" showDetail="true"/>
+        <h:panelGrid id="pngEdicao" columns="2" cellpadding="5" cellspacing="5" style="width: 100%;">
 
-                    <p:outputLabel id="oplNome" value="Nome:" for="iptNome"/>
-                    <p:inputText id="iptNome" size="40" label="Nome" required="true" requiredMessage="O atributo nome é obrigatório" value="#{usuarioController.usuario.nomeusuario}" maxlength="50"/>
+            <p:outputLabel id="oplNomeEdit" value="Nome:" for="iptNomeEdit"/>
+            <p:inputText id="iptNomeEdit" size="40" label="Nome" required="true" 
+                         requiredMessage="O atributo nome é obrigatório" 
+                         value="#{usuarioController.selected.nomeusuario}" maxlength="50"/>
 
-                    <p:outputLabel id="oplCpf" value="CPF:" for="iptCpf"/>
-                    <p:inputMask id="iptCpf" size="15" label="Cpf" required="true" requiredMessage="O atributo CPF é obrigatório"
-                                 value="#{usuarioController.usuario.cpf}" mask="999.999.999-99" maxlength="14"/>
+            <p:outputLabel id="oplCpfEdit" value="CPF:" for="iptCpfEdit"/>
+            <p:inputMask id="iptCpfEdit" size="15" label="Cpf" required="true" 
+                         requiredMessage="O atributo CPF é obrigatório"
+                         value="#{usuarioController.selected.cpf}" mask="999.999.999-99" maxlength="14"/>
 
-                    <p:inputText id="iptEmail" size="40" label="Nome" required="true" 
-                                 requiredMessage="O atributo email é obrigatório" validatorMessage="Campo email é inválido"
-                                 value="#{usuarioController.usuario.email}" maxlength="50" >
-                        <f:validateRegex pattern="[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})"  />
-                    </p:inputText>
+            <p:outputLabel id="oplEmailEdit" value="Email:" for="iptEmailEdit"/>
+            <p:inputText id="iptEmailEdit" size="40" label="Email" required="true" 
+                         requiredMessage="O atributo email é obrigatório" 
+                         validatorMessage="Campo email é inválido"
+                         value="#{usuarioController.selected.email}" maxlength="50">
+                <f:validateRegex pattern="[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})"/>
+            </p:inputText>
 
-                    <p:outputLabel id="oplSenha" value="Senha:" for="iptSenha"/>
-                    <p:inputText id="iptSenha" size="40" label="Senha" required="true" 
-                                 requiredMessage="O atributo senha é obrigatório"
-                                 value="#{usuarioController.usuario.senha}" />
+            <p:outputLabel id="oplSenhaEdit" value="Senha:" for="iptSenhaEdit"/>
+            <p:inputText id="iptSenhaEdit" size="40" label="Senha" required="true" 
+                         requiredMessage="O atributo senha é obrigatório"
+                         value="#{usuarioController.selected.senha}" />
 
-                    <p:outputLabel id="oplTipousuario" value="Tipo de Usuario: " for="somTipousuario"/>
-                    <p:selectOneMenu id="somTipousuario" value="#{usuarioController.usuario.tipousuario}">
-                        <f:selectItem itemLabel="Selecione o tipo do Usuario" itemValue=""/>
-                        <f:selectItem itemLabel="Cozinha" itemValue="Cozinha"/>
-                        <f:selectItem itemLabel="Caixa" itemValue="Caixa"/>
-                        <f:selectItem itemLabel="Garçom" itemValue="Garcom"/>
-                        <f:selectItem itemLabel="Administrador" itemValue="Adm"/>
-                    </p:selectOneMenu>
+            <p:outputLabel id="oplTipousuarioEdit" value="Tipo de Usuario:" for="somTipousuarioEdit"/>
+            <p:selectOneMenu id="somTipousuarioEdit" value="#{usuarioController.selected.tipousuario}">
+                <f:selectItem itemLabel="Selecione o tipo do Usuario" itemValue=""/>
+                <f:selectItem itemLabel="Cozinha" itemValue="Cozinha"/>
+                <f:selectItem itemLabel="Caixa" itemValue="Caixa"/>
+                <f:selectItem itemLabel="Garçom" itemValue="Garcom"/>
+                <f:selectItem itemLabel="Administrador" itemValue="Adm"/>
+            </p:selectOneMenu>
 
-                </h:panelGrid>
-                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" action="#{usuarioController.editar()}" icon="pi pi-save"/>
-            </h:form>
-        </p:dialog>
+        </h:panelGrid>
+        <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" 
+                         onclick="PF('dlgEdit').hide()" action="#{usuarioController.editar()}" 
+                         icon="pi pi-save"/>
+    </h:form>
+</p:dialog>
+
 
         <p:dialog header="Visualizar Detalhes do Usuario" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
             <h:form id="formView">
