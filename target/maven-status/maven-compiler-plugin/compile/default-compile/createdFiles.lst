@@ -9,6 +9,7 @@ br\upf\menumaster\Controller\ContasController$PersistAction.class
 br\upf\menumaster\Controller\HamburguersController$HamburguersControllerConverter.class
 br\upf\menumaster\Controller\UsuarioController$UsuarioControllerConverter.class
 br\upf\menumaster\facade\MesasFacade.class
+br\upf\menumaster\Enumeration\mesasEnum.class
 br\upf\menumaster\Entity\Bebidas.class
 br\upf\menumaster\Controller\MesasController.class
 br\upf\menumaster\facade\AbstractFacade.class
@@ -36,6 +37,7 @@ br\upf\menumaster\facade\PedidosFacade.class
 br\upf\menumaster\Controller\HamburguersController.class
 br\upf\menumaster\facade\HamburguersFacade.class
 br\upf\menumaster\facade\BebidasFacade.class
+br\upf\menumaster\Controller\MesasEnumController.class
 br\upf\menumaster\Controller\ContasController.class
 br\upf\menumaster\Controller\PedidosController.class
 br\upf\menumaster\Controller\UsuarioController.class

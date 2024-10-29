@@ -16,6 +16,8 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
@@ -39,15 +41,22 @@ public class Mesas implements Serializable {
     @Basic(optional = false)
     @Column(name = "numeromesa")
     private Integer numeromesa;
-    @JoinColumn(name = "usuariomesa", referencedColumnName = "idusuario")
+    
     @ManyToOne
-    private Usuario usuariomesa;
-    @OneToMany(mappedBy = "mesaconta")
-    private Collection<Contas> contasCollection;
     @OneToMany(mappedBy = "mesapedido")
     private Collection<Pedidos> pedidosCollection;
 
-    public Mesas() {
+    @NotNull
+    @Size(min = 1, max = 5)
+    @Column(name = "mesaenum")
+    private String mesaenum;
+
+    public String getMesaenum() {
+        return mesaenum;
+    }
+
+    public void setMesaenum(String mesaenum) {
+        this.mesaenum = mesaenum;
     }
 
     public Mesas(Integer numeromesa) {
@@ -60,23 +69,6 @@ public class Mesas implements Serializable {
 
     public void setNumeromesa(Integer numeromesa) {
         this.numeromesa = numeromesa;
-    }
-
-    public Usuario getUsuariomesa() {
-        return usuariomesa;
-    }
-
-    public void setUsuariomesa(Usuario usuariomesa) {
-        this.usuariomesa = usuariomesa;
-    }
-
-    @XmlTransient
-    public Collection<Contas> getContasCollection() {
-        return contasCollection;
-    }
-
-    public void setContasCollection(Collection<Contas> contasCollection) {
-        this.contasCollection = contasCollection;
     }
 
     @XmlTransient
@@ -112,5 +104,5 @@ public class Mesas implements Serializable {
     public String toString() {
         return "br.upf.menumaster.Entity.Mesas[ numeromesa=" + numeromesa + " ]";
     }
-    
+
 }

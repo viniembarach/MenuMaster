@@ -13,12 +13,13 @@
         <h:form id="frmMesa">
             <h:panelGroup id="pngMesa">
                 <p:fieldset legend="Selecione a Mesa" toggleable="true">
-                    <p:selectOneMenu id="somMesa" value="#{mesaController.selectedMesa}">
-                        <f:selectItem itemLabel="Selecione a Mesa" itemValue=""/>
-                        <f:selectItems value="#{mesaController.listaMesas}" var="mesa" itemLabel="#{mesa.nome}" itemValue="#{mesa.id}"/>
+                    
+                    <p:outputLabel id="oplMesasEnum" value="Nome Mesa:" for="iptMesasEnum"/>
+                    <p:selectOneMenu id="iptMesasEnum" value="#{mesasController.mesas.mesaenum}">
+                        <f:selectItem itemLabel="Selecione uma mesa..."/>
+                        <f:selectItems value="#{MesasEnumController.mesasEnum}"/>
                     </p:selectOneMenu>
-
-                    <p:commandButton id="btnSelecionar" value="Selecionar" action="#{mesaController.selecionarMesa}" update="@form" />
+                    <p:commandButton id="btnSelecionar" value="Selecionar" action="#{mesasController.se}" update="@form" />
                 </p:fieldset>
             </h:panelGroup>
         </h:form>

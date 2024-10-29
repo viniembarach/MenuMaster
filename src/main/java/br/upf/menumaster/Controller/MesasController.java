@@ -29,7 +29,7 @@ public class MesasController implements Serializable {
     @EJB
     private br.upf.menumaster.facade.MesasFacade ejbFacade;
 
-    private Mesas mesas = new Mesas();
+    private Mesas mesas = new Mesas(Integer.BYTES);
     private List<Mesas> mesasList = new ArrayList<>();
     private Mesas selected;
 
@@ -108,7 +108,7 @@ public class MesasController implements Serializable {
     }
 
     public Mesas prepareAdicionar() {
-        mesas = new Mesas();
+        mesas = new Mesas(Integer.BYTES);
         return mesas;
     }
 
