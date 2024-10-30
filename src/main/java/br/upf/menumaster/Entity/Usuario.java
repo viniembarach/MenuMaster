@@ -72,8 +72,6 @@ public class Usuario implements Serializable {
     @Column(name = "tipousuario")
     private String tipousuario;
     
-    @OneToMany(mappedBy = "usuariomesa")
-    private Collection<Mesas> mesasCollection;
     @OneToMany(mappedBy = "usuariopedido")
     private Collection<Pedidos> pedidosCollection;
 
@@ -138,15 +136,6 @@ public class Usuario implements Serializable {
 
     public void setTipousuario(String tipousuario) {
         this.tipousuario = tipousuario;
-    }
-
-    @XmlTransient
-    public Collection<Mesas> getMesasCollection() {
-        return mesasCollection;
-    }
-
-    public void setMesasCollection(Collection<Mesas> mesasCollection) {
-        this.mesasCollection = mesasCollection;
     }
 
     @XmlTransient

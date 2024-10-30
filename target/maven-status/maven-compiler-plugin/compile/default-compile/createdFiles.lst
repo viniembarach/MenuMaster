@@ -1,7 +1,6 @@
 br\upf\menumaster\Controller\MesasController$MesasControllerConverter.class
 br\upf\menumaster\Entity\Hamburguers.class
 br\upf\menumaster\Controller\LanchesController.class
-br\upf\menumaster\Entity\Lanches.class
 br\upf\menumaster\Controller\LanchesController$LanchesControllerConverter.class
 br\upf\menumaster\Controller\BebidasController$BebidasControllerConverter.class
 br\upf\menumaster\Entity\Pedidos.class
@@ -14,12 +13,10 @@ br\upf\menumaster\Entity\Bebidas.class
 br\upf\menumaster\Controller\MesasController.class
 br\upf\menumaster\facade\AbstractFacade.class
 br\upf\menumaster\Controller\BebidasController.class
-br\upf\menumaster\Entity\Mesas.class
 br\upf\menumaster\Controller\UsuarioController$PersistAction.class
 br\upf\menumaster\resources\JakartaEE10Resource.class
 br\upf\menumaster\Controller\ContasController$ContasControllerConverter.class
 br\upf\menumaster\FiltroAdministrativo.class
-br\upf\menumaster\Entity\Usuario.class
 br\upf\menumaster\Controller\LanchesController$PersistAction.class
 br\upf\menumaster\Controller\PedidosController$PersistAction.class
 br\upf\menumaster\JakartaRestConfiguration.class

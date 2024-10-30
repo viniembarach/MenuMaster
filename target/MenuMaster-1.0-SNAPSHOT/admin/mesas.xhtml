@@ -19,7 +19,9 @@
                         <f:selectItem itemLabel="Selecione uma mesa..."/>
                         <f:selectItems value="#{MesasEnumController.mesasEnum}"/>
                     </p:selectOneMenu>
-                    <p:commandButton id="btnSelecionar" value="Selecionar" action="#{mesasController.se}" update="@form" />
+                    
+                    
+                    <p:commandButton id="btnSelecionar" value="Selecionar" action="#{mesasController.confirmarMesa()}" update="@form" />
                 </p:fieldset>
             </h:panelGroup>
         </h:form>

@@ -41,10 +41,6 @@ public class Mesas implements Serializable {
     @Basic(optional = false)
     @Column(name = "numeromesa")
     private Integer numeromesa;
-    
-    @ManyToOne
-    @OneToMany(mappedBy = "mesapedido")
-    private Collection<Pedidos> pedidosCollection;
 
     @NotNull
     @Size(min = 1, max = 5)
@@ -59,6 +55,14 @@ public class Mesas implements Serializable {
         this.mesaenum = mesaenum;
     }
 
+    public Mesas(String mesaenum) {
+        this.mesaenum = mesaenum;
+    }
+
+    public Mesas() {
+        // Construtor padrão necessário para JPA
+    }
+
     public Mesas(Integer numeromesa) {
         this.numeromesa = numeromesa;
     }
@@ -69,15 +73,6 @@ public class Mesas implements Serializable {
 
     public void setNumeromesa(Integer numeromesa) {
         this.numeromesa = numeromesa;
-    }
-
-    @XmlTransient
-    public Collection<Pedidos> getPedidosCollection() {
-        return pedidosCollection;
-    }
-
-    public void setPedidosCollection(Collection<Pedidos> pedidosCollection) {
-        this.pedidosCollection = pedidosCollection;
     }
 
     @Override

@@ -65,6 +65,22 @@ public class MesasController implements Serializable {
         return ejbFacade.find(id);
     }
 
+    public void selecionarMesa(Mesas mesas) {
+        this.mesaSelecionada = mesas;
+    }
+
+    public String confirmarMesa() {
+        return "pedidos.xhtml?faces-redirect=true"; // Redireciona para outra página com a mesa selecionada
+    }
+
+    public Mesas getMesaSelecionada() {
+        return mesaSelecionada;
+    }
+
+    public void setMesaSelecionada(Mesas mesaSelecionada) {
+        this.mesaSelecionada = mesaSelecionada;
+    }
+
     @FacesConverter(forClass = Mesas.class)
     public static class MesasControllerConverter implements Converter {
 
