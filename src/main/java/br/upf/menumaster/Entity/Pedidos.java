@@ -66,9 +66,6 @@ public class Pedidos implements Serializable {
     @JoinColumn(name = "mesapedido", referencedColumnName = "numeromesa")
     @ManyToOne
     private Mesas mesapedido;
-    @JoinColumn(name = "usuariopedido", referencedColumnName = "idusuario")
-    @ManyToOne
-    private Usuario usuariopedido;
 
     public Pedidos() {
     }
@@ -146,14 +143,6 @@ public class Pedidos implements Serializable {
 
     public void setMesapedido(Mesas mesapedido) {
         this.mesapedido = mesapedido;
-    }
-
-    public Usuario getUsuariopedido() {
-        return usuariopedido;
-    }
-
-    public void setUsuariopedido(Usuario usuariopedido) {
-        this.usuariopedido = usuariopedido;
     }
 
     @Override
