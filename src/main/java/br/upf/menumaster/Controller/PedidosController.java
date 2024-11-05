@@ -22,13 +22,14 @@ public class PedidosController implements Serializable {
     @EJB
     private br.upf.menumaster.facade.PedidosFacade ejbFacade;
 
-    private Pedidos pedidos = new Pedidos();
-    private List<Pedidos> pedidosList = new ArrayList<>();
+    private Pedidos pedidos;
+    private List<Pedidos> pedidosList;
     private Pedidos selected;
 
     @PostConstruct
     public void init() {
-        // Preenche a lista após a construção da classe, garantindo que o EJB esteja pronto
+        // Inicializa o objeto `pedidos` e carrega a lista de pedidos ao iniciar o controlador
+        pedidos = new Pedidos();
         pedidosList = ejbFacade.buscarTodos();
     }
 
@@ -56,7 +57,7 @@ public class PedidosController implements Serializable {
         this.pedidos = pedidos;
     }
 
-    public Pedidos getPedidos(java.lang.Integer id) {
+    public Pedidos getPedidos(Integer id) {
         return ejbFacade.find(id);
     }
 
@@ -65,21 +66,19 @@ public class PedidosController implements Serializable {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
+            if (value == null || value.isEmpty()) {
                 return null;
             }
-            PedidosController controller
-                    = (PedidosController) facesContext.getApplication().getELResolver().
-                            getValue(facesContext.getELContext(),
-                                    null, "pedidosController");
+            PedidosController controller = (PedidosController) facesContext.getApplication().getELResolver()
+                    .getValue(facesContext.getELContext(), null, "pedidosController");
             return controller.getPedidos(getKey(value));
         }
 
-        java.lang.Integer getKey(String value) {
+        Integer getKey(String value) {
             return Integer.valueOf(value);
         }
 
-        String getStringKey(java.lang.Integer value) {
+        String getStringKey(Integer value) {
             return value.toString();
         }
 
@@ -92,7 +91,8 @@ public class PedidosController implements Serializable {
                 Pedidos o = (Pedidos) object;
                 return getStringKey(o.getIdpedido());
             } else {
-                return null;
+                throw new IllegalArgumentException("Objeto " + object + " do tipo " + object.getClass().getName()
+                        + "; tipo esperado: " + Pedidos.class.getName());
             }
         }
     }
@@ -124,16 +124,17 @@ public class PedidosController implements Serializable {
                 switch (persistAction) {
                     case CREATE:
                         ejbFacade.createReturn(pedidos);
+                        pedidosList = ejbFacade.buscarTodos(); // Atualiza a lista após criar
                         break;
                     case UPDATE:
                         ejbFacade.edit(selected);
+                        pedidosList = ejbFacade.buscarTodos(); // Atualiza a lista após editar
                         selected = null;
                         break;
                     case DELETE:
                         ejbFacade.remove(selected);
+                        pedidosList = ejbFacade.buscarTodos(); // Atualiza a lista após excluir
                         selected = null;
-                        break;
-                    default:
                         break;
                 }
             }
@@ -144,7 +145,7 @@ public class PedidosController implements Serializable {
             if (cause != null) {
                 msg = cause.getLocalizedMessage();
             }
-            if (msg.length() > 0) {
+            if (msg != null && !msg.isEmpty()) {
                 addErrorMessage(msg);
             } else {
                 addErrorMessage(ex.getLocalizedMessage());

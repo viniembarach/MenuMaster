@@ -16,8 +16,7 @@
                     <p:dataTable id="datalist" value="#{pedidosController.pedidosList}" var="item" selectionMode="single"
                                  selection="#{pedidosController.selected}" widgetVar="datalistPedidoWidgetVar"
                                  rowKey="#{item.idpedido}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Cliente cadastrado...">
-                        <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
-                        <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
+
 
                         <p:column width="4%" sortBy="#{item.idpedido}" filterBy="#{item.idpedido}">
                             <f:facet name="header">
@@ -27,31 +26,23 @@
                         </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton id="btnCreate" value="Incluir Cliente" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
-                            <p:commandButton id="btnEdit" value="Editar Cliente" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" disabled="#{empty pedidosController.selected}"/>
-                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Pessoa" actionListener="#{pedidosController.deletar()}" update="frmList" disabled="#{empty pedidosController.selected}">
-                                <p:confirm header="Confirmar Exclusão" message="Você confirma a exclusão do registro?" icon="ui-icon-alert"/>
-                            </p:commandButton>
-                            <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes do Cliente" update="formView" oncomplete="PF('dlgView').show()" disabled="#{empty pedidosController.selected}"/>
+                            <p:commandButton id="btnCreate" value="Incluir Pedido" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
+                            
                         </f:facet>
                     </p:dataTable>
                 </p:fieldset>
 
                 <!-- Confirmar exclusão -->
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
-                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times"/>
-                </p:confirmDialog>
+
             </h:panelGroup>
         </h:form>
 
-        <p:dialog header="Novo Cliente" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
+        <p:dialog header="Novo Pedido" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="CreateForm">
                 <p:growl id="growl" showDetail="true"/>
                 <h:panelGrid id="pngCadastro" columns="2">
-                    <p:outputLabel id="oplNome" value="Nome:" for="iptNome"/>
-                    <p:inputText id="iptNome" size="40" label="Nome" required="true" requiredMessage="O atributo nome é obrigatório" value="#{pedidosController.selected.nome}" maxlength="50"/>
-                    <!-- Continue com os demais campos, conforme necessário -->
+                    <p:outputLabel id="oplValor" value="Valor:" for="iptValor"/>
+                    <p:inputText id="iptValor" size="40" label="Valor" required="true" requiredMessage="O atributo valor é obrigatório" value="#{pedidosController.selected.valorpedido}" maxlength="50"/>
                 </h:panelGrid>
                 <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{pedidosController.adicionar()}" onclick="PF('dlgCreate').hide()"/>
             </h:form>
