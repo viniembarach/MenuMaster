@@ -1,6 +1,7 @@
 package br.upf.menumaster.Controller;
 
 import br.upf.menumaster.Entity.Pedidos;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBException;
 import jakarta.enterprise.context.SessionScoped;
@@ -14,10 +15,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author oroca
- */
 @Named(value = "pedidosController")
 @SessionScoped
 public class PedidosController implements Serializable {
@@ -29,11 +26,13 @@ public class PedidosController implements Serializable {
     private List<Pedidos> pedidosList = new ArrayList<>();
     private Pedidos selected;
 
-    public List<Pedidos> PedidosAll() {
-        return ejbFacade.buscarTodos();
+    @PostConstruct
+    public void init() {
+        // Preenche a lista após a construção da classe, garantindo que o EJB esteja pronto
+        pedidosList = ejbFacade.buscarTodos();
     }
 
-    public List<Pedidos> getUsuarioList() {
+    public List<Pedidos> getPedidosList() {
         return pedidosList;
     }
 
@@ -77,20 +76,15 @@ public class PedidosController implements Serializable {
         }
 
         java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
+            return Integer.valueOf(value);
         }
 
         String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
+            return value.toString();
         }
 
         @Override
-        public String getAsString(FacesContext facesContext,
-                UIComponent component, Object object) {
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
             if (object == null) {
                 return null;
             }
@@ -118,7 +112,7 @@ public class PedidosController implements Serializable {
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
     }
 
-    public static enum PersistAction {
+    public enum PersistAction {
         CREATE,
         DELETE,
         UPDATE
@@ -126,12 +120,11 @@ public class PedidosController implements Serializable {
 
     public void persist(PersistAction persistAction, String successMessage) {
         try {
-            if (null != persistAction) {
+            if (persistAction != null) {
                 switch (persistAction) {
                     case CREATE:
                         ejbFacade.createReturn(pedidos);
                         break;
-
                     case UPDATE:
                         ejbFacade.edit(selected);
                         selected = null;
@@ -162,18 +155,14 @@ public class PedidosController implements Serializable {
     }
 
     public void adicionar() {
-        persist(PersistAction.CREATE,
-                "Registro incluído com sucesso!");
+        persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
 
     public void editar() {
-        persist(PersistAction.UPDATE,
-                "Registro alterado com sucesso!");
+        persist(PersistAction.UPDATE, "Registro alterado com sucesso!");
     }
 
     public void deletar() {
-        persist(PersistAction.DELETE,
-                "Registro excluído com sucesso!");
+        persist(PersistAction.DELETE, "Registro excluído com sucesso!");
     }
-
 }

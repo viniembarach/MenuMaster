@@ -43,7 +43,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos>{
         try {
             //utilizando JPQL para construir a query 
             Query query = getEntityManager().
-                    createQuery("SELECT p FROM Pedidos p ORDER BY p.idPedido");
+                    createQuery("SELECT p FROM Pedidos p ORDER BY p.idpedido");
             //verifica se existe algum resultado para não gerar excessão
             entityList = (List<Pedidos>) query.getResultList();
         } catch (Exception e) {

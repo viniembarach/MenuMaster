@@ -12,14 +12,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  *
@@ -71,9 +68,6 @@ public class Usuario implements Serializable {
     @Size(min = 3, max = 30)
     @Column(name = "tipousuario")
     private String tipousuario;
-    
-    @OneToMany(mappedBy = "usuariopedido")
-    private Collection<Pedidos> pedidosCollection;
 
     public Usuario() {
     }
@@ -137,16 +131,7 @@ public class Usuario implements Serializable {
     public void setTipousuario(String tipousuario) {
         this.tipousuario = tipousuario;
     }
-
-    @XmlTransient
-    public Collection<Pedidos> getPedidosCollection() {
-        return pedidosCollection;
-    }
-
-    public void setPedidosCollection(Collection<Pedidos> pedidosCollection) {
-        this.pedidosCollection = pedidosCollection;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
