@@ -17,9 +17,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import br.upf.menumaster.Entity.Bebidas;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.file.UploadedFile;
 import org.primefaces.util.IOUtils;
 
 /**
@@ -32,11 +38,12 @@ public class BebidasController implements Serializable {
 
     @EJB
     private br.upf.menumaster.facade.BebidasFacade ejbFacade;
-
     private Bebidas bebidas = new Bebidas();
     private List<Bebidas> bebidasList = new ArrayList<>();
     private Bebidas selected;
     private Bebidas current;
+    private StreamedContent bebidasImagem;
+    private UploadedFile file;
 
     public List<Bebidas> getBebidasList() {
         if (bebidasList == null || bebidasList.isEmpty()) {
@@ -84,6 +91,14 @@ public class BebidasController implements Serializable {
 
     public DefaultStreamedContent getImagem() {
         return imagem;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
     }
 
     public void prepararImagem(FileUploadEvent bebida) {
@@ -146,6 +161,30 @@ public class BebidasController implements Serializable {
             } else {
                 return null;
             }
+        }
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        setFile(event.getFile());
+        if (bebidasImagem == null || bebidasImagem.getStream() == null || bebidasImagem.getStream().toString().isEmpty() || !bebidasImagem.getStream().equals(selected.getImagem())) {
+            getBebidasImagemUpload();
+        }
+    }
+
+    public void getBebidasImagemUpload() {
+        if (file != null && file.getContent() != null) {
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(new ByteArrayInputStream(file.getContent()));
+            } catch (IOException e) {
+            }
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(image, "png", out);
+            } catch (IOException e) {
+                //Trata a exceção de alguma forma adequada ao contexto da aplicação
+            }
+            selected.setImagem(out.toByteArray());
         }
     }
 

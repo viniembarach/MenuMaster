@@ -21,6 +21,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -61,8 +62,6 @@ public class Bebidas implements Serializable {
     @Column(name = "disponivelbebida")
     private boolean disponivelbebida = false; // o false é pra inicializar
 
-    @Basic(optional = true)
-    //@NotNull
     @Lob
     @Column(name = "imagem")
     private byte[] imagem;
@@ -157,6 +156,10 @@ public class Bebidas implements Serializable {
     @Override
     public String toString() {
         return "br.upf.menumaster.Entity.Bebidas[ idbebida=" + idbebida + " ]";
+    }
+
+    public List<Bebidas> getBebidas(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
