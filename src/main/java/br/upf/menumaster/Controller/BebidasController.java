@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -165,9 +166,19 @@ public class BebidasController implements Serializable {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        setFile(event.getFile());
-        if (bebidasImagem == null || bebidasImagem.getStream() == null || bebidasImagem.getStream().toString().isEmpty() || !bebidasImagem.getStream().equals(selected.getImagem())) {
-            getBebidasImagemUpload();
+        try {
+            // Recebe o arquivo de imagem e armazena no objeto selecionado
+            UploadedFile uploadedFile = event.getFile();
+            byte[] imagemBytes = uploadedFile.getContent(); // Pega o conteúdo do arquivo
+            selected.setImagem(imagemBytes); // Armazena a imagem no objeto selected
+
+            // Exibir uma mensagem de sucesso, se desejado
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Imagem enviada com sucesso!"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Falha ao enviar a imagem."));
+            e.printStackTrace();
         }
     }
 
@@ -182,7 +193,6 @@ public class BebidasController implements Serializable {
             try {
                 ImageIO.write(image, "png", out);
             } catch (IOException e) {
-                //Trata a exceção de alguma forma adequada ao contexto da aplicação
             }
             selected.setImagem(out.toByteArray());
         }

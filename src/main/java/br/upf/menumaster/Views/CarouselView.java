@@ -1,48 +1,41 @@
-package br.upf.menumaster.Views;
 
 import br.upf.menumaster.Entity.Bebidas;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import static org.primefaces.component.carousel.CarouselBase.PropertyKeys.responsiveOptions;
 import org.primefaces.model.ResponsiveOption;
 
-@Named
-@ViewScoped
 public class CarouselView implements Serializable {
 
-    private List<Bebidas> bebidas;
+    private List<Bebidas> bebidasList;
 
-    private List<ResponsiveOption> responsiveOptions;
-
-    @Inject
-    private Bebidas bebidasEntity;
+    private Bebidas bebidas = new Bebidas();
 
     @PostConstruct
     public void init() {
-        bebidas = bebidasEntity.getBebidas(1);
+        bebidas = bebidasList.getProducts(9);
         responsiveOptions = new ArrayList<>();
         responsiveOptions.add(new ResponsiveOption("1024px", 3, 3));
         responsiveOptions.add(new ResponsiveOption("768px", 2, 2));
         responsiveOptions.add(new ResponsiveOption("560px", 1, 1));
     }
 
-    public List<Bebidas> getBebidas() {
+    public List<Bebidas> getBebidasList() {
+        return bebidasList;
+    }
+
+    public void setBebidasList(List<Bebidas> bebidasList) {
+        this.bebidasList = bebidasList;
+    }
+
+    public Bebidas getBebidas() {
         return bebidas;
     }
 
-    public void setService(Bebidas bebidasEntity) {
-        this.bebidasEntity = bebidasEntity;
+    public void setBebidas(Bebidas bebidas) {
+        this.bebidas = bebidas;
     }
 
-    public List<ResponsiveOption> getResponsiveOptions() {
-        return responsiveOptions;
-    }
-
-    public void setResponsiveOptions(List<ResponsiveOption> responsiveOptions) {
-        this.responsiveOptions = responsiveOptions;
-    }
 }
