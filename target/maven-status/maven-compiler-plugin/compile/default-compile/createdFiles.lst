@@ -32,7 +32,6 @@ FileUploadController.class
 br\upf\menumaster\Controller\HamburguersController$PersistAction.class
 br\upf\menumaster\facade\PedidosFacade.class
 br\upf\menumaster\Controller\HamburguersController.class
-br\upf\menumaster\Views\CarouselView.class
 br\upf\menumaster\facade\HamburguersFacade.class
 br\upf\menumaster\facade\BebidasFacade.class
 br\upf\menumaster\Controller\MesasEnumController.class
