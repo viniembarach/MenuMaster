@@ -21,6 +21,9 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.primefaces.event.FileUploadEvent;
@@ -44,6 +47,7 @@ public class BebidasController implements Serializable {
     private Bebidas selected;
     private Bebidas current;
     private StreamedContent bebidasImagem;
+    private StreamedContent logoBebida;
     private UploadedFile file;
 
     public List<Bebidas> getBebidasList() {
@@ -51,6 +55,122 @@ public class BebidasController implements Serializable {
             bebidasList = ejbFacade.buscarTodos();
         }
         return bebidasList;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        setFile(event.getFile());
+
+        // Verifica o tipo MIME do arquivo carregado
+        if (file != null && file.getContent() != null) {
+            try {
+                // Detecta o tipo MIME do arquivo
+                String contentType = Files.probeContentType(Paths.get(file.getFileName()));
+                if (contentType != null && (contentType.equals("image/png") || contentType.equals("image/jpeg"))) {
+                    // Se o tipo for PNG ou JPEG, processa o arquivo
+                    getLogoBebidaUpload();
+                } else {
+                    // Se não for uma imagem válida, exibe uma mensagem de erro
+                    addErrorMessage("Por favor, carregue um arquivo de imagem PNG ou JPEG.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                addErrorMessage("Erro ao tentar verificar o tipo do arquivo.");
+            }
+        }
+    }
+
+    public void getLogoBebidaUpload() {
+        if (file != null && file.getContent() != null) {
+            try {
+                // Verifica o tipo MIME do arquivo carregado
+                String contentType = Files.probeContentType(Paths.get(file.getFileName()));
+
+                // Verifica se o tipo MIME é de uma imagem válida (PNG ou JPEG)
+                if (contentType != null && (contentType.equals("image/png") || contentType.equals("image/jpeg"))) {
+
+                    // Tenta ler o conteúdo da imagem
+                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(file.getContent()));
+                    if (image != null) {
+                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+                        try {
+                            // Converte a imagem para o formato PNG e armazena em um array de bytes
+                            ImageIO.write(image, "png", out);
+                            selected.setImagem(out.toByteArray());
+                        } catch (IOException e) {
+                            // Exceção ao escrever a imagem, trate-a aqui
+                            e.printStackTrace();
+                        }
+                    } else {
+                        // Erro ao tentar ler a imagem, arquivo pode estar corrompido ou não ser uma imagem válida
+                        addErrorMessage("Erro: O arquivo não é uma imagem válida.");
+                    }
+                } else {
+                    // Tipo de arquivo inválido
+                    addErrorMessage("Por favor, carregue um arquivo de imagem PNG ou JPEG.");
+                }
+            } catch (IOException e) {
+                // Erro ao tentar verificar o tipo do arquivo
+                e.printStackTrace();
+                addErrorMessage("Erro ao tentar verificar o tipo do arquivo.");
+            }
+        }
+    }
+
+    /*
+	 * Método responsável por realizar o download dos arquivos
+     */
+    //public void download(Integer item) throws IOException {
+    //    byte[] b = selected.getImagem();
+    //    HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+    //            .getResponse();
+    //    res.setHeader("Content-disposition", "atachment;filename=" + "logo_" + selected.getNomebebida()+ ".png");
+    //    res.getOutputStream().write(b);
+    //    FacesContext.getCurrentInstance().responseComplete();
+    //}
+    public StreamedContent getLogoMarca() {
+        if (bebidasImagem == null || bebidasImagem.getStream() == null || bebidasImagem.getStream().toString().isEmpty() || !bebidasImagem.getStream().equals(selected.getImagem())) {
+            getSelectedImagem();
+        }
+        return bebidasImagem;
+    }
+
+    public void setBebidasImagem(StreamedContent bebidasImagem) {
+        this.bebidasImagem = bebidasImagem;
+    }
+
+    public void getSelectedImagem() {
+        if (selected.getImagem() != null) {
+            InputStream is = new ByteArrayInputStream((byte[]) selected.getImagem());
+            setBebidasImagem(DefaultStreamedContent.builder().contentType("image/png").stream(() -> is).build());
+        }
+    }
+
+    public StreamedContent getBebidasImagem() {
+        if (logoBebida == null || logoBebida.getStream() == null || logoBebida.getStream().toString().isEmpty() || !logoBebida.getStream().equals(selected.getImagem())) {
+            getLogoBebida();
+        }
+        return logoBebida;
+    }
+
+    public void getLogoBebida() {
+        if (selected.getImagem() != null) {
+            InputStream is = new ByteArrayInputStream((byte[]) selected.getImagem());
+            setBebidasImagem(DefaultStreamedContent.builder().contentType("image/jpeg").stream(() -> is).build());
+        } else {
+            setLogoBebida(null);
+        }
+    }
+
+    public void setLogoBebida(StreamedContent logoBebida) {
+        this.logoBebida = logoBebida;
     }
 
     public List<Bebidas> bebidasAll() {
@@ -92,14 +212,6 @@ public class BebidasController implements Serializable {
 
     public DefaultStreamedContent getImagem() {
         return imagem;
-    }
-
-    public UploadedFile getFile() {
-        return file;
-    }
-
-    public void setFile(UploadedFile file) {
-        this.file = file;
     }
 
     public void prepararImagem(FileUploadEvent bebida) {
@@ -162,23 +274,6 @@ public class BebidasController implements Serializable {
             } else {
                 return null;
             }
-        }
-    }
-
-    public void handleFileUpload(FileUploadEvent event) {
-        try {
-            // Recebe o arquivo de imagem e armazena no objeto selecionado
-            UploadedFile uploadedFile = event.getFile();
-            byte[] imagemBytes = uploadedFile.getContent(); // Pega o conteúdo do arquivo
-            selected.setImagem(imagemBytes); // Armazena a imagem no objeto selected
-
-            // Exibir uma mensagem de sucesso, se desejado
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Imagem enviada com sucesso!"));
-        } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Falha ao enviar a imagem."));
-            e.printStackTrace();
         }
     }
 
@@ -257,11 +352,17 @@ public class BebidasController implements Serializable {
     }
 
     public void adicionar() {
+        if (file != null) {
+            selected.setImagem(file.getContent());
+        }
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
         bebidasList = ejbFacade.buscarTodos(); // Atualiza a lista
     }
 
     public void editar() {
+        if (file != null) {
+            selected.setImagem(file.getContent());
+        }
         persist(PersistAction.UPDATE, "Registro alterado com sucesso!");
         bebidasList = ejbFacade.buscarTodos(); // Atualiza a lista
     }

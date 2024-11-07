@@ -35,6 +35,19 @@
             <classifier>jakarta</classifier>
         </dependency>
         
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.20.0</version> <!-- Verifique a versão compatível -->
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>1.28.2</version> <!-- Certifique-se de usar a versão mais recente -->
+        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
@@ -57,6 +70,12 @@
             <groupId>dev.zio</groupId>
             <artifactId>zio-logging-slf4j_2.13</artifactId>
             <version>2.3.2</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-async-cli</artifactId>
+            <version>3.0.0</version>
             <type>jar</type>
         </dependency>
     </dependencies>
