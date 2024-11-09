@@ -44,7 +44,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Valor Conta"/>
                             </f:facet>
-                            
+
                     </p:dataTable>
                 </p:fieldset>
                 <!-- confirmar exclusão -->
@@ -87,12 +87,12 @@
                     <p:outputLabel id="oplPedidoConta" value="CPF:" for="iptPedidoConta"/>
                     <p:inputMask id="iptPedidoConta" size="15" label="pedidoconta" required="true" requiredMessage="O atributo pedidos conta é obrigatório"
                                  value="#{contasController.selected.pedidoconta}" maxlength="15"/>
-                    
+
                     <p:outputLabel id="oplValorConta" value="Telefone:" for="iptValorConta"/>
                     <p:inputMask id="iptValorConta" size="15" label="valorconta" required="true" requiredMessage="O atributo valor conta é obrigatório"
                                  value="#{contasController.selected.valorconta}" maxlength="15"/>
 
-                  </h:panelGrid>
+                </h:panelGrid>
                 <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" action="#{contasController.editar()}" icon="pi pi-save"/>
             </h:form>
         </p:dialog>

@@ -42,7 +42,7 @@ public class LanchesFacade extends AbstractFacade<Lanches>{
         try {
             //utilizando JPQL para construir a query 
             Query query = getEntityManager().
-                    createQuery("SELECT p FROM Lanches p ORDER BY p.nomelanche");
+                    createQuery("SELECT p FROM lanches p ORDER BY p.nomelanche");
             //verifica se existe algum resultado para não gerar excessão
             entityList = (List<Lanches>) query.getResultList();
         } catch (Exception e) {

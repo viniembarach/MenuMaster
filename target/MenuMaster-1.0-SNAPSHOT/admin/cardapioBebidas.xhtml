@@ -1,0 +1,150 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Cardapio"></h:outputText>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            /* Adiciona fundo cinza suave para toda a página */
+            body {
+                background-color: #e0e0e0; /* Cor de fundo cinza médio */
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+            }
+
+            p {
+                line-height: 1.5;
+                margin: 0;
+            }
+
+            /* Alinha o botão e o valor da bebida à direita */
+            .bebidas-list-action {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: flex-end;
+                text-align: right;
+            }
+
+            /* Estilo para o valor da bebida (maior e em negrito) */
+            .product-price {
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            /* Estilo para o botão de adicionar ao carrinho */
+            .bebidas-list-action p:commandButton {
+                margin-left: 10px;
+            }
+
+            /* Estilo para cada item da bebida, adicionando uma linha entre eles */
+            .bebidas-list-item {
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+            }
+
+            /* Remover a linha na última bebida */
+            .bebidas-list-item:last-child {
+                border-bottom: none;
+            }
+
+            /* Fundo branco para a área de bebidas */
+            .bebidas {
+                background-color: #ffffff; /* Fundo branco */
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            /* Estilo geral para os cards */
+            .card {
+                background-color: #ffffff;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+
+            /* Diminuir o tamanho do dataScroller verticalmente */
+            .ui-datascroller {
+                max-height: 400px; /* Altura máxima do scroller */
+                overflow-y: auto; /* Permite rolagem vertical */
+                padding-right: 10px;
+            }
+
+            /* Estilo para o nome da bebida, aumentando o tamanho e deixando em negrito */
+            .bebidas-name {
+                font-weight: bold; /* Coloca o nome da bebida em negrito */
+                font-size: 1.2rem; /* Aumenta o tamanho do nome */
+                margin-bottom: 5px; /* Espaçamento abaixo do nome */
+            }
+
+            /* Diminuir o tamanho das imagens das bebidas */
+            .bebidas img {
+                width: 80px; /* Largura da imagem */
+                height: auto; /* Mantém a proporção da imagem */
+                margin-bottom: 10px; /* Espaçamento abaixo da imagem */
+            }
+        </style>
+
+        <h:form id="frmList">
+            <h:panelGroup id="pngList">
+                <p:fieldset toggleable="true">
+                    <div class="card">
+                        <h5>Navegue pelos MenuMaster's</h5>
+                        <p:tabMenu activeIndex="#{param.i}">
+                            <p:menuitem value="Bebidas" outcome="/admin/cardapioBebidas.xhtml">
+                                <f:param name="i" value="5"/>
+                            </p:menuitem>
+                            <p:menuitem value="Lanches" outcome="/admin/cardapioLanches.xhtml">
+                                <f:param name="i" value="1"/>
+                            </p:menuitem>
+                            <p:menuitem value="Hamburguers" outcome="/admin/cardapioHamburguers.xhtml">
+                                <f:param name="i" value="2"/>
+                            </p:menuitem>
+                        </p:tabMenu>
+                    </div>
+                    <div class="card">
+                        <h:form>
+                            <p:dataScroller value="#{bebidasController.bebidasList}" var="bebidas" chunkSize="10">
+                                <f:facet name="header">
+                                    Role para escolher suas Bebidas
+                                </f:facet>
+
+                                <div class="bebidas">
+                                    <div class="bebidas-list-item p-5">
+                                        <p:graphicImage name="imagens/imagensBebidas/#{bebidas.imagem}"/>
+                                        <div class="bebidas-list-detail">
+                                            <div class="bebidas-name">#{bebidas.nomebebida}</div>
+                                            <i class="pi pi-tag product-category-icon"/><span
+                                                class="product-category">#{bebidas.nomebebida}</span>
+                                        </div>
+                                        <div class="bebidas-list-action">
+                                            <h:outputText value="#{bebidas.valorbebida}" styleClass="product-price">
+                                                <f:convertNumber currencySymbol="R$" type="currency"/>
+                                            </h:outputText>
+                                            <p:commandButton value="Pedir" icon="pi pi-shopping-cart" action="/pedidos.xhtml">
+                                                <f:param name="itemNome" value="#{bebidas.nomebebida}" />
+                                                <f:param name="itemValor" value="#{bebidas.valorbebida}" />
+                                                <f:param name="itemTipo" value="Bebida" />
+                                            </p:commandButton>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:dataScroller>
+                        </h:form>
+                    </div>
+                </p:fieldset>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,6 +1,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
@@ -10,42 +10,87 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="frmList">
-            <h:panelGroup id="pngList">
-                <p:fieldset toggleable="true">
-                    <p:dataTable id="datalist" value="#{pedidosController.pedidosList}" var="item" selectionMode="single"
-                                 selection="#{pedidosController.selected}" widgetVar="datalistPedidoWidgetVar"
-                                 rowKey="#{item.idpedido}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Cliente cadastrado...">
+        <!-- Início do CSS -->
+        <style>
+            /* Estilizando o formulário de pedidos */
+            #pedidoForm {
+                width: 80%; /* Definindo a largura do formulário */
+                margin: 30px auto; /* Centraliza o formulário na página */
+                padding: 20px;
+                border-radius: 8px; /* Bordas arredondadas */
+                background-color: #f9f9f9; /* Cor de fundo clara */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombras suaves */
+            }
 
+            /* Estilizando os rótulos dos campos */
+            h:outputLabel {
+                font-size: 16px; /* Tamanho da fonte */
+                font-weight: bold; /* Texto em negrito */
+                margin-bottom: 5px;
+                display: block; /* Exibe os rótulos em bloco para alinhamento */
+            }
 
-                        <p:column width="4%" sortBy="#{item.idpedido}" filterBy="#{item.idpedido}">
-                            <f:facet name="header">
-                                <h:outputText value="ID"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idpedido}"/>
-                        </p:column>
+            /* Estilizando o texto de exibição */
+            h:outputText {
+                font-size: 16px; /* Tamanho da fonte */
+                color: #555; /* Cor do texto */
+                margin-bottom: 15px;
+            }
 
-                        <f:facet name="footer">
-                            <p:commandButton id="btnCreate" value="Incluir Pedido" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
+            /* Estilizando o botão de confirmar pedido */
+            p:commandButton {
+                background-color: #4CAF50; /* Cor de fundo verde */
+                color: white; /* Cor do texto */
+                border: none; /* Remover borda */
+                padding: 10px 20px; /* Tamanho do botão */
+                font-size: 16px;
+                border-radius: 4px; /* Bordas arredondadas */
+                cursor: pointer;
+                transition: background-color 0.3s; /* Transição suave ao passar o mouse */
+            }
 
-                        </f:facet>
-                    </p:dataTable>
-                </p:fieldset>
+            /* Efeito de hover para o botão */
+            p:commandButton:hover {
+                background-color: #45a049; /* Escurece o botão ao passar o mouse */
+            }
 
-                <!-- Confirmar exclusão -->
+            /* Estilizando o grid do formulário */
+            h:panelGrid {
+                margin-bottom: 20px;
+                width: 100%;
+            }
 
-            </h:panelGroup>
+            /* Garantir que o texto de exibição não ultrapasse o tamanho da célula */
+            h:outputText {
+                word-wrap: break-word; 
+            }
+
+            /* Espaçamento e formatação geral */
+            h:outputLabel, h:outputText {
+                margin-bottom: 10px;
+            }
+        </style>
+        <!-- Fim do CSS -->
+
+        <h:form id="pedidoForm">
+            <h:panelGrid columns="2">
+                <!-- Exibindo Nome do Item -->
+                <h:outputLabel value="Nome do Item:" for="itemNome"/>
+                <h:outputText id="itemNome" value="#{param.itemNome}"/>
+
+                <!-- Exibindo Valor do Item -->
+                <h:outputLabel value="Valor do Item:" for="itemValor"/>
+                <h:outputText id="itemValor" value="#{param.itemValor}">
+                    <f:convertNumber currencySymbol="$" type="currency"/>
+                </h:outputText>
+
+                <!-- Exibindo Tipo do Item -->
+                <h:outputLabel value="Tipo de Item:" for="itemTipo"/>
+                <h:outputText id="itemTipo" value="#{param.itemTipo}"/>
+            </h:panelGrid>
+
+            <!-- Botão para Finalizar o Pedido -->
+            <p:commandButton value="Confirmar Pedido" icon="pi pi-check" action="confirmarPedido.xhtml" />
         </h:form>
-
-        <p:dialog header="Novo Pedido" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
-            <h:form id="CreateForm">
-                <p:growl id="growl" showDetail="true"/>
-                <h:panelGrid id="pngCadastro" columns="2">
-                    <p:outputLabel id="oplValor" value="Valor:" for="iptValor"/>
-                    <p:inputText id="iptValor" size="40" label="Valor" required="true" requiredMessage="O atributo valor é obrigatório" value="#{pedidosController.selected.valorpedido}" maxlength="50"/>
-                </h:panelGrid>
-                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{pedidosController.adicionar()}" onclick="PF('dlgCreate').hide()"/>
-            </h:form>
-        </p:dialog>
     </ui:define>
 </ui:composition>
