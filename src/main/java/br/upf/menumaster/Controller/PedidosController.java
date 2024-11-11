@@ -33,6 +33,15 @@ public class PedidosController implements Serializable {
         pedidosList = ejbFacade.buscarTodos();
     }
 
+    public void adicionarPedido() {
+        Pedidos pedidos = new Pedidos();
+        pedidos.setIdBebida(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idbebida"));
+        pedidos.setNomeBebida(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nomebebida"));
+        pedidos.setDisponivelBebida(Boolean.parseBoolean(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("disponivelbebida")));
+        pedidos.setValorBebida(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("valorbebida"));
+        pedidosList.add(pedidos);
+    
+
     public List<Pedidos> getPedidosList() {
         return pedidosList;
     }

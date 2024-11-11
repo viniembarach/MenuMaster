@@ -132,6 +132,7 @@
                                                 <f:convertNumber currencySymbol="R$" type="currency"/>
                                             </h:outputText>
                                             <p:commandButton value="Pedir" icon="pi pi-shopping-cart" action="/pedidos.xhtml">
+                                                <f:param name="idbebida" value="#{bebidas.idbebida}" />
                                                 <f:param name="itemNome" value="#{bebidas.nomebebida}" />
                                                 <f:param name="itemValor" value="#{bebidas.valorbebida}" />
                                                 <f:param name="itemTipo" value="Bebida" />
