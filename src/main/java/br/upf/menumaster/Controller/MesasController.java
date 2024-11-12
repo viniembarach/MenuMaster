@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import br.upf.menumaster.Entity.Mesas;
+import jakarta.annotation.PostConstruct;
 
 /**
  *
@@ -29,7 +30,7 @@ public class MesasController implements Serializable {
     @EJB
     private br.upf.menumaster.facade.MesasFacade ejbFacade;
 
-    private Mesas mesas = new Mesas(Integer.BYTES);
+    private Mesas mesas = new Mesas();
     private List<Mesas> mesasList = new ArrayList<>();
     private Mesas selected;
 
@@ -64,8 +65,22 @@ public class MesasController implements Serializable {
     public Mesas getMesas(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
+
+    @PostConstruct
+    public void init() {
+        mesasList = ejbFacade.buscarTodos();
+        System.out.println("Mesas List: " + mesasList.size()); // Verifica o tamanho da lista
+    }
+
     public String confirmarMesa() {
-        return "pedidos.xhtml?faces-redirect=true"; // Redireciona para outra página com a mesa selecionada
+        if (selected != null) {
+            // Realize a lógica necessária com a mesa selecionada, por exemplo, redirecionar para a página de pedidos
+            return "pedidos.xhtml?faces-redirect=true";
+        } else {
+            // Adicione uma mensagem de erro se nenhuma mesa for selecionada
+            addErrorMessage("Por favor, selecione uma mesa.");
+            return null; // Permanece na mesma página
+        }
     }
 
     @FacesConverter(forClass = Mesas.class)
@@ -171,16 +186,19 @@ public class MesasController implements Serializable {
     public void adicionar() {
         persist(PersistAction.CREATE,
                 "Registro incluído com sucesso!");
+        mesasList = ejbFacade.buscarTodos(); // Atualiza a lista
     }
 
     public void editar() {
         persist(PersistAction.UPDATE,
                 "Registro alterado com sucesso!");
+        mesasList = ejbFacade.buscarTodos(); // Atualiza a lista
     }
 
     public void deletar() {
         persist(PersistAction.DELETE,
                 "Registro excluído com sucesso!");
+        mesasList = ejbFacade.buscarTodos(); // Atualiza a lista
     }
 
 }

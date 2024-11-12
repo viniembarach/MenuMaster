@@ -1,6 +1,7 @@
 package br.upf.menumaster.Controller;
 
 import br.upf.menumaster.Entity.Pedidos;
+import br.upf.menumaster.Entity.Mesas;  // Adicione esta importação
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBException;
@@ -26,21 +27,21 @@ public class PedidosController implements Serializable {
     private List<Pedidos> pedidosList;
     private Pedidos selected;
 
+    private Mesas mesaSelecionada;
+
     @PostConstruct
     public void init() {
+        // Recuperando a mesa selecionada da sessão
+        mesaSelecionada = (Mesas) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mesaSelecionada");
+        if (mesaSelecionada == null) {
+            // Caso a mesa não esteja disponível, redirecionar ou mostrar mensagem de erro
+            addErrorMessage("Nenhuma mesa foi selecionada.");
+        }
+
         // Inicializa o objeto `pedidos` e carrega a lista de pedidos ao iniciar o controlador
         pedidos = new Pedidos();
         pedidosList = ejbFacade.buscarTodos();
     }
-
-    public void adicionarPedido() {
-        Pedidos pedidos = new Pedidos();
-        pedidos.setIdBebida(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idbebida"));
-        pedidos.setNomeBebida(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nomebebida"));
-        pedidos.setDisponivelBebida(Boolean.parseBoolean(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("disponivelbebida")));
-        pedidos.setValorBebida(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("valorbebida"));
-        pedidosList.add(pedidos);
-    
 
     public List<Pedidos> getPedidosList() {
         return pedidosList;

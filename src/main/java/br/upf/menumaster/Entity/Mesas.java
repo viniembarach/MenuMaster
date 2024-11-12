@@ -43,20 +43,16 @@ public class Mesas implements Serializable {
     private Integer numeromesa;
 
     @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "mesaenum")
-    private String mesaenum;
+    @Size(min = 1, max = 7)
+    @Column(name = "nomemesa")
+    private String nomemesa;
 
-    public String getMesaenum() {
-        return mesaenum;
+    public String getNomemesa() {
+        return nomemesa;
     }
 
-    public void setMesaenum(String mesaenum) {
-        this.mesaenum = mesaenum;
-    }
-
-    public Mesas(String mesaenum) {
-        this.mesaenum = mesaenum;
+    public void setNomemesa(String nomemesa) {
+        this.nomemesa = nomemesa;
     }
 
     public Mesas() {

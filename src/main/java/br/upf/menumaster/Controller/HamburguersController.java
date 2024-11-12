@@ -171,11 +171,13 @@ public class HamburguersController implements Serializable {
     public void adicionar() {
         persist(PersistAction.CREATE,
                 "Registro incluído com sucesso!");
+        hamburguersList = ejbFacade.buscarTodos();
     }
 
     public void editar() {
         persist(PersistAction.UPDATE,
                 "Registro alterado com sucesso!");
+        hamburguersList = ejbFacade.buscarTodos();
     }
 
     public void deletar() {

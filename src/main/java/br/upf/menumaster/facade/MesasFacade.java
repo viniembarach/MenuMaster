@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package br.upf.menumaster.facade;
-
 import br.upf.menumaster.Entity.Mesas;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -18,6 +17,7 @@ import java.util.List;
  */
 @Stateless
 public class MesasFacade extends AbstractFacade<Mesas>{
+            
     @PersistenceContext(unitName = "DB_MenuMaster")
     private EntityManager em;
 
@@ -48,5 +48,5 @@ public class MesasFacade extends AbstractFacade<Mesas>{
             System.out.println("Erro: " + e);
         }
         return entityList;
-    }   
+    }
 }
