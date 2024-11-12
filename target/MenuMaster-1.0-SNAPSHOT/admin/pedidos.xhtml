@@ -4,15 +4,20 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
+
     <ui:define name="title">
-        <h:outputText value="Pedidos"></h:outputText>
+        <h:outputText value="Mesa Pedido - #{mesasController.selected.nomemesa}" />
     </ui:define>
 
     <ui:define name="content">
         <h:form id="pedidoForm">
+
+            <h2>Mesa: #{mesasController.selected.nomemesa}</h2>
             <p:dataTable id="pedidoTable" value="#{bebidasController.bebidasList}" var="item" paginator="true" rows="5"
                          rowsPerPageTemplate="5,10,20" emptyMessage="Nenhum Pedido Realizado...">
-                
+                <p:ajax event="rowSelect"/>
+                <p:ajax event="rowUnselect"/>
+
                 <!-- Coluna ID da Bebida -->
                 <p:column headerText="ID" sortBy="#{item.idbebida}">
                     <h:outputText value="#{item.idbebida}"/>
@@ -34,7 +39,13 @@
                         <f:convertNumber currencySymbol="R$" type="currency"/>
                     </h:outputText>
                 </p:column>
-                
+
+                <f:facet name="footer">
+                    <h:form id="pedidoForm">
+                        <p:commandButton id="btnCreate" value="Novo Pedido" icon="pi pi-file" action="#{pedidosController.iniciarPedidoBebidas}"/>
+                    </h:form>
+
+                </f:facet>
             </p:dataTable>
         </h:form>
     </ui:define>

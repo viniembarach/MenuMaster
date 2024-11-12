@@ -176,4 +176,12 @@ public class PedidosController implements Serializable {
     public void deletar() {
         persist(PersistAction.DELETE, "Registro excluído com sucesso!");
     }
+    
+    public String IniciarPedidoBebidas() {
+        if (selected != null) {
+            // Realize a lógica necessária com a mesa selecionada, por exemplo, redirecionar para a página de pedidos
+            return "cardapioBebidas.xhtml?faces-redirect=true";
+        }
+        return null;
+    }
 }

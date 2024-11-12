@@ -4,7 +4,6 @@
  */
 package br.upf.menumaster.facade;
 
-import br.upf.menumaster.Entity.Contas;
 import br.upf.menumaster.Entity.Pedidos;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
