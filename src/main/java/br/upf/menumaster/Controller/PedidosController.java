@@ -26,6 +26,8 @@ public class PedidosController implements Serializable {
     private Pedidos pedidos;
     private List<Pedidos> pedidosList;
     private Pedidos selected;
+    
+    private List<Pedidos> pedidosListNaoPagos;
 
     private Mesas mesaSelecionada;
 
@@ -41,6 +43,8 @@ public class PedidosController implements Serializable {
         // Inicializa o objeto `pedidos` e carrega a lista de pedidos ao iniciar o controlador
         pedidos = new Pedidos();
         pedidosList = ejbFacade.buscarTodos();
+        
+        pedidosListNaoPagos = ejbFacade.buscarPedidosNaoPagos();
     }
 
     public List<Pedidos> getPedidosList() {
@@ -69,6 +73,14 @@ public class PedidosController implements Serializable {
 
     public Pedidos getPedidos(Integer id) {
         return ejbFacade.find(id);
+    }
+    
+    public List<Pedidos> getPedidosListNaoPagos() {
+        return pedidosListNaoPagos;
+    }
+
+    public void setPedidosListNaoPagos(List<Pedidos> pedidosListNaoPagos) {
+        this.pedidosListNaoPagos = pedidosListNaoPagos;
     }
 
     @FacesConverter(forClass = Pedidos.class)

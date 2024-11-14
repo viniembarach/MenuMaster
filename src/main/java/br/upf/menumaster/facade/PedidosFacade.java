@@ -17,8 +17,8 @@ import java.util.List;
  * @author oroca
  */
 @Stateless
-public class PedidosFacade extends AbstractFacade<Pedidos>{
-         
+public class PedidosFacade extends AbstractFacade<Pedidos> {
+
     @PersistenceContext(unitName = "DB_MenuMaster")
     private EntityManager em;
 
@@ -34,8 +34,10 @@ public class PedidosFacade extends AbstractFacade<Pedidos>{
     private List<Pedidos> entityList;
 
     /**
-     * método responsável por buscar na base de dados, todas as cidades cadastradas
-     * @return 
+     * método responsável por buscar na base de dados, todas as cidades
+     * cadastradas
+     *
+     * @return
      */
     public List<Pedidos> buscarTodos() {
         entityList = new ArrayList<>();
@@ -49,5 +51,19 @@ public class PedidosFacade extends AbstractFacade<Pedidos>{
             System.out.println("Erro: " + e);
         }
         return entityList;
-    }   
+    }
+
+    public List<Pedidos> buscarPedidosNaoPagos() {
+        List<Pedidos> pedidosNaoPagos = new ArrayList<>();
+        try {
+            // Usando JPQL para buscar somente pedidos com status de pagamento "NAO_PAGO"
+            Query query = getEntityManager().createQuery("SELECT p FROM Pedidos p WHERE p.statuspagamento = :statuspagamento ORDER BY p.idpedido");
+            query.setParameter("statuspagamento", "NAO_PAGO");
+            pedidosNaoPagos = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Erro: " + e);
+        }
+        return pedidosNaoPagos;
+    }
+
 }

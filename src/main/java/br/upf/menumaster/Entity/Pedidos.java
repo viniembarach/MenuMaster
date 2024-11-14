@@ -4,9 +4,12 @@
  */
 package br.upf.menumaster.Entity;
 
+import br.upf.menumaster.enumeration.StatusPagamento;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,7 +37,8 @@ import java.util.Collection;
     @NamedQuery(name = "Pedidos.findAll", query = "SELECT p FROM Pedidos p"),
     @NamedQuery(name = "Pedidos.findByIdpedido", query = "SELECT p FROM Pedidos p WHERE p.idpedido = :idpedido"),
     @NamedQuery(name = "Pedidos.findByValorpedido", query = "SELECT p FROM Pedidos p WHERE p.valorpedido = :valorpedido"),
-    @NamedQuery(name = "Pedidos.findByStatuspedido", query = "SELECT p FROM Pedidos p WHERE p.statuspedido = :statuspedido")})
+    @NamedQuery(name = "Pedidos.findByStatuspedido", query = "SELECT p FROM Pedidos p WHERE p.statuspedido = :statuspedido"),
+    @NamedQuery(name = "Pedidos.findByStatuspagamento", query = "SELECT p FROM Pedidos p WHERE p.statuspagamento = :statuspagamento")})
 public class Pedidos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -66,6 +70,12 @@ public class Pedidos implements Serializable {
     @JoinColumn(name = "mesapedido", referencedColumnName = "numeromesa")
     @ManyToOne
     private Mesas mesapedido;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 9)
+    @Column(name = "statuspagamento")
+    private String statuspagamento = "NAO_PAGO";
 
     public Pedidos() {
     }
@@ -145,6 +155,14 @@ public class Pedidos implements Serializable {
         this.mesapedido = mesapedido;
     }
 
+    public String getStatuspagamento() {
+        return statuspagamento;
+    }
+
+    public void setStatuspagamento(String statuspagamento) {
+        this.statuspagamento = statuspagamento;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -169,5 +187,5 @@ public class Pedidos implements Serializable {
     public String toString() {
         return "br.upf.menumaster.Entity.Pedidos[ idpedido=" + idpedido + " ]";
     }
-    
+
 }

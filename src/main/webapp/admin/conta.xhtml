@@ -13,104 +13,45 @@
         <h:form id="frmList">
             <h:panelGroup id="pngList">
                 <p:fieldset toggleable="true">
-                    <p:dataTable id="datalist" value="#{contasController.contasList}" var="item" selectionMode="single"
-                                 selection="#{contasController.selected}" widgetVar="datalistContaWidgetVar"
-                                 rowKey="#{item.idconta}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Contas cadastrado...">
-                        <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
-                        <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
+                    <p:dataTable id="datalist" value="#{pedidosController.pedidosListNaoPagos}" var="item" selectionMode="single"
+                                 selection="#{pedidosController.selected}" widgetVar="datalistPedidoWidgetVar"
+                                 rowKey="#{item.idpedido}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhuma Conta cadastrada...">
+                        <!-- comment <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
+                        <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>-->
 
-                        <p:column width="4%" sortBy="#{item.idconta}" filterBy="#{item.idconta}">
+                        <p:column width="4%" sortBy="#{item.idpedido}" filterBy="#{item.idpedido}">
                             <f:facet name="header">
                                 <h:outputText value="ID"/>
                             </f:facet>
-                            <h:outputText value="#{item.idconta}"/>
+                            <h:outputText value="#{item.idpedido}"/>
                         </p:column>
 
-                        <p:column width="10%" sortBy="#{item.mesaconta}" filterBy="#{item.mesaconta}">
+                        <p:column width="6%" sortBy="#{item.valorpedido}" filterBy="#{item.valorpedido}">
                             <f:facet name="header">
-                                <h:outputText value="Mesa Conta"/>
+                                <h:outputText value="Valor"/>
+                                <h:outputText value="#{item.valorpedido}"/>
                             </f:facet>
-                            <h:outputText value="#{item.mesaconta}"/>
                         </p:column>
 
-                        <p:column width="6%" sortBy="#{item.pedidoconta}" filterBy="#{item.pedidoconta}">
+                        <p:column width="6%" sortBy="#{item.statuspagamento}" filterBy="#{item.statuspagamento}">
                             <f:facet name="header">
                                 <h:outputText value="Pedido Conta"/>
                             </f:facet>
-                            <h:outputText value="#{item.pedidoconta}"/>
+                            <h:outputText value="#{item.statuspagamento}"/>
                         </p:column>
-
-                        <p:column width="6%" sortBy="#{item.valorconta}" filterBy="#{item.valorconta}">
-                            <f:facet name="header">
-                                <h:outputText value="Valor Conta"/>
-                            </f:facet>
-
                     </p:dataTable>
                 </p:fieldset>
-                <!-- confirmar exclusão -->
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
-                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times"/>
-                </p:confirmDialog>
             </h:panelGroup>
         </h:form>
 
-        <p:dialog header="Nova Conta" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
-            <h:form id="CreateForm">
-                <p:growl id="growl" showDetail="true"/>
-                <h:panelGrid id="pngCadastro" columns="2">
-                    <p:outputLabel id="oplMesaConta" value="Mesa Conta:" for="iptMesaConta"/>
-                    <p:inputText id="iptMesaConta" size="40" label="mesaconta" required="true" requiredMessage="O atributo mesa conta é obrigatório" 
-                                 value="#{contasController.selected.mesaconta}" maxlength="50"/>
-
-                    <p:outputLabel id="oplPedidoConta" value="Pedidos Conta:" for="iptPedidoConta"/>
-                    <p:inputMask id="iptPedidoConta" size="15" label="pedidoconta" required="true" requiredMessage="O atributo pedidos conta é obrigatório"
-                                 value="#{contasController.selected.pedidoconta}" maxlength="15"/>
-
-                    <p:outputLabel id="oplValorConta" value="Valor Conta:" for="iptValorConta"/>
-                    <p:inputMask id="iptValorConta" size="15" label="valorconta" required="true" requiredMessage="O atributo valor conta é obrigatório"
-                                 value="#{contasController.selected.valorconta}" maxlength="15"/>
-                </h:panelGrid>
-                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{contasController.adicionar()}" 
-                                 onclick="dlgCreate.hide()"/>
-            </h:form>
-        </p:dialog>
-
-        <p:dialog header="Editar Conta" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
-            <h:form id="FormEdit">
-                <p:growl id="growl" showDetail="true"/>
-                <h:panelGrid id="pngEdicao" columns="2">
-                    <p:outputLabel id="oplMesaConta" value="Mesa Conta:" for="iptMesaConta"/>
-                    <p:inputText id="iptMesaConta" size="40" label="mesaconta" required="true" requiredMessage="O atributo mesa conta é obrigatório" 
-                                 value="#{contasController.selected.mesaconta}" maxlength="50"/>
-
-                    <p:outputLabel id="oplPedidoConta" value="CPF:" for="iptPedidoConta"/>
-                    <p:inputMask id="iptPedidoConta" size="15" label="pedidoconta" required="true" requiredMessage="O atributo pedidos conta é obrigatório"
-                                 value="#{contasController.selected.pedidoconta}" maxlength="15"/>
-
-                    <p:outputLabel id="oplValorConta" value="Telefone:" for="iptValorConta"/>
-                    <p:inputMask id="iptValorConta" size="15" label="valorconta" required="true" requiredMessage="O atributo valor conta é obrigatório"
-                                 value="#{contasController.selected.valorconta}" maxlength="15"/>
-
-                </h:panelGrid>
-                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" action="#{contasController.editar()}" icon="pi pi-save"/>
-            </h:form>
-        </p:dialog>
-
-        <p:dialog header="Visualizar Detalhes do Cliente" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
+        <p:dialog header="Visualizar Detalhes dos Items" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
             <h:form id="formView">
                 <h:panelGrid id="pngView" columns="2">
                     <p:outputLabel value="ID:"/>
-                    <p:outputLabel value="#{contasController.selected.idconta}"/>
+                    <p:outputLabel value="#{pedidosController.selected.idpedido}"/>
 
                     <p:outputLabel value="Mesa Conta:"/>
-                    <p:outputLabel value="#{contasController.selected.mesaconta}"/>
-
-                    <p:outputLabel value="Pedido Conta:"/>
-                    <p:outputLabel value="#{contasController.selected.pedidoconta}"/>
-
-                    <p:outputLabel value="Valor Conta"/>
-                    <p:outputLabel value="#{contasController.selected.valorconta}"/>
+                    <p:outputLabel value="#{pedidosController.selected.valorpedido}"/>
 
                 </h:panelGrid>
 
