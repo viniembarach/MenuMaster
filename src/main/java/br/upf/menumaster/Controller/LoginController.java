@@ -51,6 +51,7 @@ public class LoginController implements Serializable{
         if ((usuarioDB != null && usuarioDB.getIdusuario()!= null)) {
             //caso as credenciais foram válidas, então direciona para página index
             session.setAttribute("usuarioLogado", usuarioDB);
+            
             return "/admin/mesas.xhtml?faces-redirect=true";
         } else {
             //senão, exibe uma mensagem de falha...

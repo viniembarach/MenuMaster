@@ -114,7 +114,7 @@
                     </div>
                     <div class="card">
                         <h:form>
-                            <p:dataScroller value="#{bebidasController.bebidasList}" var="bebidas" chunkSize="10">
+                            <p:dataScroller value="#{bebidasController.bebidasList}" var="bebidas"  chunkSize="10" >
                                 <f:facet name="header">
                                     Role para escolher suas Bebidas
                                 </f:facet>
@@ -137,6 +137,7 @@
                                                 <f:param name="itemValor" value="#{bebidas.valorbebida}" />
                                                 <f:param name="itemTipo" value="Bebida" />
                                             </p:commandButton>
+                                            
 
                                         </div>
                                     </div>

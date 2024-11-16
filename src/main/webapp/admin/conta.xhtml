@@ -16,9 +16,6 @@
                     <p:dataTable id="datalist" value="#{pedidosController.pedidosListNaoPagos}" var="item" selectionMode="single"
                                  selection="#{pedidosController.selected}" widgetVar="datalistPedidoWidgetVar"
                                  rowKey="#{item.idpedido}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhuma Conta cadastrada...">
-                        <!-- comment <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
-                        <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>-->
-
                         <p:column width="4%" sortBy="#{item.idpedido}" filterBy="#{item.idpedido}">
                             <f:facet name="header">
                                 <h:outputText value="ID"/>
@@ -29,16 +26,24 @@
                         <p:column width="6%" sortBy="#{item.valorpedido}" filterBy="#{item.valorpedido}">
                             <f:facet name="header">
                                 <h:outputText value="Valor"/>
-                                <h:outputText value="#{item.valorpedido}"/>
                             </f:facet>
+                            <h:outputText value="#{item.valorpedido}"/>
                         </p:column>
 
                         <p:column width="6%" sortBy="#{item.statuspagamento}" filterBy="#{item.statuspagamento}">
                             <f:facet name="header">
-                                <h:outputText value="Pedido Conta"/>
+                                <h:outputText value="Status Pagamento"/>
                             </f:facet>
+                            <!-- Exibe o status usando o método getDescricao() do Enum -->
                             <h:outputText value="#{item.statuspagamento}"/>
+
+                            <!-- Botão para alterar o status -->
+                            <p:commandButton value="Alterar Status"
+                                             action="#{pedidosController.alterarStatusPagamento(item)}"
+                                             update="datalist"
+                                             process="@this" />
                         </p:column>
+
                     </p:dataTable>
                 </p:fieldset>
             </h:panelGroup>
@@ -52,9 +57,7 @@
 
                     <p:outputLabel value="Mesa Conta:"/>
                     <p:outputLabel value="#{pedidosController.selected.valorpedido}"/>
-
                 </h:panelGrid>
-
             </h:form>
         </p:dialog>
     </ui:define>

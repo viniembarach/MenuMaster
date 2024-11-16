@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.primefaces.event.FileUploadEvent;
@@ -88,53 +89,28 @@ public class BebidasController implements Serializable {
     }
 
     public void getLogoBebidaUpload() {
-        if (file != null && file.getContent() != null) {
-            try {
-                // Verifica o tipo MIME do arquivo carregado
-                String contentType = Files.probeContentType(Paths.get(file.getFileName()));
-
-                // Verifica se o tipo MIME é de uma imagem válida (PNG ou JPEG)
-                if (contentType != null && (contentType.equals("image/png") || contentType.equals("image/jpeg"))) {
-
-                    // Tenta ler o conteúdo da imagem
-                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(file.getContent()));
-                    if (image != null) {
-                        ByteArrayOutputStream out = new ByteArrayOutputStream();
-                        try {
-                            // Converte a imagem para o formato PNG e armazena em um array de bytes
-                            ImageIO.write(image, "png", out);
-                            selected.setImagem(out.toByteArray());
-                        } catch (IOException e) {
-                            // Exceção ao escrever a imagem, trate-a aqui
-                            e.printStackTrace();
-                        }
-                    } else {
-                        // Erro ao tentar ler a imagem, arquivo pode estar corrompido ou não ser uma imagem válida
-                        addErrorMessage("Erro: O arquivo não é uma imagem válida.");
-                    }
-                } else {
-                    // Tipo de arquivo inválido
-                    addErrorMessage("Por favor, carregue um arquivo de imagem PNG ou JPEG.");
+        try {
+            // Tenta ler o conteúdo da imagem
+            BufferedImage image = ImageIO.read(new ByteArrayInputStream(file.getContent()));
+            if (image != null) {
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                try {
+                    // Converte a imagem para o formato PNG e armazena em um array de bytes
+                    ImageIO.write(image, "png", out);
+                    selected.setImagem(out.toByteArray());
+                } catch (IOException e) {
+                    // Exceção ao escrever a imagem, trate-a aqui
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                // Erro ao tentar verificar o tipo do arquivo
-                e.printStackTrace();
-                addErrorMessage("Erro ao tentar verificar o tipo do arquivo.");
+            } else {
+                // Erro ao tentar ler a imagem, arquivo pode estar corrompido ou não ser uma imagem válida
+                addErrorMessage("Erro: O arquivo não é uma imagem válida.");
             }
+        } catch (IOException ex) {
+            Logger.getLogger(BebidasController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    /*
-	 * Método responsável por realizar o download dos arquivos
-     */
-    //public void download(Integer item) throws IOException {
-    //    byte[] b = selected.getImagem();
-    //    HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
-    //            .getResponse();
-    //    res.setHeader("Content-disposition", "atachment;filename=" + "logo_" + selected.getNomebebida()+ ".png");
-    //    res.getOutputStream().write(b);
-    //    FacesContext.getCurrentInstance().responseComplete();
-    //}
     public StreamedContent getLogoMarca() {
         if (bebidasImagem == null || bebidasImagem.getStream() == null || bebidasImagem.getStream().toString().isEmpty() || !bebidasImagem.getStream().equals(selected.getImagem())) {
             getSelectedImagem();
@@ -177,9 +153,6 @@ public class BebidasController implements Serializable {
         return ejbFacade.buscarTodos();
     }
 
-    //public List<Bebidas> getBebidasList() {;
-    //   return bebidasList;
-    //}
     public void setBebidasList(List<Bebidas> bebidasList) {
         this.bebidasList = bebidasList;
     }
@@ -293,6 +266,11 @@ public class BebidasController implements Serializable {
         }
     }
 
+    public Bebidas prepareCreate() {
+        selected = new Bebidas();
+        return selected;
+    }
+
     public Bebidas prepareAdicionar() {
         bebidas = new Bebidas();
         return bebidas;
@@ -319,7 +297,7 @@ public class BebidasController implements Serializable {
             if (null != persistAction) {
                 switch (persistAction) {
                     case CREATE:
-                        ejbFacade.createReturn(bebidas);
+                        ejbFacade.createReturn(selected);
                         break;
 
                     case UPDATE:

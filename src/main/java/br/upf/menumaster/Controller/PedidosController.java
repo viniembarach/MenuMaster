@@ -1,7 +1,11 @@
 package br.upf.menumaster.Controller;
 
+import br.upf.menumaster.Entity.Bebidas;
+import br.upf.menumaster.Entity.Hamburguers;
+import br.upf.menumaster.Entity.Lanches;
 import br.upf.menumaster.Entity.Pedidos;
 import br.upf.menumaster.Entity.Mesas;  // Adicione esta importação
+import br.upf.menumaster.enumeration.StatusPagamento;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBException;
@@ -12,6 +16,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +28,14 @@ public class PedidosController implements Serializable {
     @EJB
     private br.upf.menumaster.facade.PedidosFacade ejbFacade;
 
-    private Pedidos pedidos;
+    private Pedidos pedido;
     private List<Pedidos> pedidosList;
     private Pedidos selected;
-    
+    private Bebidas bebida;
+    private Lanches lanche;
+    private Hamburguers hamburguer;
+    private Mesas mesa;
+
     private List<Pedidos> pedidosListNaoPagos;
 
     private Mesas mesaSelecionada;
@@ -41,10 +50,10 @@ public class PedidosController implements Serializable {
         }
 
         // Inicializa o objeto `pedidos` e carrega a lista de pedidos ao iniciar o controlador
-        pedidos = new Pedidos();
+        pedido = new Pedidos();
         pedidosList = ejbFacade.buscarTodos();
-        
-        pedidosListNaoPagos = ejbFacade.buscarPedidosNaoPagos();
+
+        //pedidosListNaoPagos = ejbFacade.buscarPedidosNaoPagos();
     }
 
     public List<Pedidos> getPedidosList() {
@@ -64,17 +73,17 @@ public class PedidosController implements Serializable {
     }
 
     public Pedidos getPedidos() {
-        return pedidos;
+        return pedido;
     }
 
     public void setPedidos(Pedidos pedidos) {
-        this.pedidos = pedidos;
+        this.pedido = pedidos;
     }
 
     public Pedidos getPedidos(Integer id) {
         return ejbFacade.find(id);
     }
-    
+
     public List<Pedidos> getPedidosListNaoPagos() {
         return pedidosListNaoPagos;
     }
@@ -120,8 +129,8 @@ public class PedidosController implements Serializable {
     }
 
     public Pedidos prepareAdicionar() {
-        pedidos = new Pedidos();
-        return pedidos;
+        pedido = new Pedidos();
+        return pedido;
     }
 
     public static void addErrorMessage(String msg) {
@@ -145,7 +154,7 @@ public class PedidosController implements Serializable {
             if (persistAction != null) {
                 switch (persistAction) {
                     case CREATE:
-                        ejbFacade.createReturn(pedidos);
+                        ejbFacade.createReturn(pedido);
                         pedidosList = ejbFacade.buscarTodos(); // Atualiza a lista após criar
                         break;
                     case UPDATE:
@@ -188,12 +197,47 @@ public class PedidosController implements Serializable {
     public void deletar() {
         persist(PersistAction.DELETE, "Registro excluído com sucesso!");
     }
+
+    public String prepareCreate() {
+        FacesContext context = FacesContext.getCurrentInstance();        
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        
+        pedido = new Pedidos();
+        bebida = new Bebidas();
+        hamburguer = new Hamburguers();
+        lanche = new Lanches();
+        pedido.setStatuspagamento("NAO_PAGO");
+        pedido.setStatuspedido("ABERTO");
+        
+        //buscando a mesa da sessão
+        mesa = (Mesas) session.getAttribute("mesa");        
+        pedido.setMesapedido(mesa);
+        
+        return "cardapioBebidas.xhtml?faces-redirect=true";
+
+    }
     
-    public String IniciarPedidoBebidas() {
-        if (selected != null) {
-            // Realize a lógica necessária com a mesa selecionada, por exemplo, redirecionar para a página de pedidos
-            return "cardapioBebidas.xhtml?faces-redirect=true";
+    
+    
+    //criar meto para armazenar a bebida selecionada
+
+    public void alterarStatusPagamento(Pedidos pedido) {
+        if (pedido != null) {
+            // Converte o status de pagamento de String para o enum StatusPagamento
+            StatusPagamento statusAtual = StatusPagamento.fromString(pedido.getStatuspagamento());
+
+            // Alterna o status de pagamento
+            if (statusAtual == StatusPagamento.NAO_PAGO) {
+                pedido.setStatuspagamento(StatusPagamento.PAGO.getDescricao()); // Atualiza para 'PAGO'
+            } else {
+                pedido.setStatuspagamento(StatusPagamento.NAO_PAGO.getDescricao()); // Atualiza para 'NAO_PAGO'
+            }
+
+            // Salva a alteração no banco de dados
+            ejbFacade.edit(pedido);
+
+            // Atualiza a lista para refletir a alteração
+            //pedidosListNaoPagos = ejbFacade.buscarPedidosNaoPagos();
         }
-        return null;
     }
 }

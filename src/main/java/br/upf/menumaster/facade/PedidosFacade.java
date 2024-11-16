@@ -53,17 +53,16 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
         return entityList;
     }
 
-    public List<Pedidos> buscarPedidosNaoPagos() {
-        List<Pedidos> pedidosNaoPagos = new ArrayList<>();
+    public List<Pedidos> buscarPedidosComStatusPagamento() {
+        List<Pedidos> pedidosComStatus = new ArrayList<>();
         try {
-            // Usando JPQL para buscar somente pedidos com status de pagamento "NAO_PAGO"
-            Query query = getEntityManager().createQuery("SELECT p FROM Pedidos p WHERE p.statuspagamento = :statuspagamento ORDER BY p.idpedido");
-            query.setParameter("statuspagamento", "NAO_PAGO");
-            pedidosNaoPagos = query.getResultList();
+            // Consulta JPQL para buscar pedidos onde o status de pagamento não é nulo
+            Query query = getEntityManager().createQuery("SELECT p FROM Pedidos p WHERE p.statuspagamento IS NOT NULL ORDER BY p.idpedido");
+            pedidosComStatus = query.getResultList();
         } catch (Exception e) {
             System.out.println("Erro: " + e);
         }
-        return pedidosNaoPagos;
+        return pedidosComStatus;
     }
 
 }

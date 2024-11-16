@@ -64,7 +64,7 @@
                         </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton id="btnCreate" value="Incluir Bebida" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
+                            <p:commandButton id="btnCreate" value="Incluir Bebida" icon="pi pi-file" actionListener="#{bebidasController.prepareCreate()}" onclick="PF('dlgCreate').show()"/>
                             <p:commandButton id="btnEdit" value="Editar Bebida" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" 
                                              disabled="#{empty bebidasController.selected}"/>
                             <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Bebida" actionListener="#{bebidasController.deletar()}" update="frmList" 
@@ -93,31 +93,30 @@
                     <p:outputLabel id="oplNomeBebida" value="Nome Bebida:" for="iptNomeBebida"/>
                     <p:inputText id="iptNomeBebida" size="40" label="nomebebida" required="true" 
                                  requiredMessage="O atributo nome é obrigatório" 
-                                 value="#{bebidasController.bebidas.nomebebida}" maxlength="50"/>
+                                 value="#{bebidasController.selected.nomebebida}" maxlength="50"/>
 
                     <p:outputLabel id="oplDisponivel" value="Disponível:" for="iptDisponivel"/>
-                    <p:selectBooleanCheckbox id="iptDisponivel" value="#{bebidasController.bebidas.disponivelbebida}"/>
+                    <p:selectBooleanCheckbox id="iptDisponivel" value="#{bebidasController.selected.disponivelbebida}"/>
 
                     <p:outputLabel id="oplValorBebida" value="Valor:" for="iptValorBebida"/>
-                    <p:inputNumber id="iptValorBebida" value="#{bebidasController.bebidas.valorbebida}" 
+                    <p:inputNumber id="iptValorBebida" value="#{bebidasController.selected.valorbebida}" 
                                    symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
 
                     <p:outputLabel value="Imagem" for="imagem" />
                     <p:fileUpload id="imagem" listener="#{bebidasController.handleFileUpload}" skinSimple="true"
                                   mode="simple" multiple="false" dragDropSupport="true"
                                   sizeLimit="10000000" auto="true"
-                                  validateContentType="true" accept=".png"
                                   invalidSizeMessage="O tamanho do arquivo excede o limite permitido."
                                   invalidFileMessage="Tipo de arquivo inválido. Apenas imagens PNG são permitidas."
-                                  update="CreateForm, growl"
+                                  update="photo, growl"
                                   cancelLabel="Cancelar" cancelIcon="fa fa-remove" 
                                   uploadIcon="fa fa-upload" chooseIcon="fa fa-plus" label="Procurar"/>
 
                     <p:outputLabel />
                     <p:outputPanel id="photo">
                         <br />
-                        <p:graphicImage class="fotoProfile" value="#{bebidasController.logoBebida}" 
-                                        rendered="#{not empty bebidasController.bebidas.imagem}" cache="false" />
+                        <p:graphicImage class="fotoProfile" value="#{bebidasController.selected.imagem}" stream="true"
+                                        rendered="#{not empty bebidasController.selected.imagem}" cache="false" />
                     </p:outputPanel>
                 </h:panelGrid>  
                 <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" 
@@ -163,6 +162,9 @@
 
                     <p:outputLabel value="Valor Bebida:"/>
                     <p:outputLabel value="#{bebidasController.selected.valorbebida}"/>
+
+                    <p:outputLabel value="Imagem: "/>
+                    <p:graphicImage value="#{bebidasController.selected.imagem}" stream="true" cache="false"/>
                 </h:panelGrid>
             </h:form>
         </p:dialog>

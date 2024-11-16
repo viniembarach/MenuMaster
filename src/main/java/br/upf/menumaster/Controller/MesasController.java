@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import br.upf.menumaster.Entity.Mesas;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -69,11 +70,19 @@ public class MesasController implements Serializable {
     @PostConstruct
     public void init() {
         mesasList = ejbFacade.buscarTodos();
+        selected = new Mesas();
         System.out.println("Mesas List: " + mesasList.size()); // Verifica o tamanho da lista
     }
 
     public String confirmarMesa() {
         if (selected != null) {
+             FacesContext context = FacesContext.getCurrentInstance();
+             HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+             session.setAttribute("mesa", selected);
+             
+            
+            
+            
             // Realize a lógica necessária com a mesa selecionada, por exemplo, redirecionar para a página de pedidos
             return "pedidos.xhtml?faces-redirect=true";
         } else {

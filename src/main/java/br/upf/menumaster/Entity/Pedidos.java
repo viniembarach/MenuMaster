@@ -4,12 +4,9 @@
  */
 package br.upf.menumaster.Entity;
 
-import br.upf.menumaster.enumeration.StatusPagamento;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -56,8 +53,6 @@ public class Pedidos implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "statuspedido")
     private String statuspedido;
-    @OneToMany(mappedBy = "pedidoconta")
-    private Collection<Contas> contasCollection;
     @JoinColumn(name = "bebidapedido", referencedColumnName = "idbebida")
     @ManyToOne
     private Bebidas bebidapedido;
@@ -75,7 +70,7 @@ public class Pedidos implements Serializable {
     @NotNull
     @Size(min = 1, max = 9)
     @Column(name = "statuspagamento")
-    private String statuspagamento = "NAO_PAGO";
+    private String statuspagamento;
 
     public Pedidos() {
     }
@@ -112,15 +107,6 @@ public class Pedidos implements Serializable {
 
     public void setStatuspedido(String statuspedido) {
         this.statuspedido = statuspedido;
-    }
-
-    @XmlTransient
-    public Collection<Contas> getContasCollection() {
-        return contasCollection;
-    }
-
-    public void setContasCollection(Collection<Contas> contasCollection) {
-        this.contasCollection = contasCollection;
     }
 
     public Bebidas getBebidapedido() {

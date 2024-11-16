@@ -21,4 +21,13 @@ public enum StatusPagamento {
     public String getDescricao() {
         return descricao;
     }
+
+    public static StatusPagamento fromString(String label) {
+        for (StatusPagamento status : StatusPagamento.values()) {
+            if (status.getDescricao().equalsIgnoreCase(label)) {
+                return status;
+            }
+        }
+        return null; // ou lançar uma exceção se necessário
+    }
 }
