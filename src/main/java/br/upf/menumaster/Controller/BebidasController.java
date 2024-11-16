@@ -46,7 +46,6 @@ public class BebidasController implements Serializable {
     private Bebidas bebidas = new Bebidas();
     private List<Bebidas> bebidasList = new ArrayList<>();
     private Bebidas selected;
-    private Bebidas current;
     private StreamedContent bebidasImagem;
     private StreamedContent logoBebida;
     private UploadedFile file;
@@ -177,37 +176,6 @@ public class BebidasController implements Serializable {
         return ejbFacade.find(id);
     }
 
-    private DefaultStreamedContent imagem;
-
-    public void setImagem(DefaultStreamedContent imagem) {
-        this.imagem = imagem;
-    }
-
-    public DefaultStreamedContent getImagem() {
-        return imagem;
-    }
-
-    public void prepararImagem(FileUploadEvent bebida) {
-        try {
-            // Atualiza o componente com a imagem carregada
-            setImagem(DefaultStreamedContent.builder()
-                    .stream(() -> {
-                        try {
-                            return bebida.getFile().getInputStream(); // Recupera o InputStream do arquivo
-                        } catch (IOException e) {
-                            e.printStackTrace(); // Tratamento do erro
-                            return null; // Retorna null em caso de erro
-                        }
-                    })
-                    .build());
-
-            // Converte o InputStream para um array de bytes e seta no campo `imagem`
-            current.setImagem(IOUtils.toByteArray(bebida.getFile().getInputStream()));
-        } catch (IOException ex) {
-            ex.printStackTrace(); // Tratamento do erro de IO
-        }
-    }
-
     @FacesConverter(forClass = Bebidas.class)
     public static class BebidasControllerConverter implements Converter {
 
@@ -250,30 +218,9 @@ public class BebidasController implements Serializable {
         }
     }
 
-    public void getBebidasImagemUpload() {
-        if (file != null && file.getContent() != null) {
-            BufferedImage image = null;
-            try {
-                image = ImageIO.read(new ByteArrayInputStream(file.getContent()));
-            } catch (IOException e) {
-            }
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            try {
-                ImageIO.write(image, "png", out);
-            } catch (IOException e) {
-            }
-            selected.setImagem(out.toByteArray());
-        }
-    }
-
     public Bebidas prepareCreate() {
         selected = new Bebidas();
         return selected;
-    }
-
-    public Bebidas prepareAdicionar() {
-        bebidas = new Bebidas();
-        return bebidas;
     }
 
     public static void addErrorMessage(String msg) {

@@ -42,7 +42,7 @@ public class HamburguersFacade extends AbstractFacade<Hamburguers>{
         try {
             //utilizando JPQL para construir a query 
             Query query = getEntityManager().
-                    createQuery("SELECT p FROM Hamburguers p ORDER BY p.nomeingrediente");
+                    createQuery("SELECT p FROM Hamburguers p ORDER BY p.nomehamburguer");
             //verifica se existe algum resultado para não gerar excessão
             entityList = (List<Hamburguers>) query.getResultList();
         } catch (Exception e) {

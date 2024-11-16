@@ -140,6 +140,23 @@
                     <p:outputLabel id="oplValorBebida" value="Valor Bebida:" for="iptValorBebida"/>
                     <p:inputNumber id="iptValorBebida" value="#{bebidasController.selected.valorbebida}" symbol=" R$" 
                                    symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+
+                    <p:outputLabel value="Imagem" for="imagem" />
+                    <p:fileUpload id="imagem" listener="#{bebidasController.handleFileUpload}" skinSimple="true"
+                                  mode="simple" multiple="false" dragDropSupport="true"
+                                  sizeLimit="10000000" auto="true"
+                                  invalidSizeMessage="O tamanho do arquivo excede o limite permitido."
+                                  invalidFileMessage="Tipo de arquivo inválido. Apenas imagens PNG são permitidas."
+                                  update="photo, growl"
+                                  cancelLabel="Cancelar" cancelIcon="fa fa-remove" 
+                                  uploadIcon="fa fa-upload" chooseIcon="fa fa-plus" label="Procurar"/>
+
+                    <p:outputLabel />
+                    <p:outputPanel id="photo">
+                        <br />
+                        <p:graphicImage class="fotoProfile" value="#{bebidasController.selected.imagem}" stream="true"
+                                        rendered="#{not empty bebidasController.selected.imagem}" cache="false" />
+                    </p:outputPanel>
                 </h:panelGrid>
 
                 <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="PF('dlgEdit').hide()" 

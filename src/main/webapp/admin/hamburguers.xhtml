@@ -4,9 +4,25 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
+    <style>
+        .fotoProfile {
+            width: 150px; /* Define a largura da imagem */
+            height: 150px; /* Define a altura da imagem */
+            border-radius: 50%; /* Deixa a imagem circular */
+            object-fit: cover; /* Garante que a imagem se ajuste ao contêiner sem distorção */
+            border: 2px solid #ddd; /* Adiciona uma borda cinza */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra suave */
+            transition: transform 0.3s ease; /* Transição suave para efeitos */
+        }
 
+        /* Efeito de zoom ao passar o mouse */
+        .fotoProfile:hover {
+            transform: scale(1.05); /* Aumenta ligeiramente a imagem */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Intensifica a sombra */
+        }
+    </style>
     <ui:define name="title">
-        <h:outputText value="Hamburguers"></h:outputText>
+        <h:outputText value="Bebidas"></h:outputText>
     </ui:define>
 
     <ui:define name="content">
@@ -14,64 +30,53 @@
             <h:panelGroup id="pngList">
                 <p:fieldset toggleable="true">
                     <p:dataTable id="datalist" value="#{hamburguersController.hamburguersList}" var="item" selectionMode="single"
-                                 selection="#{hamburguersController.selected}" widgetVar="datalistClienteWidgetVar"
-                                 rowKey="#{item.idingrediente}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum ingrediente cadastrado...">
+                                 selection="#{hamburguersController.selected}" widgetVar="datalistHamburguersWidgetVar"
+                                 rowKey="#{item.idhamburguer}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhuma Bebida Cadastrada...">
                         <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
                         <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
 
-                        <p:column width="4%" sortBy="#{item.idingrediente}" filterBy="#{item.idingrediente}">
+                        <p:column width="4%" sortBy="#{item.idhamburguer}" filterBy="#{item.idhamburguer}">
                             <f:facet name="header">
                                 <h:outputText value="ID"/>
                             </f:facet>
-                            <h:outputText value="#{item.idingrediente}"/>
+                            <h:outputText value="#{item.idhamburguer}"/>
                         </p:column>
 
-                        <p:column width="10%" sortBy="#{item.nomeingrediente}" filterBy="#{item.nomeingrediente}">
+                        <p:column width="10%" sortBy="#{item.nomehamburguer}" filterBy="#{item.nomehamburguer}">
                             <f:facet name="header">
-                                <h:outputText value="Nome"/>
+                                <h:outputText value="Nome Bebida"/>
                             </f:facet>
-                            <h:outputText value="#{item.nomeingrediente}"/>
+                            <h:outputText value="#{item.nomehamburguer}"/>
                         </p:column>
 
-                        <p:column width="6%" sortBy="#{item.tipoingrediente}" filterBy="#{item.tipoingrediente}">
+                        <p:column width="6%" sortBy="#{item.disponivelhamburguer}" filterBy="#{item.disponivelhamburguer}">
                             <f:facet name="header">
-                                <h:outputText value="Tipo Ingrediente"/>
+                                <h:outputText value="Bebida Disponível"/>
                             </f:facet>
-                            <h:outputText value="#{item.tipoingrediente}"/>
+                            <h:outputText value="#{item.disponivelhamburguer}"/>
                         </p:column>
 
-                        <p:column width="6%" sortBy="#{item.valoringrediente}" filterBy="#{item.valoringrediente}">
+                        <p:column width="6%" sortBy="#{item.valorhamburguer}" filterBy="#{item.valorhamburguer}">
                             <f:facet name="header">
-                                <h:outputText value="Valor"/>
+                                <h:outputText value="Valor Bebida"/>
                             </f:facet>
-                            <h:outputText value="#{item.valoringrediente}"/>
+                            <h:outputText value="#{item.valorhamburguer}"/>
                         </p:column>
-                        <p:column width="6%" sortBy="#{item.disponivelingrediente}" filterBy="#{item.disponivelingrediente}">
-                            <f:facet name="header">
-                                <h:outputText value="Disponivel"/>
-                            </f:facet>
-                            <h:outputText value="#{item.disponivelingrediente}"/>
-                        </p:column>
+
                         <f:facet name="footer">
-                            <p:commandButton id="btnCreate" value="Incluir Ingrediente" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
-
-                            <p:commandButton id="btnEdit" icon="pi pi-user-edit"  value="Editar Ingrediente" 
-                                             update="FormEdit" oncomplete="PF('dlgEdit').show()" 
+                            <p:commandButton id="btnCreate" value="Incluir Hamburguer" icon="pi pi-file" actionListener="#{hamburguersController.prepareCreate()}" onclick="PF('dlgCreate').show()"/>
+                            <p:commandButton id="btnEdit" value="Editar Hamburguer" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" 
                                              disabled="#{empty hamburguersController.selected}"/>
-
-                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Ingrediente" 
-                                             actionListener="#{hamburguersController.deletar()}" update="frmList" 
+                            <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Hamburguer" actionListener="#{hamburguersController.deletar()}" update="frmList" 
                                              disabled="#{empty hamburguersController.selected}">
-                                
                                 <p:confirm header="Confirmar Exclusão" message="Você confirma a exclusão do registro?" icon="ui-icon-alert"/>
                             </p:commandButton>
-                            
-                            
-                            <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes do Cliente" update="formView" oncomplete="PF('dlgView').show()" 
+                            <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes do Hamburguer" update="formView" oncomplete="PF('dlgView').show()" 
                                              disabled="#{empty hamburguersController.selected}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:fieldset>
+
                 <!-- confirmar exclusão -->
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check"/>
@@ -80,76 +85,104 @@
             </h:panelGroup>
         </h:form>
 
-        <p:dialog header="Novo Ingrediente" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
+        <!-- Dialog de Criação -->
+        <p:dialog header="Novo Hamburguer" widgetVar="dlgCreate" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="CreateForm">
                 <p:growl id="growl" showDetail="true"/>
                 <h:panelGrid id="pngCadastro" columns="2">
-                    <p:outputLabel id="oplNomeIngrediente" value="Nome:" for="iptNomeIngrediente"/>
-                    <p:inputText id="iptNomeIngrediente" size="40" label="Nome" required="true" requiredMessage="O atributo nome é obrigatório" 
-                                 value="#{hamburguersController.hamburguers.nomeingrediente}" maxlength="50"/>
-
-                    <p:outputLabel id="oplTipoIngrediente" value="Tipo Ingrediente" for="iptTipoIngrediente"/>
-                    <p:inputMask id="iptTipoIngrediente" size="15" label="tipoingrediente" required="true" requiredMessage="O atributo Tipo é obrigatório"
-                                 value="#{hamburguersController.hamburguers.tipoingrediente}" maxlength="15"/>
-
-                    <p:outputLabel id="oplValorIngrediente" value="Valor:" for="iptValorIngrediente"/>
-                    <p:inputMask id="iptValorIngrediente" size="15" label="valoringrediente" required="true" requiredMessage="O atributo Valor é obrigatório"
-                                 value="#{hamburguersController.hamburguers.valoringrediente}" maxlength="15"/>
-
+                    <p:outputLabel id="oplNomeHamburguer" value="Nome Hamburguer:" for="iptNomeHamburguer"/>
+                    <p:inputText id="iptNomeHamburguer" size="40" label="nomehamburguer" required="true" 
+                                 requiredMessage="O atributo nome é obrigatório" 
+                                 value="#{hamburguersController.selected.nomehamburguer}" maxlength="50"/>
 
                     <p:outputLabel id="oplDisponivel" value="Disponível:" for="iptDisponivel"/>
-                    <p:selectBooleanCheckbox id="iptDisponivel" value="#{hamburguersController.hamburguers.disponivelingrediente}"/>
+                    <p:selectBooleanCheckbox id="iptDisponivel" value="#{hamburguersController.selected.disponivelhamburguer}"/>
 
-                </h:panelGrid>
-                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{hamburguersController.adicionar()}" onclick="dlgCreate.hide()"/>
+                    <p:outputLabel id="oplValorHamburguer" value="Valor:" for="iptValorHamburguer"/>
+                    <p:inputNumber id="iptValorHamburguer" value="#{hamburguersController.selected.valorhamburguer}" 
+                                   symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+
+                    <p:outputLabel value="Imagem" for="imagem" />
+                    <p:fileUpload id="imagem" listener="#{hamburguersController.handleFileUpload}" skinSimple="true"
+                                  mode="simple" multiple="false" dragDropSupport="true"
+                                  sizeLimit="10000000" auto="true"
+                                  invalidSizeMessage="O tamanho do arquivo excede o limite permitido."
+                                  invalidFileMessage="Tipo de arquivo inválido. Apenas imagens PNG são permitidas."
+                                  update="photo, growl"
+                                  cancelLabel="Cancelar" cancelIcon="fa fa-remove" 
+                                  uploadIcon="fa fa-upload" chooseIcon="fa fa-plus" label="Procurar"/>
+
+                    <p:outputLabel />
+                    <p:outputPanel id="photo">
+                        <br />
+                        <p:graphicImage class="fotoProfile" value="#{hamburguersController.selected.imagem}" stream="true"
+                                        rendered="#{not empty hamburguersController.selected.imagem}" cache="false" />
+                    </p:outputPanel>
+                </h:panelGrid>  
+                <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" 
+                                 action="#{hamburguersController.adicionar()}" onclick="PF('dlgCreate').hide()"/>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Editar Ingredientes" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
+
+        <!-- Dialog de Edição -->
+        <p:dialog header="Editar Hamburguer" widgetVar="dlgEdit" height="400" width="600" showEffect="fade" modal="true">
             <h:form id="FormEdit">
                 <p:growl id="growl" showDetail="true"/>
                 <h:panelGrid id="pngEdicao" columns="2">
-                    <p:outputLabel id="oplNomeIngrediente" value="Nome:" for="iptNomeIngrediente"/>
-                    <p:inputText id="iptNomeIngrediente" size="40" label="nomeingrediente" required="true" requiredMessage="O atributo nome é obrigatório"
-                                 value="#{hamburguersController.selected.nomeingrediente}" maxlength="50"/>
-
-                    <p:outputLabel id="oplTipoIngrediente" value="Tipo Ingrediente:" for="iptTipoIngrediente"/>
-                    <p:inputMask id="iptTipoIngrediente" size="15" label="tipoingrediente" required="true" requiredMessage="O atributo Tipo é obrigatório"
-                                 value="#{hamburguersController.selected.tipoingrediente}" maxlength="15"/>
-
-                    <p:outputLabel id="oplValorIngrediente" value="Valor:" for="iptValorIngrediente"/>
-                    <p:inputMask id="iptValorIngrediente" size="15" label="valoringrediente" required="true" requiredMessage="O atributo Valor é obrigatório"
-                                 value="#{hamburguersController.selected.valoringrediente}" maxlength="15"/>
+                    <p:outputLabel id="oplNomeHamburguer" value="Nome Hamburguer:" for="iptNomeHamburguer"/>
+                    <p:inputText id="iptNomeHamburguer" size="40" label="nomehamburguer" required="true" requiredMessage="O atributo nome é obrigatório" 
+                                 value="#{hamburguersController.selected.nomehamburguer}" maxlength="50"/>
 
                     <p:outputLabel id="oplDisponivel" value="Disponível:" for="iptDisponivel"/>
-                    <p:selectBooleanCheckbox id="iptDisponivel" value="#{hamburguersController.selected.disponivelingrediente}"/>
+                    <p:selectBooleanCheckbox id="iptDisponivel" value="#{hamburguersController.selected.disponivelhamburguer}"/>
 
+                    <p:outputLabel id="oplValorHamburguer" value="Valor Hamburguer:" for="iptValorHamburguer"/>
+                    <p:inputNumber id="iptValorHamburguer" value="#{hamburguersController.selected.valorhamburguer}" symbol=" R$" 
+                                   symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+
+                    <p:outputLabel value="Imagem" for="imagem" />
+                    <p:fileUpload id="imagem" listener="#{hamburguersController.handleFileUpload}" skinSimple="true"
+                                  mode="simple" multiple="false" dragDropSupport="true"
+                                  sizeLimit="10000000" auto="true"
+                                  invalidSizeMessage="O tamanho do arquivo excede o limite permitido."
+                                  invalidFileMessage="Tipo de arquivo inválido. Apenas imagens PNG são permitidas."
+                                  update="photo, growl"
+                                  cancelLabel="Cancelar" cancelIcon="fa fa-remove" 
+                                  uploadIcon="fa fa-upload" chooseIcon="fa fa-plus" label="Procurar"/>
+
+                    <p:outputLabel />
+                    <p:outputPanel id="photo">
+                        <br />
+                        <p:graphicImage class="fotoProfile" value="#{hamburguersController.selected.imagem}" stream="true"
+                                        rendered="#{not empty hamburguersController.selected.imagem}" cache="false" />
+                    </p:outputPanel>
                 </h:panelGrid>
-                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" 
+
+                <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="PF('dlgEdit').hide()" 
                                  action="#{hamburguersController.editar()}" icon="pi pi-save"/>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Visualizar Detalhes do Ingrediente" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
+        <!-- Dialog de Visualização -->
+        <p:dialog header="Visualizar Detalhes do Hamburguer" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
             <h:form id="formView">
                 <h:panelGrid id="pngView" columns="2">
                     <p:outputLabel value="ID:"/>
-                    <p:outputLabel value="#{hamburguersController.selected.idingrediente}"/>
+                    <p:outputLabel value="#{hamburguersController.selected.idhamburguer}"/>
 
-                    <p:outputLabel value="Nome:"/>
-                    <p:outputLabel value="#{hamburguersController.selected.nomeingrediente}"/>
+                    <p:outputLabel value="Nome Hamburguer:"/>
+                    <p:outputLabel value="#{hamburguersController.selected.nomehamburguer}"/>
 
-                    <p:outputLabel value="Tipo Ingrediente:"/>
-                    <p:outputLabel value="#{hamburguersController.selected.tipoingrediente}"/>
+                    <p:outputLabel value="Hamburguer disponível:"/>
+                    <p:outputLabel value="#{hamburguersController.selected.disponivelhamburguer}"/>
 
-                    <p:outputLabel value="Valor"/>
-                    <p:outputLabel value="#{hamburguersController.selected.valoringrediente}"/>
+                    <p:outputLabel value="Valor Hamburguer:"/>
+                    <p:outputLabel value="#{hamburguersController.selected.valorhamburguer}"/>
 
-                    <p:outputLabel value="Disponivel:"/>
-                    <p:outputLabel value="#{hamburguersController.selected.disponivelingrediente}"/>
-
+                    <p:outputLabel value="Imagem: "/>
+                    <p:graphicImage value="#{hamburguersController.selected.imagem}" stream="true" cache="false"/>
                 </h:panelGrid>
-
             </h:form>
         </p:dialog>
     </ui:define>

@@ -14,14 +14,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  *
@@ -33,7 +30,6 @@ import java.util.Collection;
 @NamedQueries({
     @NamedQuery(name = "Pedidos.findAll", query = "SELECT p FROM Pedidos p"),
     @NamedQuery(name = "Pedidos.findByIdpedido", query = "SELECT p FROM Pedidos p WHERE p.idpedido = :idpedido"),
-    @NamedQuery(name = "Pedidos.findByValorpedido", query = "SELECT p FROM Pedidos p WHERE p.valorpedido = :valorpedido"),
     @NamedQuery(name = "Pedidos.findByStatuspedido", query = "SELECT p FROM Pedidos p WHERE p.statuspedido = :statuspedido"),
     @NamedQuery(name = "Pedidos.findByStatuspagamento", query = "SELECT p FROM Pedidos p WHERE p.statuspagamento = :statuspagamento")})
 public class Pedidos implements Serializable {
@@ -44,10 +40,7 @@ public class Pedidos implements Serializable {
     @Basic(optional = false)
     @Column(name = "idpedido")
     private Integer idpedido;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "valorpedido")
-    private double valorpedido;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -56,7 +49,7 @@ public class Pedidos implements Serializable {
     @JoinColumn(name = "bebidapedido", referencedColumnName = "idbebida")
     @ManyToOne
     private Bebidas bebidapedido;
-    @JoinColumn(name = "hamburguerpedido", referencedColumnName = "idingrediente")
+    @JoinColumn(name = "hamburguerpedido", referencedColumnName = "idhamburguer")
     @ManyToOne
     private Hamburguers hamburguerpedido;
     @JoinColumn(name = "lanchepedido", referencedColumnName = "idlanche")
@@ -81,7 +74,6 @@ public class Pedidos implements Serializable {
 
     public Pedidos(Integer idpedido, double valorpedido, String statuspedido) {
         this.idpedido = idpedido;
-        this.valorpedido = valorpedido;
         this.statuspedido = statuspedido;
     }
 
@@ -91,14 +83,6 @@ public class Pedidos implements Serializable {
 
     public void setIdpedido(Integer idpedido) {
         this.idpedido = idpedido;
-    }
-
-    public double getValorpedido() {
-        return valorpedido;
-    }
-
-    public void setValorpedido(double valorpedido) {
-        this.valorpedido = valorpedido;
     }
 
     public String getStatuspedido() {

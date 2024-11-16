@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -30,93 +31,95 @@ import java.util.Collection;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Hamburguers.findAll", query = "SELECT h FROM Hamburguers h"),
-    @NamedQuery(name = "Hamburguers.findByIdingrediente", query = "SELECT h FROM Hamburguers h WHERE h.idingrediente = :idingrediente"),
-    @NamedQuery(name = "Hamburguers.findByTipoingrediente", query = "SELECT h FROM Hamburguers h WHERE h.tipoingrediente = :tipoingrediente"),
-    @NamedQuery(name = "Hamburguers.findByNomeingrediente", query = "SELECT h FROM Hamburguers h WHERE h.nomeingrediente = :nomeingrediente"),
-    @NamedQuery(name = "Hamburguers.findByValoringrediente", query = "SELECT h FROM Hamburguers h WHERE h.valoringrediente = :valoringrediente"),
-    @NamedQuery(name = "Hamburguers.findByDisponivelingrediente", query = "SELECT h FROM Hamburguers h WHERE h.disponivelingrediente = :disponivelingrediente")})
+    @NamedQuery(name = "Hamburguers.findByIdhamburguer", query = "SELECT h FROM Hamburguers h WHERE h.idhamburguer = :idhamburguer"),
+    @NamedQuery(name = "Hamburguers.findByNomehamburguer", query = "SELECT h FROM Hamburguers h WHERE h.nomehamburguer = :nomehamburguer"),
+    @NamedQuery(name = "Hamburguers.findByValorhamburguer", query = "SELECT h FROM Hamburguers h WHERE h.valorhamburguer = :valorhamburguer"),
+    @NamedQuery(name = "Hamburguers.findByDisponivelhamburguer", query = "SELECT h FROM Hamburguers h WHERE h.disponivelhamburguer = :disponivelhamburguer")})
 public class Hamburguers implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idingrediente")
-    private Integer idingrediente;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "tipoingrediente")
-    private String tipoingrediente;
+    @Column(name = "idhamburguer")
+    private Integer idhamburguer;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "nomeingrediente")
-    private String nomeingrediente;
+    @Column(name = "nomehamburguer")
+    private String nomehamburguer;
+    
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valoringrediente")
-    private double valoringrediente;
+    @Column(name = "valorhamburguer")
+    private double valorhamburguer;
+    
     @Basic(optional = false)
     @NotNull
-    @Column(name = "disponivelingrediente")
-    private boolean disponivelingrediente;
+    @Column(name = "disponivelhamburguer")
+    private boolean disponivelhamburguer;
+
+    @Lob
+    @Column(name = "imagem")
+    private byte[] imagem;
+
     @OneToMany(mappedBy = "hamburguerpedido")
     private Collection<Pedidos> pedidosCollection;
 
     public Hamburguers() {
     }
 
-    public Hamburguers(Integer idingrediente) {
-        this.idingrediente = idingrediente;
+    public Hamburguers(Integer idhamburguer) {
+        this.idhamburguer = idhamburguer;
     }
 
-    public Hamburguers(Integer idingrediente, String tipoingrediente, String nomeingrediente, double valoringrediente, boolean disponivelingrediente) {
-        this.idingrediente = idingrediente;
-        this.tipoingrediente = tipoingrediente;
-        this.nomeingrediente = nomeingrediente;
-        this.valoringrediente = valoringrediente;
-        this.disponivelingrediente = disponivelingrediente;
+    public Hamburguers(Integer idhamburguer, String nomehamburguer, double valorhamburguer, boolean disponivelhamburguer, byte[] imagem) {
+        this.idhamburguer = idhamburguer;
+        this.nomehamburguer = nomehamburguer;
+        this.valorhamburguer = valorhamburguer;
+        this.disponivelhamburguer = disponivelhamburguer;
+        this.imagem = imagem;
     }
 
-    public Integer getIdingrediente() {
-        return idingrediente;
+    public Integer getIdhamburguer() {
+        return idhamburguer;
     }
 
-    public void setIdingrediente(Integer idingrediente) {
-        this.idingrediente = idingrediente;
+    public void setIdhamburguer(Integer idhamburguer) {
+        this.idhamburguer = idhamburguer;
     }
 
-    public String getTipoingrediente() {
-        return tipoingrediente;
+    public String getNomehamburguer() {
+        return nomehamburguer;
     }
 
-    public void setTipoingrediente(String tipoingrediente) {
-        this.tipoingrediente = tipoingrediente;
+    public void setNomehamburguer(String nomehamburguer) {
+        this.nomehamburguer = nomehamburguer;
     }
 
-    public String getNomeingrediente() {
-        return nomeingrediente;
+    public double getValorhamburguer() {
+        return valorhamburguer;
     }
 
-    public void setNomeingrediente(String nomeingrediente) {
-        this.nomeingrediente = nomeingrediente;
+    public void setValorhamburguer(double valorhamburguer) {
+        this.valorhamburguer = valorhamburguer;
     }
 
-    public double getValoringrediente() {
-        return valoringrediente;
+    public boolean isDisponivelhamburguer() {
+        return disponivelhamburguer;
     }
 
-    public void setValoringrediente(double valoringrediente) {
-        this.valoringrediente = valoringrediente;
+    public void setDisponivelhamburguer(boolean disponivelhamburguer) {
+        this.disponivelhamburguer = disponivelhamburguer;
     }
 
-    public boolean getDisponivelingrediente() {
-        return disponivelingrediente;
+    public byte[] getImagem() {
+        return imagem;
     }
 
-    public void setDisponivelingrediente(boolean disponivelingrediente) {
-        this.disponivelingrediente = disponivelingrediente;
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 
     @XmlTransient
@@ -131,7 +134,7 @@ public class Hamburguers implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idingrediente != null ? idingrediente.hashCode() : 0);
+        hash += (idhamburguer != null ? idhamburguer.hashCode() : 0);
         return hash;
     }
 
@@ -142,7 +145,7 @@ public class Hamburguers implements Serializable {
             return false;
         }
         Hamburguers other = (Hamburguers) object;
-        if ((this.idingrediente == null && other.idingrediente != null) || (this.idingrediente != null && !this.idingrediente.equals(other.idingrediente))) {
+        if ((this.idhamburguer == null && other.idhamburguer != null) || (this.idhamburguer != null && !this.idhamburguer.equals(other.idhamburguer))) {
             return false;
         }
         return true;
@@ -150,7 +153,7 @@ public class Hamburguers implements Serializable {
 
     @Override
     public String toString() {
-        return "br.upf.menumaster.Entity.Hamburguers[ idingrediente=" + idingrediente + " ]";
+        return "br.upf.menumaster.Entity.Hamburguers[ idhamburguer=" + idhamburguer + " ]";
     }
-    
+
 }
