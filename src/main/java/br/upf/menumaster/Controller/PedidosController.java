@@ -130,6 +130,8 @@ public class PedidosController implements Serializable {
 
     public Pedidos prepareAdicionar() {
         pedido = new Pedidos();
+        lanche = new Lanches();
+        bebida = new Bebidas();
         return pedido;
     }
 
