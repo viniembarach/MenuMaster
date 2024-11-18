@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -55,6 +56,11 @@ public class Lanches implements Serializable {
     @NotNull
     @Column(name = "disponivellanche")
     private boolean disponivellanche;
+
+    @Lob
+    @Column(name = "imagem")
+    private byte[] imagem;
+
     @OneToMany(mappedBy = "lanchepedido")
     private Collection<Pedidos> pedidosCollection;
 
@@ -65,11 +71,12 @@ public class Lanches implements Serializable {
         this.idlanche = idlanche;
     }
 
-    public Lanches(Integer idlanche, String nomelanche, double valorlanche, boolean disponivellanche) {
+    public Lanches(Integer idlanche, String nomelanche, double valorlanche, boolean disponivellanche, byte[] imagem) {
         this.idlanche = idlanche;
         this.nomelanche = nomelanche;
         this.valorlanche = valorlanche;
         this.disponivellanche = disponivellanche;
+        this.imagem = imagem;
     }
 
     public Integer getIdlanche() {
@@ -102,6 +109,14 @@ public class Lanches implements Serializable {
 
     public void setDisponivellanche(boolean disponivellanche) {
         this.disponivellanche = disponivellanche;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 
     @XmlTransient
@@ -137,5 +152,5 @@ public class Lanches implements Serializable {
     public String toString() {
         return "br.upf.menumaster.Entity.Lanches[ idlanche=" + idlanche + " ]";
     }
-    
+
 }

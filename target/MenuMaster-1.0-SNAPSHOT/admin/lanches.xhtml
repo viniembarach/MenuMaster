@@ -48,14 +48,14 @@
                         </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton id="btnCreate" value="Incluir Lanche" icon="pi pi-file" onclick="PF('dlgCreate').show()"/>
+                            <p:commandButton id="btnCreate" value="Incluir Lanche" icon="pi pi-file" actionListener="#{lanchesController.prepareCreate()}" onclick="PF('dlgCreate').show()"/>
                             <p:commandButton id="btnEdit" value="Editar Lanche" icon="pi pi-external-link" update="FormEdit" oncomplete="PF('dlgEdit').show()" 
                                              disabled="#{empty lanchesController.selected}"/>
                             <p:commandButton id="btnDelete" icon="pi pi-trash" value="Excluir Lanche" actionListener="#{lanchesController.deletar()}" update="frmList" 
                                              disabled="#{empty lanchesController.selected}">
                                 <p:confirm header="Confirmar Exclusão" message="Você confirma a exclusão do registro?" icon="ui-icon-alert"/>
                             </p:commandButton>
-                            <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes do Cliente" update="formView" oncomplete="PF('dlgView').show()" 
+                            <p:commandButton id="btnView" icon="pi pi-user-edit" value="Detalhes do Lanche" update="formView" oncomplete="PF('dlgView').show()" 
                                              disabled="#{empty lanchesController.selected}"/>
                         </f:facet>
                     </p:dataTable>
@@ -74,16 +74,32 @@
                 <h:panelGrid id="pngCadastro" columns="2">
                     <p:outputLabel id="oplNomeLanche" value="Nome Lanche:" for="iptNomeLanche"/>
                     <p:inputText id="iptNomeLanche" size="40" label="NomeLanche" required="true" requiredMessage="O atributo Nome é obrigatório" 
-                                 value="#{lanchesController.lanches.nomelanche}" maxlength="50"/>
+                                 value="#{lanchesController.selected.nomelanche}" maxlength="50"/>
 
 
                     <p:outputLabel id="oplDisponivelLanche" value="Disponivel Lanche:" for="iptDisponivelLanche"/>
                     <p:selectBooleanCheckbox id="iptDisponivelLanche"  label="DisponivelLanche" required="true" requiredMessage="O atributo Disponivel é obrigatório"
-                                             value="#{lanchesController.lanches.disponivellanche}" />
+                                             value="#{lanchesController.selected.disponivellanche}" />
 
                     <p:outputLabel id="oplValorLanche" value="Valor:" for="iptValorLanche"/>
-                    <p:inputNumber id="iptValorLanche" value="#{lanchesController.lanches.valorlanche}" symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
+                    <p:inputNumber id="iptValorLanche" value="#{lanchesController.selected.valorlanche}" symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
 
+                    <p:outputLabel value="Imagem" for="imagem" />
+                    <p:fileUpload id="imagem" listener="#{lanchesController.handleFileUpload}" skinSimple="true"
+                                  mode="simple" multiple="false" dragDropSupport="true"
+                                  sizeLimit="10000000" auto="true"
+                                  invalidSizeMessage="O tamanho do arquivo excede o limite permitido."
+                                  invalidFileMessage="Tipo de arquivo inválido. Apenas imagens PNG são permitidas."
+                                  update="photo, growl"
+                                  cancelLabel="Cancelar" cancelIcon="fa fa-remove" 
+                                  uploadIcon="fa fa-upload" chooseIcon="fa fa-plus" label="Procurar"/>
+
+                    <p:outputLabel />
+                    <p:outputPanel id="photo">
+                        <br />
+                        <p:graphicImage class="fotoProfile" value="#{lanchesController.selected.imagem}" stream="true"
+                                        rendered="#{not empty lanchesController.selected.imagem}" cache="false" />
+                    </p:outputPanel>
 
                 </h:panelGrid>
                 <p:commandButton id="btnCadastrar" value="Cadastrar" update="@form, frmList" action="#{lanchesController.adicionar()}" onclick="dlgCreate.hide()"/>
@@ -105,6 +121,22 @@
                     <p:outputLabel id="oplValorLanche" value="Valor:" for="iptValorLanche"/>
                     <p:inputNumber id="iptValorLanche" value="#{lanchesController.selected.valorlanche}" symbol=" R$" symbolPosition="s" decimalSeparator="," thousandSeparator="."/>
 
+                    <p:outputLabel value="Imagem" for="imagem" />
+                    <p:fileUpload id="imagem" listener="#{lanchesController.handleFileUpload}" skinSimple="true"
+                                  mode="simple" multiple="false" dragDropSupport="true"
+                                  sizeLimit="10000000" auto="true"
+                                  invalidSizeMessage="O tamanho do arquivo excede o limite permitido."
+                                  invalidFileMessage="Tipo de arquivo inválido. Apenas imagens PNG são permitidas."
+                                  update="photo, growl"
+                                  cancelLabel="Cancelar" cancelIcon="fa fa-remove" 
+                                  uploadIcon="fa fa-upload" chooseIcon="fa fa-plus" label="Procurar"/>
+
+                    <p:outputLabel />
+                    <p:outputPanel id="photo">
+                        <br />
+                        <p:graphicImage class="fotoProfile" value="#{lanchesController.selected.imagem}" stream="true"
+                                        rendered="#{not empty lanchesController.selected.imagem}" cache="false" />
+                    </p:outputPanel>
                 </h:panelGrid>
                 <p:commandButton id="btnSalvarEdicao" value="Salvar" update="@form, frmList" onclick="dlgEdit.hide()" action="#{lanchesController.editar()}" icon="pi pi-save"/>
             </h:form>
@@ -125,6 +157,8 @@
                     <p:outputLabel value="Disponivel Lanche:"/>
                     <p:outputLabel value="#{lanchesController.selected.disponivellanche}"/>
 
+                    <p:outputLabel value="Imagem: "/>
+                    <p:graphicImage value="#{lanchesController.selected.imagem}" stream="true" cache="false"/>
                 </h:panelGrid>
 
             </h:form>
