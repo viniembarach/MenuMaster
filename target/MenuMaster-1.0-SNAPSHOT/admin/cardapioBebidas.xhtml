@@ -147,8 +147,7 @@
                                                     <f:convertNumber currencySymbol="R$" type="currency"/>
                                                 </h:outputText>
                                                 <p:commandButton value="Adicionar ao Carrinho" icon="pi pi-shopping-cart"
-                                                                 disabled="#{not bebidasController.selected.disponivelbebida}"
-                                                                 actionListener="#{bebidasController.addToCart}" 
+                                                                 actionListener="#{bebidasController.prepareCreate()}" 
                                                                  styleClass="dialog-button" />
                                             </div>
                                         </div>

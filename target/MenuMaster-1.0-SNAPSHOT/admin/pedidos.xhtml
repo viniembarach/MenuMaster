@@ -41,10 +41,7 @@
                 </p:column>
 
                 <f:facet name="footer">
-                    <h:form id="pedidoForm">
-                        <p:commandButton id="btnCreate" value="Novo Pedido" icon="pi pi-file" action="#{pedidosController.prepareCreate}"/>
-                    </h:form>
-
+                        <p:commandButton id="redirect" value="Novo Pedido" icon="pi pi-file" action="#{pedidosController.prepareCreate()}"/>
                 </f:facet>
             </p:dataTable>
         </h:form>

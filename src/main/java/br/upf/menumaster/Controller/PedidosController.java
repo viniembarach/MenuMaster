@@ -201,28 +201,25 @@ public class PedidosController implements Serializable {
     }
 
     public String prepareCreate() {
-        FacesContext context = FacesContext.getCurrentInstance();        
+        FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        
+
         pedido = new Pedidos();
         bebida = new Bebidas();
         hamburguer = new Hamburguers();
         lanche = new Lanches();
         pedido.setStatuspagamento("NAO_PAGO");
         pedido.setStatuspedido("ABERTO");
-        
+
         //buscando a mesa da sessão
-        mesa = (Mesas) session.getAttribute("mesa");        
+        mesa = (Mesas) session.getAttribute("mesa");
         pedido.setMesapedido(mesa);
-        
+
         return "cardapioBebidas.xhtml?faces-redirect=true";
 
     }
-    
-    
-    
-    //criar meto para armazenar a bebida selecionada
 
+    //criar meto para armazenar a bebida selecionada
     public void alterarStatusPagamento(Pedidos pedido) {
         if (pedido != null) {
             // Converte o status de pagamento de String para o enum StatusPagamento
