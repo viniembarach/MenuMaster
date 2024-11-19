@@ -53,7 +53,7 @@ public class PedidosController implements Serializable {
         pedido = new Pedidos();
         pedidosList = ejbFacade.buscarTodos();
 
-        //pedidosListNaoPagos = ejbFacade.buscarPedidosNaoPagos();
+        pedidosListNaoPagos = ejbFacade.buscarPedidosComStatusPagamento();
     }
 
     public List<Pedidos> getPedidosList() {
@@ -239,7 +239,7 @@ public class PedidosController implements Serializable {
             ejbFacade.edit(pedido);
 
             // Atualiza a lista para refletir a alteração
-            //pedidosListNaoPagos = ejbFacade.buscarPedidosNaoPagos();
+            pedidosListNaoPagos = ejbFacade.buscarPedidosComStatusPagamento();
         }
     }
 }
