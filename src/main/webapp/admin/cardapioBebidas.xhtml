@@ -101,48 +101,30 @@
 
                     <div class="card">
                         <h5>Bebidas</h5>
-                        <p:dataTable id="datalist" value="#{bebidasController.bebidasList}" var="item" selectionMode="single"
-                                     selection="#{bebidasController.selected}" widgetVar="datalistBebidasWidgetVar"
-                                     rowKey="#{item.idbebida}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhuma Bebida Cadastrada...">
-
-
-                            <p:column width="4%" sortBy="#{item.idbebida}" filterBy="#{item.idbebida}">
-                                <f:facet name="header">
-                                    <h:outputText value="ID"/>
-                                </f:facet>
-                                <h:outputText value="#{item.idbebida}"/>
+                        <p:dataTable id="basicDT" var="bebidas" value="#{bebidasController.bebidasList}">
+                            <p:column headerText="ID:">
+                                <h:outputText value="#{bebidas.idbebida}" />
                             </p:column>
 
-                            <p:column width="10%" sortBy="#{item.nomebebida}" filterBy="#{item.nomebebida}">
-                                <f:facet name="header">
-                                    <h:outputText value="Nome Bebida"/>
-                                </f:facet>
-                                <h:outputText value="#{item.nomebebida}"/>
+                            <p:column headerText="NOME:">
+                                <h:outputText value="#{bebidas.nomebebida}" />
                             </p:column>
 
-                            <p:column width="6%" sortBy="#{item.valorbebida}" filterBy="#{item.valorbebida}">
-                                <f:facet name="header">
-                                    <h:outputText value="Valor Bebida"/>
-                                </f:facet>
-                                <h:outputText value="#{item.valorbebida}"/>
+                            <p:column headerText="VALOR R$:">
+                                <h:outputText value="#{bebidas.valorbebida}" />
                             </p:column>
 
-                            <p:column width="6%" sortBy="#{item.disponivelbebida}" filterBy="#{item.disponivelbebida}">
-                                <f:facet name="header">
-                                    <h:outputText value="Bebida Disponível"/>
-                                </f:facet>
-                                <h:outputText value="#{item.disponivelbebida}"/>
+                            <p:column headerText="DISPONÍVEL">
+                                <h:outputText value="#{bebidas.disponivelbebida}" />
                             </p:column>
 
                             <p:column style="width:3rem;text-align: center">
-                                <p:commandButton update=":formView:FormPedidos" oncomplete="PF('FormPedidos').show()"
+                                <p:commandButton update=":form:FormPedidos" oncomplete="PF('FormPedidos').show()"
                                                  icon="pi pi-search" title="Ver Detalhes">
-                                    <f:setPropertyActionListener value="#{item}" 
+                                    <f:setPropertyActionListener value="#{bebidas}" 
                                                                  target="#{bebidasController.selected}" />
                                 </p:commandButton>
                             </p:column>
-
-
                         </p:dataTable>
                     </div>
 

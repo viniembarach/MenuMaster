@@ -193,6 +193,16 @@ public class PedidosController implements Serializable {
         pedido.setBebidapedido(bebida);
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
+    
+    public void adicionarLanche(Lanches lanche) {
+        pedido.setLanchepedido(lanche);
+        persist(PersistAction.CREATE, "Registro incluído com sucesso!");
+    }
+    
+    public void adicionarHamburguer(Hamburguers hamburguer) {
+        pedido.setHamburguerpedido(hamburguer);
+        persist(PersistAction.CREATE, "Registro incluído com sucesso!");
+    }
 
     public void editar() {
         persist(PersistAction.UPDATE, "Registro alterado com sucesso!");

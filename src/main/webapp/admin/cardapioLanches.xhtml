@@ -108,7 +108,7 @@
                     <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
 
                     <div class="card">
-                        <h5>Bebidas</h5>
+                        <h5>Lanches</h5>
                         <p:dataTable id="basicDT" var="lanches" value="#{lanchesController.lanchesList}">
                             <p:column headerText="ID:">
                                 <h:outputText value="#{lanches.idlanche}" />
@@ -135,7 +135,7 @@
                             </p:column>
                         </p:dataTable>
                     </div>
-
+                </p:fieldset>
                     <p:dialog header="Detalhes do Item" widgetVar="FormPedidos" modal="true" showEffect="fade"
                               hideEffect="fade" resizable="false">
                         <p:outputPanel id="FormPedidos" class="dialog-content">
@@ -157,10 +157,10 @@
                                                 <h:outputText value="#{lanchesController.selected.valorlanche}" styleClass="product-price">
                                                     <f:convertNumber currencySymbol="R$" type="currency"/>
                                                 </h:outputText>
-                                                <p:commandButton value="Adicionar ao Carrinho" icon="pi pi-shopping-cart"
-                                                                 disabled="#{not lanchesController.selected.disponivellanche}"
-                                                                 actionListener="#{pedidosController.prepareCreate}" 
-                                                                 styleClass="dialog-button" />
+                                        <p:commandButton value="Adicionar ao Carrinho" icon="pi pi-shopping-cart"
+                                                         action="#{pedidosController.adicionarLanche(lanchesController.selected)}" 
+                                                         styleClass="dialog-button" > 
+                                        </p:commandButton>
                                             </div>
                                         </div>
                                     </div>
@@ -168,7 +168,6 @@
                             </h:panelGroup>
                         </p:outputPanel>
                     </p:dialog>
-                </p:fieldset>
             </h:panelGroup>
         </h:form>
     </ui:define>
