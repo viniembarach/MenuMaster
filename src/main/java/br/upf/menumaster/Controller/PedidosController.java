@@ -38,6 +38,8 @@ public class PedidosController implements Serializable {
 
     private List<Pedidos> pedidosListNaoPagos;
 
+    private List<Pedidos> pedidosCozinha;
+
     private Mesas mesaSelecionada;
 
     @PostConstruct
@@ -54,6 +56,7 @@ public class PedidosController implements Serializable {
         pedidosList = ejbFacade.buscarTodos();
 
         pedidosListNaoPagos = ejbFacade.buscarPedidosComStatusPagamento();
+        pedidosCozinha = ejbFacade.buscarPedidosCozinha();
     }
 
     public List<Pedidos> getPedidosList() {
@@ -72,8 +75,6 @@ public class PedidosController implements Serializable {
         this.selected = selected;
     }
 
-
-
     public Pedidos getPedidos(Integer id) {
         return ejbFacade.find(id);
     }
@@ -86,6 +87,14 @@ public class PedidosController implements Serializable {
         this.pedidosListNaoPagos = pedidosListNaoPagos;
     }
 
+    public List<Pedidos> getPedidosCozinha() {
+        return pedidosCozinha;
+    }
+
+    public void setPedidosCozinha(List<Pedidos> pedidosCozinha) {
+        this.pedidosCozinha = pedidosCozinha;
+    }
+
     public Pedidos getPedido() {
         return pedido;
     }
@@ -93,8 +102,6 @@ public class PedidosController implements Serializable {
     public void setPedido(Pedidos pedido) {
         this.pedido = pedido;
     }
-    
-    
 
     @FacesConverter(forClass = Pedidos.class)
     public static class PedidosControllerConverter implements Converter {
@@ -188,17 +195,17 @@ public class PedidosController implements Serializable {
     public void adicionar() {
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
-    
+
     public void adicionarBebida(Bebidas bebida) {
         pedido.setBebidapedido(bebida);
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
-    
+
     public void adicionarLanche(Lanches lanche) {
         pedido.setLanchepedido(lanche);
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
-    
+
     public void adicionarHamburguer(Hamburguers hamburguer) {
         pedido.setHamburguerpedido(hamburguer);
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");

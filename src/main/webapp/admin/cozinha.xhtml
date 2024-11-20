@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Contas"></h:outputText>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="frmList">
+            <h:panelGroup id="pngList">
+                <p:fieldset toggleable="true">
+                    <p:dataTable id="datalist" value="#{pedidosController.pedidosCozinha}" var="item" selectionMode="single"
+                                 selection="#{pedidosController.selected}" widgetVar="datalistPedidoWidgetVar"
+                                 rowKey="#{item.idpedido}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhuma Conta cadastrada...">
+                        <p:column width="4%" sortBy="#{item.idpedido}" filterBy="#{item.idpedido}">
+                            <f:facet name="header">
+                                <h:outputText value="ID"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idpedido}"/>
+                        </p:column>
+                        
+                        <p:column width="4%" sortBy="#{item.mesapedido}" filterBy="#{item.mesapedido}">
+                            <f:facet name="header">
+                                <h:outputText value="Mesa"/>
+                            </f:facet>
+                            <h:outputText value="#{item.mesapedido}"/>
+                        </p:column>
+                        
+                        <p:column width="4%" sortBy="#{item.bebidapedido}" filterBy="#{item.bebidapedido}">
+                            <f:facet name="header">
+                                <h:outputText value="Bebida"/>
+                            </f:facet>
+                            <h:outputText value="#{item.bebidapedido.nomebebida}"/>
+                        </p:column>
+                        
+                        <p:column width="4%" sortBy="#{item.lanchepedido}" filterBy="#{item.lanchepedido}">
+                            <f:facet name="header">
+                                <h:outputText value="Lanche"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lanchepedido.nomelanche}"/>
+                        </p:column>
+                        
+                        <p:column width="4%" sortBy="#{item.hamburguerpedido}" filterBy="#{item.hamburguerpedido}">
+                            <f:facet name="header">
+                                <h:outputText value="Hamburguer"/>
+                            </f:facet>
+                            <h:outputText value="#{item.hamburguerpedido.nomehamburguer}"/>
+                        </p:column>
+
+
+                        <p:column width="6%" sortBy="#{item.statuspedido}" filterBy="#{item.statuspedido}">
+                            <f:facet name="header">
+                                <h:outputText value="Status Pagamento"/>
+                            </f:facet>
+                            <p:selectOneMenu id="iptUfenum" value="#{cidadeController.cidade.ufenum}">
+                                <f:selectItem itemLabel="#{item.statuspedido}"/>
+                            <f:selectItems value="#{ufController.UFs}"/>
+                        </p:selectOneMenu> 
+                        </p:column>
+
+                    </p:dataTable>
+                </p:fieldset>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>

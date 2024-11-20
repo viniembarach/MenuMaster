@@ -13,35 +13,41 @@
         <h:form id="pedidoForm">
 
             <h2>Mesa: #{mesasController.selected.nomemesa}</h2>
-            <p:dataTable id="pedidoTable" value="#{bebidasController.bebidasList}" var="item" paginator="true" rows="5"
+            <p:dataTable id="pedidoTable" value="#{pedidosController.pedidosList}" var="item" paginator="true" rows="5"
                          rowsPerPageTemplate="5,10,20" emptyMessage="Nenhum Pedido Realizado...">
                 <p:ajax event="rowSelect"/>
                 <p:ajax event="rowUnselect"/>
 
-                <!-- Coluna ID da Bebida -->
-                <p:column headerText="ID" sortBy="#{item.idbebida}">
-                    <h:outputText value="#{item.idbebida}"/>
+                <p:column width="6%" sortBy="#{item.bebidapedido}" filterBy="#{item.bebidapedido}">
+                    <f:facet name="header">
+                        <h:outputText value="Bebida"/>
+                    </f:facet>
+                    <h:outputText value="#{item.bebidapedido.nomebebida}"/>
                 </p:column>
 
-                <!-- Coluna Nome da Bebida -->
-                <p:column headerText="Nome Bebida" sortBy="#{item.nomebebida}">
-                    <h:outputText value="#{item.nomebebida}"/>
+                <p:column width="6%" sortBy="#{item.lanchepedido}" filterBy="#{item.lanchepedido}">
+                    <f:facet name="header">
+                        <h:outputText value="Lanche"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lanchepedido.nomelanche}"/>
                 </p:column>
 
-                <!-- Coluna Disponibilidade -->
-                <p:column headerText="Disponível" sortBy="#{item.disponivelbebida}">
-                    <h:outputText value="#{item.disponivelbebida ? 'Sim' : 'Não'}"/>
+                <p:column width="6%" sortBy="#{item.hamburguerpedido}" filterBy="#{item.hamburguerpedido}">
+                    <f:facet name="header">
+                        <h:outputText value="Hamburguer"/>
+                    </f:facet>
+                    <h:outputText value="#{item.hamburguerpedido.nomehamburguer}"/>
                 </p:column>
-
-                <!-- Coluna Valor da Bebida -->
-                <p:column headerText="Valor" sortBy="#{item.valorbebida}">
-                    <h:outputText value="#{item.valorbebida}">
-                        <f:convertNumber currencySymbol="R$" type="currency"/>
-                    </h:outputText>
+                
+                <p:column width="6%" sortBy="#{item.statuspedido}" filterBy="#{item.statuspedido}">
+                    <f:facet name="header">
+                        <h:outputText value="Status do pedido"/>
+                    </f:facet>
+                    <h:outputText value="#{item.statuspedido}"/>
                 </p:column>
 
                 <f:facet name="footer">
-                        <p:commandButton id="redirect" value="Novo Pedido" icon="pi pi-file" action="#{pedidosController.prepareCreate()}"/>
+                    <p:commandButton id="redirect" value="Novo Pedido" icon="pi pi-file" action="#{pedidosController.prepareCreate()}"/>
                 </f:facet>
             </p:dataTable>
         </h:form>
