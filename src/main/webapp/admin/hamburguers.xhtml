@@ -31,7 +31,7 @@
                 <p:fieldset toggleable="true">
                     <p:dataTable id="datalist" value="#{hamburguersController.hamburguersList}" var="item" selectionMode="single"
                                  selection="#{hamburguersController.selected}" widgetVar="datalistHamburguersWidgetVar"
-                                 rowKey="#{item.idhamburguer}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhuma Bebida Cadastrada...">
+                                 rowKey="#{item.idhamburguer}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Hamburguer Cadastrado...">
                         <p:ajax event="rowSelect" update="btnEdit btnDelete btnView"/>
                         <p:ajax event="rowUnselect" update="btnEdit btnDelete btnView"/>
 

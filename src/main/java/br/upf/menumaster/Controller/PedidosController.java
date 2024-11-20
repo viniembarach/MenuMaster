@@ -31,9 +31,9 @@ public class PedidosController implements Serializable {
     private Pedidos pedido;
     private List<Pedidos> pedidosList;
     private Pedidos selected;
-    private Bebidas bebida;
-    private Lanches lanche;
-    private Hamburguers hamburguer;
+//    private Bebidas bebida;
+//    private Lanches lanche;
+//    private Hamburguers hamburguer;
     private Mesas mesa;
 
     private List<Pedidos> pedidosListNaoPagos;
@@ -72,13 +72,7 @@ public class PedidosController implements Serializable {
         this.selected = selected;
     }
 
-    public Pedidos getPedidos() {
-        return pedido;
-    }
 
-    public void setPedidos(Pedidos pedidos) {
-        this.pedido = pedidos;
-    }
 
     public Pedidos getPedidos(Integer id) {
         return ejbFacade.find(id);
@@ -91,6 +85,16 @@ public class PedidosController implements Serializable {
     public void setPedidosListNaoPagos(List<Pedidos> pedidosListNaoPagos) {
         this.pedidosListNaoPagos = pedidosListNaoPagos;
     }
+
+    public Pedidos getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedidos pedido) {
+        this.pedido = pedido;
+    }
+    
+    
 
     @FacesConverter(forClass = Pedidos.class)
     public static class PedidosControllerConverter implements Converter {
@@ -126,13 +130,6 @@ public class PedidosController implements Serializable {
                         + "; tipo esperado: " + Pedidos.class.getName());
             }
         }
-    }
-
-    public Pedidos prepareAdicionar() {
-        pedido = new Pedidos();
-        lanche = new Lanches();
-        bebida = new Bebidas();
-        return pedido;
     }
 
     public static void addErrorMessage(String msg) {
@@ -191,6 +188,11 @@ public class PedidosController implements Serializable {
     public void adicionar() {
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
+    
+    public void adicionarBebida(Bebidas bebida) {
+        pedido.setBebidapedido(bebida);
+        persist(PersistAction.CREATE, "Registro incluído com sucesso!");
+    }
 
     public void editar() {
         persist(PersistAction.UPDATE, "Registro alterado com sucesso!");
@@ -205,9 +207,6 @@ public class PedidosController implements Serializable {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 
         pedido = new Pedidos();
-        bebida = new Bebidas();
-        hamburguer = new Hamburguers();
-        lanche = new Lanches();
         pedido.setStatuspagamento("NAO_PAGO");
         pedido.setStatuspedido("ABERTO");
 

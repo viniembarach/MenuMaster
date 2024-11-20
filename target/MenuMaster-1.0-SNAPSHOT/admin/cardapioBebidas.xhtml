@@ -101,63 +101,86 @@
 
                     <div class="card">
                         <h5>Bebidas</h5>
-                        <p:dataTable id="basicDT" var="bebidas" value="#{bebidasController.bebidasList}">
-                            <p:column headerText="ID:">
-                                <h:outputText value="#{bebidas.idbebida}" />
+                        <p:dataTable id="datalist" value="#{bebidasController.bebidasList}" var="item" selectionMode="single"
+                                     selection="#{bebidasController.selected}" widgetVar="datalistBebidasWidgetVar"
+                                     rowKey="#{item.idbebida}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhuma Bebida Cadastrada...">
+
+
+                            <p:column width="4%" sortBy="#{item.idbebida}" filterBy="#{item.idbebida}">
+                                <f:facet name="header">
+                                    <h:outputText value="ID"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idbebida}"/>
                             </p:column>
 
-                            <p:column headerText="NOME:">
-                                <h:outputText value="#{bebidas.nomebebida}" />
+                            <p:column width="10%" sortBy="#{item.nomebebida}" filterBy="#{item.nomebebida}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nome Bebida"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nomebebida}"/>
                             </p:column>
 
-                            <p:column headerText="VALOR R$:">
-                                <h:outputText value="#{bebidas.valorbebida}" />
+                            <p:column width="6%" sortBy="#{item.valorbebida}" filterBy="#{item.valorbebida}">
+                                <f:facet name="header">
+                                    <h:outputText value="Valor Bebida"/>
+                                </f:facet>
+                                <h:outputText value="#{item.valorbebida}"/>
                             </p:column>
 
-                            <p:column headerText="DISPONÍVEL">
-                                <h:outputText value="#{bebidas.disponivelbebida}" />
+                            <p:column width="6%" sortBy="#{item.disponivelbebida}" filterBy="#{item.disponivelbebida}">
+                                <f:facet name="header">
+                                    <h:outputText value="Bebida Disponível"/>
+                                </f:facet>
+                                <h:outputText value="#{item.disponivelbebida}"/>
                             </p:column>
 
                             <p:column style="width:3rem;text-align: center">
-                                <p:commandButton update=":form:FormPedidos" oncomplete="PF('FormPedidos').show()"
+                                <p:commandButton update=":formView:FormPedidos" oncomplete="PF('FormPedidos').show()"
                                                  icon="pi pi-search" title="Ver Detalhes">
-                                    <f:setPropertyActionListener value="#{bebidas}" 
+                                    <f:setPropertyActionListener value="#{item}" 
                                                                  target="#{bebidasController.selected}" />
                                 </p:commandButton>
                             </p:column>
+
+
                         </p:dataTable>
                     </div>
 
-                    <p:dialog header="Detalhes do Item" widgetVar="FormPedidos" modal="true" showEffect="fade"
-                              hideEffect="fade" resizable="false">
-                        <p:outputPanel id="FormPedidos" class="dialog-content">
-                            <h:panelGroup rendered="#{bebidasController.selected != null}">
-                                <div class="bebidas">
-                                    <div class="product-grid-item card" style="margin-bottom: 0">
-                                        <div>
-                                            <i class="pi pi-tag product-category-icon"/>
-                                            <span class="product-category">#{bebidasController.selected.idbebida}</span>
-                                        </div>
-                                        <div class="product-grid-item-content">
-                                            <p:graphicImage class="fotoProfile" value="#{bebidasController.selected.imagem}" stream="true"
-                                                            rendered="#{not empty bebidasController.selected.imagem}" cache="false" />
-                                            <div class="product-name">#{bebidasController.selected.nomebebida}</div>
-                                            <div class="product-grid-item-bottom">
-                                                <h:outputText value="#{bebidasController.selected.valorbebida}" styleClass="product-price">
-                                                    <f:convertNumber currencySymbol="R$" type="currency"/>
-                                                </h:outputText>
-                                                <p:commandButton value="Adicionar ao Carrinho" icon="pi pi-shopping-cart"
-                                                                 actionListener="#{bebidasController.prepareCreate()}" 
-                                                                 styleClass="dialog-button" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </h:panelGroup>
-                        </p:outputPanel>
-                    </p:dialog>
+
                 </p:fieldset>
             </h:panelGroup>
         </h:form>
+
+        <p:dialog header="Detalhes do Item" widgetVar="FormPedidos" modal="true" showEffect="fade"
+                  hideEffect="fade" resizable="false">
+            <h:form id="formView">
+                <p:outputPanel id="FormPedidos" class="dialog-content">
+                    <h:panelGroup rendered="#{bebidasController.selected != null}">
+                        <div class="bebidas">
+                            <div class="product-grid-item card" style="margin-bottom: 0">
+                                <div>
+                                    <i class="pi pi-tag product-category-icon"/>
+                                    <span class="product-category">#{bebidasController.selected.idbebida}</span>
+                                </div>
+                                <div class="product-grid-item-content">
+                                    <p:graphicImage class="fotoProfile" value="#{bebidasController.selected.imagem}" stream="true"
+                                                    rendered="#{not empty bebidasController.selected.imagem}" cache="false" />
+                                    <div class="product-name">#{bebidasController.selected.nomebebida}</div>
+                                    <div class="product-grid-item-bottom">
+                                        <h:outputText value="#{bebidasController.selected.valorbebida}" styleClass="product-price">
+                                            <f:convertNumber currencySymbol="R$" type="currency"/>
+                                        </h:outputText>
+                                        <p:commandButton value="Adicionar ao Carrinho" icon="pi pi-shopping-cart"
+                                                         action="#{pedidosController.adicionarBebida(bebidasController.selected)}" 
+                                                         styleClass="dialog-button" > 
+                                        </p:commandButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
     </ui:define>
 </ui:composition>
