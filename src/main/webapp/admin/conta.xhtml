@@ -28,31 +28,14 @@
                             <f:facet name="header">
                                 <h:outputText value="Status Pagamento"/>
                             </f:facet>
-                            <!-- Exibe o status usando o método getDescricao() do Enum -->
-                            <h:outputText value="#{item.statuspagamento}"/>
-
-                            <!-- Botão para alterar o status -->
-                            <p:commandButton value="Alterar Status"
-                                             action="#{pedidosController.alterarStatusPagamento(item)}"
-                                             update="datalist"
-                                             process="@this" />
+                            <p:selectOneMenu id="iptPgtoEnum" value="#{pedidosController.pedido.statuspagamento}">
+                                <f:selectItem itemLabel="#{item.statuspagamento}"/>
+                                <f:selectItems value="#{statuspagamentoController.statusPags}"/>
+                            </p:selectOneMenu> 
                         </p:column>
-
                     </p:dataTable>
                 </p:fieldset>
             </h:panelGroup>
         </h:form>
-
-        <p:dialog header="Visualizar Detalhes dos Items" widgetVar="dlgView" height="250" width="500" showEffect="fade" modal="true">
-            <h:form id="formView">
-                <h:panelGrid id="pngView" columns="2">
-                    <p:outputLabel value="ID:"/>
-                    <p:outputLabel value="#{pedidosController.selected.idpedido}"/>
-
-                    <p:outputLabel value="Mesa Conta:"/>
-                    <p:outputLabel value="#{pedidosController.selected.valorpedido}"/>
-                </h:panelGrid>
-            </h:form>
-        </p:dialog>
     </ui:define>
 </ui:composition>

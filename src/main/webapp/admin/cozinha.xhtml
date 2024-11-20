@@ -22,28 +22,28 @@
                             </f:facet>
                             <h:outputText value="#{item.idpedido}"/>
                         </p:column>
-                        
+
                         <p:column width="4%" sortBy="#{item.mesapedido}" filterBy="#{item.mesapedido}">
                             <f:facet name="header">
                                 <h:outputText value="Mesa"/>
                             </f:facet>
                             <h:outputText value="#{item.mesapedido}"/>
                         </p:column>
-                        
+
                         <p:column width="4%" sortBy="#{item.bebidapedido}" filterBy="#{item.bebidapedido}">
                             <f:facet name="header">
                                 <h:outputText value="Bebida"/>
                             </f:facet>
                             <h:outputText value="#{item.bebidapedido.nomebebida}"/>
                         </p:column>
-                        
+
                         <p:column width="4%" sortBy="#{item.lanchepedido}" filterBy="#{item.lanchepedido}">
                             <f:facet name="header">
                                 <h:outputText value="Lanche"/>
                             </f:facet>
                             <h:outputText value="#{item.lanchepedido.nomelanche}"/>
                         </p:column>
-                        
+
                         <p:column width="4%" sortBy="#{item.hamburguerpedido}" filterBy="#{item.hamburguerpedido}">
                             <f:facet name="header">
                                 <h:outputText value="Hamburguer"/>
@@ -51,17 +51,21 @@
                             <h:outputText value="#{item.hamburguerpedido.nomehamburguer}"/>
                         </p:column>
 
-
                         <p:column width="6%" sortBy="#{item.statuspedido}" filterBy="#{item.statuspedido}">
                             <f:facet name="header">
-                                <h:outputText value="Status Pagamento"/>
+                                <h:outputText value="Status do Pedido"/>
                             </f:facet>
-                            <p:selectOneMenu id="iptUfenum" value="#{cidadeController.cidade.ufenum}">
-                                <f:selectItem itemLabel="#{item.statuspedido}"/>
-                            <f:selectItems value="#{ufController.UFs}"/>
-                        </p:selectOneMenu> 
-                        </p:column>
+                            <p:selectOneMenu value="#{item.statuspedido}" style="width:100%" onchange="PF('pedidoTable').filter();">
+                                <!-- Lista de status -->
+                                <f:selectItem itemLabel="Selecione" itemValue="" />
+                                <f:selectItem itemLabel="Em preparação" itemValue="EM_PREPARACAO" />
+                                <f:selectItem itemLabel="Pronto" itemValue="PRONTO" />
+                                <f:selectItem itemLabel="Entregue" itemValue="ENTREGUE" />
+                                <!-- Atualizar no backend -->
+                                <p:ajax event="change" listener="#{pedidoBean.atualizarStatus(item)}" update=":form"/>
+                            </p:selectOneMenu>
 
+                        </p:column>
                     </p:dataTable>
                 </p:fieldset>
             </h:panelGroup>

@@ -16,6 +16,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Named;
+import jakarta.jms.Connection;
 import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.ArrayList;
