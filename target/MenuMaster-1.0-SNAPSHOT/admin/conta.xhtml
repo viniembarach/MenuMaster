@@ -23,15 +23,19 @@
                             <h:outputText value="#{item.idpedido}"/>
                         </p:column>
 
-
-                        <p:column width="6%" sortBy="#{item.statuspagamento}" filterBy="#{item.statuspagamento}">
-                            <f:facet name="header">
-                                <h:outputText value="Status Pagamento"/>
-                            </f:facet>
-                            <p:selectOneMenu id="iptPgtoEnum" value="#{pedidosController.pedido.statuspagamento}">
-                                <f:selectItem itemLabel="#{item.statuspagamento}"/>
-                                <f:selectItems value="#{statuspagamentoController.statusPags}"/>
-                            </p:selectOneMenu> 
+                        <!-- Coluna Status do Pagamento -->
+                        <p:column headerText="Status Pagamento">
+                            <p:selectOneMenu value="#{item.statuspagamento}" 
+                                             style="width:100%" 
+                                             disabled="#{item.statuspagamento == 'PAGO'}">
+                                <f:selectItems value="#{statuspagamentoController.statusPags}" 
+                                               var="status" 
+                                               itemLabel="#{status.description}" 
+                                               itemValue="#{status.description}" />
+                                <p:ajax event="change" 
+                                        listener="#{pedidosController.alterarStatusPagamento(item)}" 
+                                        update="datalist" />
+                            </p:selectOneMenu>
                         </p:column>
                     </p:dataTable>
                 </p:fieldset>

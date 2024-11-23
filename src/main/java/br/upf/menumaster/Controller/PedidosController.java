@@ -16,10 +16,8 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Named;
-import jakarta.jms.Connection;
 import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Named(value = "pedidosController")
@@ -239,21 +237,34 @@ public class PedidosController implements Serializable {
     //criar meto para armazenar a bebida selecionada
     public void alterarStatusPagamento(Pedidos pedido) {
         if (pedido != null) {
-            // Converte o status de pagamento de String para o enum StatusPagamento
-            StatusPagamento statusAtual = StatusPagamento.fromString(pedido.getStatuspagamento());
+            try {
+                // Converte a descrição do status para o enum (caso seja necessário)
+                StatusPagamento statusAtual = StatusPagamento.fromString(pedido.getStatuspagamento());
 
-            // Alterna o status de pagamento
-            if (statusAtual == StatusPagamento.NAO_PAGO) {
-                pedido.setStatuspagamento(StatusPagamento.PAGO.getDescricao()); // Atualiza para 'PAGO'
-            } else {
-                pedido.setStatuspagamento(StatusPagamento.NAO_PAGO.getDescricao()); // Atualiza para 'NAO_PAGO'
+                // Alterna o status de pagamento se necessário (opcional, caso não seja seleção direta)
+                if (statusAtual == StatusPagamento.NAO_PAGO) {
+                    pedido.setStatuspagamento(StatusPagamento.PAGO.getDescricao()); // Atualiza para 'PAGO'
+                } else if (statusAtual == StatusPagamento.PAGO) {
+                    pedido.setStatuspagamento(StatusPagamento.NAO_PAGO.getDescricao()); // Exemplo: Alternar de volta
+                }
+
+                // Salva a alteração no banco de dados
+                ejbFacade.edit(pedido);
+
+                // Atualiza a lista de pedidos, se necessário
+                pedidosListNaoPagos = ejbFacade.buscarPedidosComStatusPagamento();
+
+                // Mensagem de sucesso
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                "Status atualizado com sucesso!", null));
+            } catch (Exception e) {
+                // Mensagem de erro
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Erro ao atualizar o status!", e.getMessage()));
             }
-
-            // Salva a alteração no banco de dados
-            ejbFacade.edit(pedido);
-
-            // Atualiza a lista para refletir a alteração
-            pedidosListNaoPagos = ejbFacade.buscarPedidosComStatusPagamento();
         }
     }
+
 }

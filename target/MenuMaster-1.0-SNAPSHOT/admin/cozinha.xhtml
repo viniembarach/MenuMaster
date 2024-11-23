@@ -55,15 +55,6 @@
                             <f:facet name="header">
                                 <h:outputText value="Status do Pedido"/>
                             </f:facet>
-                            <p:selectOneMenu value="#{item.statuspedido}" style="width:100%" onchange="PF('pedidoTable').filter();">
-                                <!-- Lista de status -->
-                                <f:selectItem itemLabel="Selecione" itemValue="" />
-                                <f:selectItem itemLabel="Em preparação" itemValue="EM_PREPARACAO" />
-                                <f:selectItem itemLabel="Pronto" itemValue="PRONTO" />
-                                <f:selectItem itemLabel="Entregue" itemValue="ENTREGUE" />
-                                <!-- Atualizar no backend -->
-                                <p:ajax event="change" listener="#{pedidoBean.atualizarStatus(item)}" update=":form"/>
-                            </p:selectOneMenu>
 
                         </p:column>
                     </p:dataTable>
