@@ -46,6 +46,7 @@ public class Pedidos implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "statuspedido")
     private String statuspedido;
+    
     @JoinColumn(name = "bebidapedido", referencedColumnName = "idbebida")
     @ManyToOne
     private Bebidas bebidapedido;

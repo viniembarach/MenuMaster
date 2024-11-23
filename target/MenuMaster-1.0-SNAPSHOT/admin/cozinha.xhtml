@@ -15,7 +15,7 @@
                 <p:fieldset toggleable="true">
                     <p:dataTable id="datalist" value="#{pedidosController.pedidosCozinha}" var="item" selectionMode="single"
                                  selection="#{pedidosController.selected}" widgetVar="datalistPedidoWidgetVar"
-                                 rowKey="#{item.idpedido}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhuma Conta cadastrada...">
+                                 rowKey="#{item.idpedido}" paginator="true" rows="3" rowsPerPageTemplate="5,10,50,100" emptyMessage="Nenhum Pedido cadastrado...">
                         <p:column width="4%" sortBy="#{item.idpedido}" filterBy="#{item.idpedido}">
                             <f:facet name="header">
                                 <h:outputText value="ID"/>
@@ -51,11 +51,19 @@
                             <h:outputText value="#{item.hamburguerpedido.nomehamburguer}"/>
                         </p:column>
 
-                        <p:column width="6%" sortBy="#{item.statuspedido}" filterBy="#{item.statuspedido}">
-                            <f:facet name="header">
-                                <h:outputText value="Status do Pedido"/>
-                            </f:facet>
-
+                        <!-- Coluna Status do Pedido -->
+                        <p:column headerText="Status do Pedido">
+                            <p:selectOneMenu value="#{item.statuspedido}" 
+                                             style="width:100%" 
+                                             disabled="#{item.statuspedido == 'Pronto'}">
+                                <f:selectItems value="#{statuspedidoController.statusPedido}" 
+                                               var="status" 
+                                               itemLabel="#{status.description}" 
+                                               itemValue="#{status.description}" />
+                                <p:ajax event="change" 
+                                        listener="#{pedidosController.alterarStatusPedido(item)}" 
+                                        update="datalist" />
+                            </p:selectOneMenu>
                         </p:column>
                     </p:dataTable>
                 </p:fieldset>

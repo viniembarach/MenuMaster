@@ -4,7 +4,8 @@ import br.upf.menumaster.Entity.Bebidas;
 import br.upf.menumaster.Entity.Hamburguers;
 import br.upf.menumaster.Entity.Lanches;
 import br.upf.menumaster.Entity.Pedidos;
-import br.upf.menumaster.Entity.Mesas;  // Adicione esta importação
+import br.upf.menumaster.Entity.Mesas;
+import br.upf.menumaster.enumeration.StatusPedido;
 import br.upf.menumaster.enumeration.StatusPagamento;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
@@ -18,6 +19,7 @@ import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 @Named(value = "pedidosController")
@@ -224,7 +226,7 @@ public class PedidosController implements Serializable {
 
         pedido = new Pedidos();
         pedido.setStatuspagamento("Não Pago");
-        pedido.setStatuspedido("ABERTO");
+        pedido.setStatuspedido("Aberto");
 
         //buscando a mesa da sessão
         mesa = (Mesas) session.getAttribute("mesa");
@@ -247,6 +249,46 @@ public class PedidosController implements Serializable {
 
                 // Atualiza a lista de pedidos, se necessário
                 pedidosListNaoPagos = ejbFacade.buscarPedidosComStatusPagamento();
+
+                // Mensagem de sucesso
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                "Status atualizado com sucesso!", null));
+            } catch (Exception e) {
+                // Mensagem de erro
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Erro ao atualizar o status!", e.getMessage()));
+            }
+        }
+    }
+
+    public void alterarStatusPedido(Pedidos pedido) {
+        if (pedido != null) {
+            try {
+                // Obtém o status atual do pedido
+                StatusPedido statusAtual = StatusPedido.fromString(pedido.getStatuspedido());
+
+                if (null != statusAtual) // Verifica qual o novo status a ser atribuído com base no valor selecionado
+                switch (statusAtual) {
+                    case ABERTO:
+                        pedido.setStatuspedido(StatusPedido.ABERTO.getDescricao());
+                        break;
+                    case EM_PREPARACAO:
+                        pedido.setStatuspedido(StatusPedido.EM_PREPARACAO.getDescricao());
+                        break;
+                    case PRONTO:
+                        pedido.setStatuspedido(StatusPedido.PRONTO.getDescricao());
+                        break;
+                    default:
+                        break;
+                }
+
+                // Salva a alteração no banco de dados
+                ejbFacade.edit(pedido);
+
+                // Atualiza a lista de pedidos, se necessário
+                pedidosListNaoPagos = ejbFacade.buscarPedidosCozinha();
 
                 // Mensagem de sucesso
                 FacesContext.getCurrentInstance().addMessage(null,
