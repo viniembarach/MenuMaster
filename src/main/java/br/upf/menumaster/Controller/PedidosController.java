@@ -223,7 +223,7 @@ public class PedidosController implements Serializable {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 
         pedido = new Pedidos();
-        pedido.setStatuspagamento("NAO_PAGO");
+        pedido.setStatuspagamento("Não Pago");
         pedido.setStatuspedido("ABERTO");
 
         //buscando a mesa da sessão
@@ -234,19 +234,13 @@ public class PedidosController implements Serializable {
 
     }
 
-    //criar meto para armazenar a bebida selecionada
     public void alterarStatusPagamento(Pedidos pedido) {
         if (pedido != null) {
             try {
-                // Converte a descrição do status para o enum (caso seja necessário)
-                StatusPagamento statusAtual = StatusPagamento.fromString(pedido.getStatuspagamento());
+                // Verifica o status atual e alterna usando o enum
+                StatusPagamento.fromString(pedido.getStatuspagamento());
 
-                // Alterna o status de pagamento se necessário (opcional, caso não seja seleção direta)
-                if (statusAtual == StatusPagamento.NAO_PAGO) {
-                    pedido.setStatuspagamento(StatusPagamento.PAGO.getDescricao()); // Atualiza para 'PAGO'
-                } else if (statusAtual == StatusPagamento.PAGO) {
-                    pedido.setStatuspagamento(StatusPagamento.NAO_PAGO.getDescricao()); // Exemplo: Alternar de volta
-                }
+                pedido.setStatuspagamento(StatusPagamento.PAGO.getDescricao()); // Muda para Pago
 
                 // Salva a alteração no banco de dados
                 ejbFacade.edit(pedido);

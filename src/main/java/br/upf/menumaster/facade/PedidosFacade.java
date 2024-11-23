@@ -57,7 +57,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
         List<Pedidos> pedidosComStatus = new ArrayList<>();
         try {
             // Consulta JPQL para buscar pedidos onde o status de pagamento não é nulo
-            Query query = getEntityManager().createQuery("SELECT p FROM Pedidos p WHERE p.statuspagamento = 'NAO_PAGO' ORDER BY p.idpedido");
+            Query query = getEntityManager().createQuery("SELECT p FROM Pedidos p WHERE p.statuspagamento = 'Não Pago' ORDER BY p.idpedido");
             pedidosComStatus = query.getResultList();
         } catch (Exception e) {
             System.out.println("Erro: " + e);
