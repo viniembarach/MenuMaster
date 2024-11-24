@@ -39,13 +39,19 @@
                     <h:outputText value="#{item.hamburguerpedido.nomehamburguer}"/>
                 </p:column>
                 
+                <p:column width="6%" sortBy="#{item.valorpedido}" filterBy="#{item.valorpedido}">
+                    <f:facet name="header">
+                        <h:outputText value="Valor"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorpedido}"/>
+                </p:column>
+                
                 <p:column width="6%" sortBy="#{item.statuspedido}" filterBy="#{item.statuspedido}">
                     <f:facet name="header">
                         <h:outputText value="Status do pedido"/>
                     </f:facet>
                     <h:outputText value="#{item.statuspedido}"/>
                 </p:column>
-
                 <f:facet name="footer">
                     <p:commandButton id="redirect" value="Novo Pedido" icon="pi pi-file" action="#{pedidosController.prepareCreate()}"/>
                 </f:facet>

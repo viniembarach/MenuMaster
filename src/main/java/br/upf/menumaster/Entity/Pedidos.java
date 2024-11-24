@@ -46,7 +46,20 @@ public class Pedidos implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "statuspedido")
     private String statuspedido;
-    
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "valorpedido")
+    private double valorpedido;
+
+    public double getValorpedido() {
+        return valorpedido;
+    }
+
+    public void setValorpedido(double valorpedido) {
+        this.valorpedido = valorpedido;
+    }
+
     @JoinColumn(name = "bebidapedido", referencedColumnName = "idbebida")
     @ManyToOne
     private Bebidas bebidapedido;

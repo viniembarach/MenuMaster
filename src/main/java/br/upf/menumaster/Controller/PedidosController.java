@@ -199,16 +199,19 @@ public class PedidosController implements Serializable {
 
     public void adicionarBebida(Bebidas bebida) {
         pedido.setBebidapedido(bebida);
+        pedido.setValorpedido(bebida.getValorbebida());
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
 
     public void adicionarLanche(Lanches lanche) {
         pedido.setLanchepedido(lanche);
+        pedido.setValorpedido(lanche.getValorlanche());
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
 
     public void adicionarHamburguer(Hamburguers hamburguer) {
         pedido.setHamburguerpedido(hamburguer);
+        pedido.setValorpedido(hamburguer.getValorhamburguer());
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
 

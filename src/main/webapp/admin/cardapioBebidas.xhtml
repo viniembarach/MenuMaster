@@ -119,7 +119,7 @@
                             </p:column>
 
                             <p:column style="width:3rem;text-align: center">
-                                <p:commandButton update=":form:FormPedidos" oncomplete="PF('FormPedidos').show()"
+                                <p:commandButton update="FormPedidos" oncomplete="PF('FormPedidos').show()"
                                                  icon="pi pi-search" title="Ver Detalhes">
                                     <f:setPropertyActionListener value="#{bebidas}" 
                                                                  target="#{bebidasController.selected}" />
@@ -135,7 +135,7 @@
 
         <p:dialog header="Detalhes do Item" widgetVar="FormPedidos" modal="true" showEffect="fade"
                   hideEffect="fade" resizable="false">
-            <h:form id="formView">
+            <h:form id="FormPedidos">
                 <p:outputPanel id="FormPedidos" class="dialog-content">
                     <h:panelGroup rendered="#{bebidasController.selected != null}">
                         <div class="bebidas">
