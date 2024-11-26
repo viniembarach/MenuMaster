@@ -52,23 +52,18 @@ public class Pedidos implements Serializable {
     @Column(name = "valorpedido")
     private double valorpedido;
 
-    public double getValorpedido() {
-        return valorpedido;
-    }
-
-    public void setValorpedido(double valorpedido) {
-        this.valorpedido = valorpedido;
-    }
-
     @JoinColumn(name = "bebidapedido", referencedColumnName = "idbebida")
     @ManyToOne
     private Bebidas bebidapedido;
+    
     @JoinColumn(name = "hamburguerpedido", referencedColumnName = "idhamburguer")
     @ManyToOne
     private Hamburguers hamburguerpedido;
+    
     @JoinColumn(name = "lanchepedido", referencedColumnName = "idlanche")
     @ManyToOne
     private Lanches lanchepedido;
+    
     @JoinColumn(name = "mesapedido", referencedColumnName = "numeromesa")
     @ManyToOne
     private Mesas mesapedido;
@@ -145,6 +140,14 @@ public class Pedidos implements Serializable {
 
     public void setStatuspagamento(String statuspagamento) {
         this.statuspagamento = statuspagamento;
+    }
+
+    public double getValorpedido() {
+        return valorpedido;
+    }
+
+    public void setValorpedido(double valorpedido) {
+        this.valorpedido = valorpedido;
     }
 
     @Override

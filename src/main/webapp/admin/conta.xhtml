@@ -30,6 +30,13 @@
                             <h:outputText value="#{item.mesapedido}"/>
                         </p:column>
 
+                        <p:column width="20%" sortBy="#{item.valorpedido}" filterBy="#{item.valorpedido}">
+                            <f:facet name="header">
+                                <h:outputText value="Valor Pedido"/>
+                            </f:facet>
+                            <h:outputText value="#{item.valorpedido}"/>
+                        </p:column>
+
                         <!-- Coluna Status do Pagamento -->
                         <p:column headerText="Status Pagamento">
                             <p:selectOneMenu value="#{item.statuspagamento}" 
