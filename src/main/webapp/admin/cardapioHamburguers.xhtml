@@ -109,7 +109,7 @@
 
                     <div class="card">
                         <h5>Hamburguers</h5>
-                        <p:dataTable id="basicDT" var="hamburguers" value="#{hamburguersController.hamburguersList}">
+                        <p:dataTable id="hamburguersTable" var="hamburguers" value="#{hamburguersController.hamburguersList}">
                             <p:column headerText="ID:">
                                 <h:outputText value="#{hamburguers.idhamburguer}" />
                             </p:column>
@@ -127,7 +127,7 @@
                             </p:column>
 
                             <p:column style="width:3rem;text-align: center">
-                                <p:commandButton update=":form:FormPedidos" oncomplete="PF('FormPedidos').show()"
+                                <p:commandButton update="hamburguersTable" oncomplete="PF('FormPedidos').show()"
                                                  icon="pi pi-search" title="Ver Detalhes">
                                     <f:setPropertyActionListener value="#{hamburguers}" 
                                                                  target="#{hamburguersController.selected}" />
@@ -138,8 +138,8 @@
                 </p:fieldset>
                 <p:dialog header="Detalhes do Item" widgetVar="FormPedidos" modal="true" showEffect="fade"
                           hideEffect="fade" resizable="false">
-                    <p:outputPanel id="FormPedidos" class="dialog-content">
-                        <h:panelGroup rendered="#{bebidasController.selected != null}">
+                    <p:outputPanel id="FormPedidosPanel" class="dialog-content">
+                        <h:panelGroup rendered="#{hamburguersController.selected != null}">
                             <div class="bebidas">
                                 <div class="product-grid-item card" style="margin-bottom: 0">
                                     <div>

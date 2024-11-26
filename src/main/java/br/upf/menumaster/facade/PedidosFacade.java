@@ -64,11 +64,12 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
         }
         return pedidosComStatus;
     }
-
+    
     public List<Pedidos> buscarPedidosCozinha() {
         List<Pedidos> pedidosCozinha = new ArrayList<>();
         try {
-            Query query = getEntityManager().createQuery("SELECT p FROM Pedidos p WHERE p.statuspedido IN ('Aberto', 'EM_PREPARACAO') ORDER BY p.idpedido");
+            // Consulta JPQL para buscar pedidos onde o status de pagamento não é nulo
+            Query query = getEntityManager().createQuery("SELECT p FROM Pedidos p WHERE p.statuspagamento = 'NAO_PAGO' ORDER BY p.idpedido");
             pedidosCozinha = query.getResultList();
         } catch (Exception e) {
             System.out.println("Erro: " + e);
