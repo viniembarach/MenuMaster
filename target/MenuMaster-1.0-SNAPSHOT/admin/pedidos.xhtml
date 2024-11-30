@@ -13,7 +13,7 @@
         <h:form id="pedidoForm">
 
             <h2>Mesa: #{mesasController.selected.nomemesa}</h2>
-            <p:dataTable id="pedidoTable" value="#{pedidosController.pedidosList}" var="item" paginator="true" rows="5"
+            <p:dataTable id="pedidoTable" value="#{pedidosController.pedidosMesa}" var="item" paginator="true" rows="5"
                          rowsPerPageTemplate="5,10,20" emptyMessage="Nenhum Pedido Realizado...">
                 <p:ajax event="rowSelect"/>
                 <p:ajax event="rowUnselect"/>

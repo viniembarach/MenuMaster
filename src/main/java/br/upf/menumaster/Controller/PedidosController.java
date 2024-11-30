@@ -19,7 +19,6 @@ import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 @Named(value = "pedidosController")
@@ -32,14 +31,12 @@ public class PedidosController implements Serializable {
     private Pedidos pedido;
     private List<Pedidos> pedidosList;
     private Pedidos selected;
-//    private Bebidas bebida;
-//    private Lanches lanche;
-//    private Hamburguers hamburguer;
     private Mesas mesa;
 
     private List<Pedidos> pedidosListNaoPagos;
 
     private List<Pedidos> pedidosCozinha;
+    private List<Pedidos> pedidosMesa;
 
     private Mesas mesaSelecionada;
 
@@ -52,12 +49,18 @@ public class PedidosController implements Serializable {
             addErrorMessage("Nenhuma mesa foi selecionada.");
         }
 
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        //buscando a mesa da sessão
+        mesa = (Mesas) session.getAttribute("mesa");
+
         // Inicializa o objeto `pedidos` e carrega a lista de pedidos ao iniciar o controlador
         pedido = new Pedidos();
         pedidosList = ejbFacade.buscarTodos();
 
         pedidosListNaoPagos = ejbFacade.buscarPedidosComStatusPagamento();
         pedidosCozinha = ejbFacade.buscarPedidosCozinha();
+        pedidosMesa = ejbFacade.buscarPedidosMesa(mesa);
     }
 
     public List<Pedidos> getPedidosList() {
@@ -102,6 +105,14 @@ public class PedidosController implements Serializable {
 
     public void setPedido(Pedidos pedido) {
         this.pedido = pedido;
+    }
+
+    public List<Pedidos> getPedidosMesa() {
+        return pedidosMesa;
+    }
+
+    public void setPedidosMesa(List<Pedidos> pedidosMesa) {
+        this.pedidosMesa = pedidosMesa;
     }
 
     @FacesConverter(forClass = Pedidos.class)
@@ -201,18 +212,23 @@ public class PedidosController implements Serializable {
         pedido.setBebidapedido(bebida);
         pedido.setValorpedido(bebida.getValorbebida());
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
+        pedidosMesa = ejbFacade.buscarPedidosMesa(mesa);
     }
 
     public void adicionarLanche(Lanches lanche) {
         pedido.setLanchepedido(lanche);
         pedido.setValorpedido(lanche.getValorlanche());
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
+        pedidosMesa = ejbFacade.buscarPedidosMesa(mesa);
+
     }
 
     public void adicionarHamburguer(Hamburguers hamburguer) {
         pedido.setHamburguerpedido(hamburguer);
         pedido.setValorpedido(hamburguer.getValorhamburguer());
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
+        pedidosMesa = ejbFacade.buscarPedidosMesa(mesa);
+
     }
 
     public void editar() {
@@ -273,18 +289,20 @@ public class PedidosController implements Serializable {
                 StatusPedido statusAtual = StatusPedido.fromString(pedido.getStatuspedido());
 
                 if (null != statusAtual) // Verifica qual o novo status a ser atribuído com base no valor selecionado
-                switch (statusAtual) {
-                    case ABERTO:
-                        pedido.setStatuspedido(StatusPedido.ABERTO.getDescricao());
-                        break;
-                    case EM_PREPARACAO:
-                        pedido.setStatuspedido(StatusPedido.EM_PREPARACAO.getDescricao());
-                        break;
-                    case PRONTO:
-                        pedido.setStatuspedido(StatusPedido.PRONTO.getDescricao());
-                        break;
-                    default:
-                        break;
+                {
+                    switch (statusAtual) {
+                        case ABERTO:
+                            pedido.setStatuspedido(StatusPedido.ABERTO.getDescricao());
+                            break;
+                        case EM_PREPARACAO:
+                            pedido.setStatuspedido(StatusPedido.EM_PREPARACAO.getDescricao());
+                            break;
+                        case PRONTO:
+                            pedido.setStatuspedido(StatusPedido.PRONTO.getDescricao());
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 // Salva a alteração no banco de dados

@@ -4,6 +4,7 @@
  */
 package br.upf.menumaster.facade;
 
+import br.upf.menumaster.Entity.Mesas;
 import br.upf.menumaster.Entity.Pedidos;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -51,6 +52,28 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
             System.out.println("Erro: " + e);
         }
         return entityList;
+    }
+
+    public List<Pedidos> buscarPedidosMesa(Mesas mesa) {
+        List<Pedidos> pedidosMesa = new ArrayList<>();
+        try {
+            // Validação para garantir que a mesa não é nula
+            if (mesa == null) {
+                throw new IllegalArgumentException("A mesa fornecida é nula.");
+            }
+
+            // Consulta JPQL para buscar pedidos relacionados à mesa
+            Query query = getEntityManager().createQuery(
+                    "SELECT p FROM Pedidos p WHERE p.mesapedido = :mesa AND p.statuspagamento = 'Não Pago' ORDER BY p.idpedido"
+            );
+            query.setParameter("mesa", mesa);
+
+            pedidosMesa = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar pedidos da mesa: " + e.getMessage());
+            e.printStackTrace(); // Para detalhes do erro no log
+        }
+        return pedidosMesa;
     }
 
     public List<Pedidos> buscarPedidosComStatusPagamento() {

@@ -59,14 +59,6 @@
                 height: auto;
                 margin-bottom: 10px;
             }
-            .fotoProfile {
-                width: 150px;
-                height: auto;
-                margin: 10px auto;
-                display: block;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
             .product-grid-item-bottom {
                 display: flex;
                 flex-direction: column;
@@ -108,8 +100,8 @@
                     <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
 
                     <div class="card">
-                        <h5>Hamburguers</h5>
-                        <p:dataTable id="hamburguersTable" var="hamburguers" value="#{hamburguersController.hamburguersList}">
+                        <h5>Bebidas</h5>
+                        <p:dataTable id="basicDT" var="hamburguers" value="#{hamburguersController.hamburguersList}">
                             <p:column headerText="ID:">
                                 <h:outputText value="#{hamburguers.idhamburguer}" />
                             </p:column>
@@ -127,7 +119,7 @@
                             </p:column>
 
                             <p:column style="width:3rem;text-align: center">
-                                <p:commandButton update="hamburguersTable" oncomplete="PF('FormPedidos').show()"
+                                <p:commandButton update="FormPedidos" oncomplete="PF('FormPedidos').show()"
                                                  icon="pi pi-search" title="Ver Detalhes">
                                     <f:setPropertyActionListener value="#{hamburguers}" 
                                                                  target="#{hamburguersController.selected}" />
@@ -135,37 +127,42 @@
                             </p:column>
                         </p:dataTable>
                     </div>
+
+
                 </p:fieldset>
-                <p:dialog header="Detalhes do Item" widgetVar="FormPedidos" modal="true" showEffect="fade"
-                          hideEffect="fade" resizable="false">
-                    <p:outputPanel id="FormPedidosPanel" class="dialog-content">
-                        <h:panelGroup rendered="#{hamburguersController.selected != null}">
-                            <div class="bebidas">
-                                <div class="product-grid-item card" style="margin-bottom: 0">
-                                    <div>
-                                        <i class="pi pi-tag product-category-icon"/>
-                                        <span class="product-category">#{hamburguersController.selected.idhamburguer}</span>
-                                    </div>
-                                    <div class="product-grid-item-content">
-                                        <p:graphicImage class="fotoProfile" value="#{hamburguersController.selected.imagem}" stream="true"
-                                                        rendered="#{not empty hamburguersController.selected.imagem}" cache="false" />
-                                        <div class="product-name">#{hamburguersController.selected.nomehamburguer}</div>
-                                        <div class="product-grid-item-bottom">
-                                            <h:outputText value="#{hamburguersController.selected.valorhamburguer}" styleClass="product-price">
-                                                <f:convertNumber currencySymbol="R$" type="currency"/>
-                                            </h:outputText>
-                                            <p:commandButton value="Adicionar ao Carrinho" icon="pi pi-shopping-cart"
-                                                             action="#{pedidosController.adicionarHamburguer(hamburguersController.selected)}" 
-                                                             styleClass="dialog-button" > 
-                                            </p:commandButton>
-                                        </div>
+            </h:panelGroup>
+        </h:form>
+
+        <p:dialog header="Detalhes do Item" widgetVar="FormPedidos" modal="true" showEffect="fade"
+                  hideEffect="fade" resizable="false">
+            <h:form id="FormPedidos">
+                <p:outputPanel id="FormPedidos" class="dialog-content">
+                    <h:panelGroup rendered="#{hamburguersController.selected != null}">
+                        <div class="bebidas">
+                            <div class="product-grid-item card" style="margin-bottom: 0">
+                                <div>
+                                    <i class="pi pi-tag product-category-icon"/>
+                                    <span class="product-category">#{hamburguersController.selected.idhamburguer}</span>
+                                </div>
+                                <div class="product-grid-item-content">
+                                    <p:graphicImage class="fotoProfile" value="#{hamburguersController.selected.imagem}" stream="true"
+                                                    rendered="#{not empty hamburguersController.selected.imagem}" cache="false" />
+                                    <div class="product-name">#{hamburguersController.selected.nomehamburguer}</div>
+                                    <div class="product-grid-item-bottom">
+                                        <h:outputText value="#{hamburguersController.selected.valorhamburguer}" styleClass="product-price">
+                                            <f:convertNumber currencySymbol="R$" type="currency"/>
+                                        </h:outputText>
+                                        <p:commandButton value="Adicionar ao Carrinho" icon="pi pi-shopping-cart"
+                                                         action="#{pedidosController.adicionarHamburguer(hamburguersController.selected)}" 
+                                                         styleClass="dialog-button" > 
+                                        </p:commandButton>
                                     </div>
                                 </div>
                             </div>
-                        </h:panelGroup>
-                    </p:outputPanel>
-                </p:dialog>
-            </h:panelGroup>
-        </h:form>
+                        </div>
+                    </h:panelGroup>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
     </ui:define>
 </ui:composition>
