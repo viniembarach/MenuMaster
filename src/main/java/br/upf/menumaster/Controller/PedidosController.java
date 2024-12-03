@@ -208,26 +208,35 @@ public class PedidosController implements Serializable {
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
     }
 
-    public void adicionarBebida(Bebidas bebida) {
+    public String adicionarBebida(Bebidas bebida) {
         pedido.setBebidapedido(bebida);
         pedido.setValorpedido(bebida.getValorbebida());
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
         pedidosMesa = ejbFacade.buscarPedidosMesa(mesa);
+
+        // Redirecionar para a página "pedidos.xhtml"
+        return "pedidos.xhtml?faces-redirect=true";
     }
 
-    public void adicionarLanche(Lanches lanche) {
+    public String adicionarLanche(Lanches lanche) {
         pedido.setLanchepedido(lanche);
         pedido.setValorpedido(lanche.getValorlanche());
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
         pedidosMesa = ejbFacade.buscarPedidosMesa(mesa);
 
+        // Redirecionar para a página "pedidos.xhtml"
+        return "pedidos?faces-redirect=true";
+
     }
 
-    public void adicionarHamburguer(Hamburguers hamburguer) {
+    public String adicionarHamburguer(Hamburguers hamburguer) {
         pedido.setHamburguerpedido(hamburguer);
         pedido.setValorpedido(hamburguer.getValorhamburguer());
         persist(PersistAction.CREATE, "Registro incluído com sucesso!");
         pedidosMesa = ejbFacade.buscarPedidosMesa(mesa);
+
+        // Redirecionar para a página "pedidos.xhtml"
+        return "pedidos?faces-redirect=true";
 
     }
 
